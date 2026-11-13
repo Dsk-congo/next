@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espace technicien – NextGenIT</title>
+<meta name="description" content="Mentions légales et politique de confidentialité de NextGenIT.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#041735">
+</head>
+<body class="tech-app">
+<main id="contenu">
+  <section id="ecran-login" class="tech-login">
+    <div class="tech-login-carte">
+      <img src="assets/img/embleme.png" alt="" width="64" height="64">
+      <h1>Espace technicien</h1>
+      <p>Connectez-vous avec le numéro de votre badge et votre code personnel.</p>
+      <form id="form-tech" novalidate>
+        <label class="field">Numéro de badge<input name="badge" required autocomplete="username" placeholder="ex. NG-T-0142" autocapitalize="characters"></label>
+        <label class="field">Code personnel<input name="pin" type="password" inputmode="numeric" required autocomplete="current-password" placeholder="6 chiffres"></label>
+        <p class="error-text" id="err-tech" hidden></p>
+        <button class="btn btn-primary" type="submit">Se connecter</button>
+      </form>
+      <p class="muted" style="font-size:.85rem">Pas encore de code ? Demandez-le à l’administration NextGenIT.</p>
+    </div>
+  </section>
+  <section id="ecran-app" hidden>
+    <header class="tech-tete">
+      <div class="tech-id" id="tech-id"></div>
+      <label class="tech-statut">Mon statut<select id="tech-statut"><option>Disponible</option><option>En route</option><option>Sur site</option><option>En pause</option><option>Indisponible</option></select></label>
+    </header>
+    <p class="tech-horsligne" id="hors-ligne" hidden>📴 Hors connexion : vos actions sont gardées et partiront au retour du réseau.</p>
+    <div class="tech-corps">
+      <section id="v-jour"></section>
+      <section id="v-tickets" hidden></section>
+      <section id="v-rapports" hidden></section>
+      <section id="v-profil" hidden></section>
+    </div>
+    <nav class="tech-nav" aria-label="Menu technicien">
+      <button type="button" data-v="jour" aria-current="page"><span>🛠</span>Interventions</button>
+      <button type="button" data-v="tickets"><span>🎫</span>Tickets</button>
+      <button type="button" data-v="rapports"><span>📄</span>Rapports</button>
+      <button type="button" data-v="profil"><span>👷</span>Profil</button>
+    </nav>
+  </section>
+</main>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script>
+(function () {
+  var S = window.NGStore, C = window.NG_CONTENU;
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function sha(t) { return crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)).then(function (b) { return Array.prototype.map.call(new Uint8Array(b), function (x) { return ("0" + x.toString(16)).slice(-2); }).join(""); }); }
+  function jour(d) { return d ? new Date(d.length === 10 ? d + "T12:00:00" : d).toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" }) : ""; }
+  var id = null; try { id = sessionStorage.getItem("ng_tech"); } catch (e) {}
+  function moi() { return S.liste("personnel").filter(function (p) { return p.id === id; })[0]; }
+  var login = document.getElementById("ecran-login"), app = document.getElementById("ecran-app");
+
+  /* ---------- Connexion : badge + code ---------- */
+  var f = document.getElementById("form-tech"), err = document.getElementById("err-tech");
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var b = f.badge.value.trim().toUpperCase(), pin = f.pin.value.trim();
+    var p = S.liste("personnel").filter(function (x) { return (x.badge || "").toUpperCase() === b; })[0];
+    var cle = "tech:" + b, bl = {}; try { bl = JSON.parse(localStorage.getItem("ng_blocage_comptes") || "{}"); } catch (x) {}
+    var x0 = bl[cle] || { n: 0 }; if (x0.jusqua && x0.jusqua > Date.now()) { err.textContent = "Trop d’essais : réessayez dans quelques minutes."; err.hidden = false; return; }
+    if (!p || !p.pinHash) { err.textContent = "Badge inconnu ou accès non activé. Demandez votre code à l’administration."; err.hidden = false; return; }
+    if (p.actif === false) { err.textContent = "Votre accès est désactivé."; err.hidden = false; return; }
+    sha(b + ":" + pin).then(function (h) {
+      if (h !== p.pinHash) { x0.n++; if (x0.n >= 5) { x0 = { n: 0, jusqua: Date.now() + 15 * 60000 }; } bl[cle] = x0; localStorage.setItem("ng_blocage_comptes", JSON.stringify(bl)); err.textContent = "Code incorrect."; err.hidden = false; return; }
+      delete bl[cle]; localStorage.setItem("ng_blocage_comptes", JSON.stringify(bl));
+      sessionStorage.setItem("ng_tech", p.id); id = p.id; S.log("Connexion espace technicien", p.nom); demarrer();
+    });
+  });
+
+  /* ---------- Application ---------- */
+  var vue = "jour";
+  function mesInterventions() { return S.demandes().filter(function (d) { return d.techId === id && d.statut !== "cloture" && d.statut !== "refuse"; }).sort(function (a, b) { return String(a.datePrevue || "9") < String(b.datePrevue || "9") ? -1 : 1; }); }
+  function mesTickets() { return S.liste("tickets").filter(function (t) { return t.techId === id && ["resolu", "ferme"].indexOf(t.statut) < 0; }); }
+  function entete() {
+    var p = moi();
+    document.getElementById("tech-id").innerHTML = (p.photo ? '<img src="' + esc(p.photo) + '" alt="">' : '<span class="tech-ini">' + esc(p.nom.split(" ").map(function (m) { return m[0]; }).join("").slice(0, 2)) + "</span>") + "<div><strong>" + esc(p.nom) + "</strong><small>" + esc(p.poste || "") + " · " + esc(p.badge) + "</small></div>";
+    document.getElementById("tech-statut").value = p.statut || "Disponible";
+    document.querySelector('[data-v="jour"]').innerHTML = "<span>🛠</span>Interventions" + (mesInterventions().length ? "<b>" + mesInterventions().length + "</b>" : "");
+    document.querySelector('[data-v="tickets"]').innerHTML = "<span>🎫</span>Tickets" + (mesTickets().length ? "<b>" + mesTickets().length + "</b>" : "");
+  }
+  var ETAPES = [["assigne", "Assigné"], ["en_route", "En route"], ["sur_site", "Sur site"], ["termine", "Terminé"]];
+  function etape(d, e) {
+    var h = (d.historiqueTech || []).concat([{ date: new Date().toISOString(), etape: e }]);
+    var m = { etape: e, historiqueTech: h }; if (e === "termine") m.termineLe = new Date().toISOString();
+    S.majDemande(d.id, m);
+    var st = { en_route: "En route", sur_site: "Sur site", termine: "Disponible" }[e]; if (st) S.modifier("personnel", id, { statut: st });
+    S.log("Étape d’intervention (technicien)", d.id + " → " + e + " · " + moi().nom);
+    rendre();
+  }
+  function vJour() {
+    var L = mesInterventions(), box = document.getElementById("v-jour"), auj = new Date().toISOString().slice(0, 10);
+    box.innerHTML = '<h2 class="tech-h">Mes interventions</h2>' + (L.length ? L.map(function (d) {
+      var adr = d.adresse || "", ix = ETAPES.map(function (x) { return x[0]; }).indexOf(d.etape || "assigne");
+      return '<article class="tech-carte" data-d="' + d.id + '"><div class="tech-ligne"><span class="tag ' + (d.datePrevue === auj ? "tag-warn" : "tag-accent") + '">' + (d.datePrevue ? (d.datePrevue === auj ? "Aujourd’hui" : jour(d.datePrevue)) : "À planifier") + '</span><small class="muted">' + esc(d.id) + "</small></div><h3>" + esc(d.entreprise || d.nom) + '</h3><p class="muted">' + esc((d.services || []).join(", ")) + "</p>" + (d.description ? '<p class="tech-desc">' + esc(d.description) + "</p>" : "") +
+        '<div class="tech-etapes">' + ETAPES.map(function (x, k) { return '<button type="button" data-etape="' + x[0] + '" class="' + (k < ix ? "fait" : k === ix ? "actuel" : "") + '">' + (k < ix ? "✓ " : "") + x[1] + "</button>"; }).join("") + "</div>" +
+        '<div class="tech-actions"><a class="btn btn-ghost" href="tel:' + esc(String(d.telephone || "").replace(/\s/g, "")) + '">📞 Appeler</a><a class="btn btn-whatsapp" target="_blank" rel="noopener" href="https://wa.me/' + String(d.telephone || "").replace(/[^\d]/g, "") + "?text=" + encodeURIComponent("Bonjour " + d.nom + ", ici " + moi().nom + " de NextGenIT pour votre intervention " + d.id + ".") + '">💬 WhatsApp</a><a class="btn btn-ghost" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent((adr || d.entreprise || d.nom) + " Kolwezi") + '">🧭 Itinéraire</a></div>' +
+        '<div class="tech-photos"><label class="btn btn-ghost btn-sm">📷 Photo avant<input type="file" accept="image/*" capture="environment" data-photo="avant" class="sr-only"></label><label class="btn btn-ghost btn-sm">📷 Photo après<input type="file" accept="image/*" capture="environment" data-photo="apres" class="sr-only"></label><div class="tech-vignettes" data-vign></div></div>' +
+        '<button class="btn btn-primary tech-rapport" type="button" data-rapport>✍ Rapport et signature du client</button></article>';
+    }).join("") : '<div class="tech-vide">✅ Aucune intervention en cours. Profitez-en pour vous reposer !</div>');
+    box.querySelectorAll("[data-d]").forEach(function (c) {
+      var d = S.demandes().filter(function (x) { return x.id === c.dataset.d; })[0];
+      c.querySelectorAll("[data-etape]").forEach(function (b) { b.addEventListener("click", function () { etape(d, b.dataset.etape); }); });
+      c.querySelectorAll("[data-photo]").forEach(function (inp) { inp.addEventListener("change", function () { var fi = inp.files[0]; if (!fi) return; reduire(fi).then(function (bl) { var cle = "photo-" + d.id + "-" + Date.now(); return window.NGFichiers.enregistrer(cle, bl).then(function () { var ph = (d.photosTech || []).concat([{ cle: cle, moment: inp.dataset.photo, date: new Date().toISOString(), par: moi().nom }]); S.majDemande(d.id, { photosTech: ph }); S.log("Photo d’intervention (" + inp.dataset.photo + ")", d.id); rendre(); }); }); }); });
+      var vg = c.querySelector("[data-vign]");
+      (d.photosTech || []).forEach(function (ph) { window.NGFichiers.lire(ph.cle).then(function (bl) { if (!bl) return; var im = document.createElement("img"); im.src = URL.createObjectURL(bl); im.alt = "Photo " + ph.moment; im.title = ph.moment === "avant" ? "Avant" : "Après"; vg.appendChild(im); }); });
+      c.querySelector("[data-rapport]").addEventListener("click", function () { rapport(d); });
+    });
+  }
+  /* Photos réduites (1280 px) pour pouvoir être partagées en ligne */
+  function reduire(fi) { return new Promise(function (ok) { var r = new FileReader(); r.onload = function () { var im = new Image(); im.onload = function () { var k = Math.min(1, 1280 / Math.max(im.width, im.height)), c = document.createElement("canvas"); c.width = im.width * k; c.height = im.height * k; c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); c.toBlob(function (b) { ok(b || fi); }, "image/jpeg", 0.72); }; im.onerror = function () { ok(fi); }; im.src = r.result; }; r.readAsDataURL(fi); }); }
+  function rapport(d) {
+    var dl = document.createElement("dialog"); dl.className = "modal cli-dlg";
+    dl.innerHTML = '<div class="modal-head"><h2>Rapport · ' + esc(d.id) + '</h2><button type="button" class="tiroir-fermer" data-x aria-label="Fermer">✕</button></div><div class="modal-body"><label class="field">Travaux réalisés<textarea name="travaux" style="min-height:110px" placeholder="Ce qui a été fait, résultat des tests…"></textarea></label><label class="field">Matériel utilisé<input name="mat" placeholder="ex. 2 caméras IP, 30 m de câble"></label><label class="field">Heures passées<input name="h" type="number" min="0" step="0.5" value="1"></label><label class="field">Nom du client qui signe<input name="sign" value="' + esc(d.nom || "") + '"></label><div><span class="panel-label">Signature du client</span><canvas style="width:100%;height:180px;border-radius:12px;background:#fff;border:1px dashed var(--line-2);touch-action:none"></canvas><button type="button" class="lien-btn" data-eff>Effacer</button></div><label style="display:flex;gap:8px;align-items:center"><input type="checkbox" name="fin" checked> Marquer l’intervention comme terminée</label><p class="error-text" hidden data-err></p><button class="btn btn-primary" type="button" data-ok>Enregistrer le rapport signé</button></div>';
+    document.body.appendChild(dl); dl.showModal();
+    var cv = dl.querySelector("canvas"), ctx, trace = false, des = false;
+    setTimeout(function () { var r = cv.getBoundingClientRect(); cv.width = r.width * devicePixelRatio; cv.height = r.height * devicePixelRatio; ctx = cv.getContext("2d"); ctx.scale(devicePixelRatio, devicePixelRatio); ctx.lineWidth = 2.4; ctx.lineCap = "round"; ctx.strokeStyle = "#0B1033"; }, 30);
+    var pt = function (e) { var r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    cv.addEventListener("pointerdown", function (e) { des = trace = true; cv.setPointerCapture(e.pointerId); var q = pt(e); ctx.beginPath(); ctx.moveTo(q[0], q[1]); });
+    cv.addEventListener("pointermove", function (e) { if (!des) return; var q = pt(e); ctx.lineTo(q[0], q[1]); ctx.stroke(); });
+    cv.addEventListener("pointerup", function () { des = false; });
+    var fermer = function () { dl.close(); dl.remove(); };
+    dl.querySelector("[data-x]").addEventListener("click", fermer);
+    dl.querySelector("[data-eff]").addEventListener("click", function () { ctx.clearRect(0, 0, cv.width, cv.height); trace = false; });
+    dl.querySelector("[data-ok]").addEventListener("click", function () {
+      var tr = dl.querySelector("[name=travaux]").value.trim(), sg = dl.querySelector("[name=sign]").value.trim(), e0 = dl.querySelector("[data-err]");
+      if (!tr || !sg || !trace) { e0.textContent = "Décrivez les travaux, indiquez le nom et faites signer le client."; e0.hidden = false; return; }
+      var r = S.ajouter("rapports", { titre: d.id + " · " + (d.entreprise || d.nom), demandeId: d.id, technicien: moi().nom, date: new Date().toISOString().slice(0, 10), travaux: tr, materiel: dl.querySelector("[name=mat]").value.trim(), heures: Number(dl.querySelector("[name=h]").value) || 0, signataire: sg, signature: cv.toDataURL("image/png"), depuis: "espace technicien" }, "RAP-");
+      S.log("Rapport signé (espace technicien)", d.id + " · " + sg);
+      if (dl.querySelector("[name=fin]").checked) etape(d, "termine");
+      fermer(); window.open("document.html?type=rapport&rid=" + r.id, "_blank");
+    });
+  }
+  function vTickets() {
+    var L = mesTickets(), box = document.getElementById("v-tickets");
+    var LIB = { nouveau: "Nouveau", assigne: "Assigné", encours: "En cours", resolu: "Résolu", ferme: "Fermé" };
+    box.innerHTML = '<h2 class="tech-h">Mes tickets</h2>' + (L.length ? L.map(function (t) { return '<article class="tech-carte" data-t="' + t.id + '"><div class="tech-ligne"><span class="tag ' + (t.priorite === "critique" ? "tag-warn" : "tag-accent") + '">' + esc(t.priorite) + '</span><small class="muted">' + esc(t.id) + " · " + LIB[t.statut] + "</small></div><h3>" + esc(t.sujet) + "</h3><p class=\"muted\">" + esc(t.clientNom) + " · " + esc(t.telephone || "") + '</p>' + (t.description ? '<p class="tech-desc">' + esc(t.description) + "</p>" : "") + '<label class="field">Message pour le client (facultatif)<input data-msg placeholder="ex. J’arrive dans 30 minutes"></label><div class="tech-actions"><button class="btn btn-ghost" type="button" data-st="encours">▶ Je m’en occupe</button><button class="btn btn-primary" type="button" data-st="resolu">✔ Résolu</button><a class="btn btn-whatsapp" target="_blank" rel="noopener" href="https://wa.me/' + String(t.telephone || "").replace(/[^\d]/g, "") + '">💬</a></div></article>'; }).join("") : '<div class="tech-vide">🎉 Aucun ticket ouvert.</div>');
+    box.querySelectorAll("[data-t]").forEach(function (c) {
+      c.querySelectorAll("[data-st]").forEach(function (b) { b.addEventListener("click", function () {
+        var t = S.liste("tickets").filter(function (x) { return x.id === c.dataset.t; })[0], msg = c.querySelector("[data-msg]").value.trim(), st = b.dataset.st;
+        var h = (t.historique || []).concat([{ date: new Date().toISOString(), statut: st, par: moi().nom, texte: (st === "resolu" ? "Problème résolu" : "Prise en charge") + (msg ? " · " + msg : "") }]);
+        var m = { statut: st, historique: h, vuParAdmin: false }; if (st === "resolu") m.resoluLe = new Date().toISOString();
+        S.modifier("tickets", t.id, m); S.log("Ticket " + (st === "resolu" ? "résolu" : "pris en charge") + " (technicien)", t.id + " · " + moi().nom); rendre();
+      }); });
+    });
+  }
+  function vRapports() {
+    var p = moi(), L = S.liste("rapports").filter(function (r) { return r.technicien === p.nom; });
+    document.getElementById("v-rapports").innerHTML = '<h2 class="tech-h">Mes rapports signés</h2>' + (L.length ? L.map(function (r) { return '<a class="tech-carte tech-lien" href="document.html?type=rapport&rid=' + r.id + '" target="_blank"><strong>' + esc(r.titre) + '</strong><small class="muted">' + jour(r.creeLe || r.date) + " · signé par " + esc(r.signataire) + "</small></a>"; }).join("") : '<div class="tech-vide">Aucun rapport pour le moment.</div>');
+  }
+  function vProfil() {
+    var p = moi();
+    document.getElementById("v-profil").innerHTML = '<h2 class="tech-h">Mon profil</h2><div class="tech-carte"><p><strong>' + esc(p.nom) + "</strong><br>" + esc(p.poste || "") + "<br>Badge " + esc(p.badge) + (p.badgeExpire ? " · valable jusqu’au " + jour(p.badgeExpire) : "") + "</p>" + (p.specialites && p.specialites.length ? '<p class="muted">' + esc(p.specialites.join(", ")) + "</p>" : "") + '<a class="btn btn-ghost" href="verification.html?code=' + encodeURIComponent(p.badge) + '" target="_blank">🛡 Mon badge vérifié</a><button class="btn btn-ghost" type="button" id="tech-sortir">Se déconnecter</button></div>';
+    document.getElementById("tech-sortir").addEventListener("click", function () { sessionStorage.removeItem("ng_tech"); location.reload(); });
+  }
+  function rendre() { if (!moi()) return; entete(); ({ jour: vJour, tickets: vTickets, rapports: vRapports, profil: vProfil })[vue](); }
+  document.querySelectorAll(".tech-nav [data-v]").forEach(function (b) { b.addEventListener("click", function () { vue = b.dataset.v; document.querySelectorAll(".tech-nav [data-v]").forEach(function (x) { x.toggleAttribute("aria-current", x === b); if (x === b) x.setAttribute("aria-current", "page"); document.getElementById("v-" + x.dataset.v).hidden = x !== b; }); rendre(); window.scrollTo(0, 0); }); });
+  document.getElementById("tech-statut").addEventListener("change", function (e) { S.modifier("personnel", id, { statut: e.target.value }); S.log("Statut du technicien", moi().nom + " → " + e.target.value); });
+  function enLigne() { document.getElementById("hors-ligne").hidden = navigator.onLine; }
+  window.addEventListener("online", enLigne); window.addEventListener("offline", enLigne);
+  window.addEventListener("ng-donnees", function () { if (!document.querySelector("dialog[open]") && id) rendre(); });
+  function demarrer() { login.hidden = true; app.hidden = false; enLigne(); rendre(); }
+  if (id && moi()) demarrer();
+})();
+</script>
+</body>
+</html>

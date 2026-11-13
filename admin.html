@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administration – NextGenIT</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=49">
+<link rel="stylesheet" href="admin.css?v=49">
+<link rel="stylesheet" href="pro.css?v=49">
+<link rel="stylesheet" href="marque.css?v=49">
+<link rel="stylesheet" href="admin-design.css?v=49">
+<script src="firebase-config.js?v=49"></script>
+<script src="theme.js?v=49"></script>
+<script type="module" src="cloud.js?v=49"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body>
+
+<div id="ecran-login" class="login-split">
+  <aside class="login-brand-panel" aria-hidden="true">
+    <div class="lb-top"><img src="assets/img/embleme.png" alt="" width="64" height="64"><span>NextGen<b>IT</b></span></div>
+    <div class="lb-centre">
+      <div class="lb-icons" aria-hidden="true">
+        <span class="lb-gear g1"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></span>
+        <span class="lb-gear g2"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 11-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 110-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 114 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 110 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></span>
+        <span class="lb-shield"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4"/></svg></span>
+      </div>
+      <div class="lb-lock"><svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg></div>
+      <h2>Pilotez NextGenIT, <span class="gold-txt">simplement.</span></h2>
+      <p>Demandes, interventions, finances, formations et équipe : tout se pilote depuis un seul endroit.</p>
+      <ul class="lb-points">
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg> Connexion chiffrée et accès par rôle</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2h10v20H7zM11 18h2"/></svg> Double authentification par application</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4"/></svg> Chaque action est enregistrée</li>
+      </ul>
+    </div>
+    <small class="lb-foot">nextgenit.com/admin</small>
+  </aside>
+  <main class="login-side">
+    <form class="login-box" id="form-admin-login" novalidate>
+      <span class="login-badge"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg></span>
+      <h1>Connexion à l’administration</h1>
+      <p class="muted">Réservé à l’équipe NextGenIT.</p>
+      <label class="field">Adresse email
+        <span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v12H3zM3 6l9 7 9-7"/></svg><input name="email" type="email" required autocomplete="username" placeholder="ex. admin@nextgenit.com"></span>
+      </label>
+      <label class="field">Mot de passe
+        <span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 7a4 4 0 11-3.9 4.9L3 20v-3h3v-3h3l1.1-1.1A4 4 0 0115 7z"/></svg><input name="mdp" type="password" required autocomplete="current-password" placeholder="Votre mot de passe"><button type="button" class="eye" id="voir-mdp" aria-label="Afficher le mot de passe" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z"/></svg></button></span>
+      </label>
+      <p class="error-text" id="err-admin" hidden role="alert"></p>
+      <button class="btn btn-primary btn-block" type="submit"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg> Se connecter</button>
+      <p class="login-help">Mot de passe oublié ? Le Super admin le réinitialise depuis « Administrateurs et droits ».</p>
+      <a class="muted" href="index.html" style="font-size:.9rem;text-align:center">← Retour au site public</a>
+    </form>
+    <form class="login-box" id="form-2fa" novalidate hidden>
+      <span class="login-badge ok"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4"/></svg></span>
+      <h1>Vérification en deux étapes</h1>
+      <p class="muted">Entrez le code à 6 chiffres affiché dans votre application d’authentification (Google Authenticator, Microsoft Authenticator…).</p>
+      <label class="field">Code de vérification
+        <span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 2h10v20H7zM11 18h2"/></svg><input name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required placeholder="ex. 482 913" class="code-input"></span>
+      </label>
+      <p class="error-text" id="err-2fa" hidden role="alert"></p>
+      <button class="btn btn-primary btn-block" type="submit">Vérifier et entrer</button>
+      <button class="btn btn-ghost btn-block" type="button" id="retour-login">Retour</button>
+    </form>
+    <p class="login-secure"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg> Connexion sécurisée · 5 essais maximum, puis blocage de 15 minutes</p>
+  </main>
+</div>
+
+<div id="ecran-admin" class="admin" hidden>
+  <aside class="side" id="side">
+    <a class="brand" href="#tableau"><img class="brand-logo" src="assets/img/embleme.png" alt="" width="42" height="42"><span>NextGen<b>IT</b></span></a>
+    <div class="url">nextgenit.com/admin</div>
+    <nav aria-label="Menu administration" id="admin-nav"></nav>
+  </aside>
+  <div class="shell">
+    <header class="admin-top">
+      <button class="icon-btn admin-menu-btn" type="button" id="btn-menu" aria-label="Ouvrir le menu" aria-controls="side">☰</button>
+      <div class="online-stack" id="online-stack"></div>
+      <div class="top-right">
+        <a class="bell" href="#parametres" aria-label="Paramètres" title="Paramètres"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15a1.7 1.7 0 00.3 1.8l.1.1a2 2 0 11-2.8 2.8l-.1-.1a1.7 1.7 0 00-1.8-.3 1.7 1.7 0 00-1 1.5V21a2 2 0 01-4 0v-.1a1.7 1.7 0 00-1.1-1.5 1.7 1.7 0 00-1.8.3l-.1.1a2 2 0 11-2.8-2.8l.1-.1a1.7 1.7 0 00.3-1.8 1.7 1.7 0 00-1.5-1H3a2 2 0 010-4h.1a1.7 1.7 0 001.5-1.1 1.7 1.7 0 00-.3-1.8l-.1-.1a2 2 0 112.8-2.8l.1.1a1.7 1.7 0 001.8.3H9a1.7 1.7 0 001-1.5V3a2 2 0 014 0v.1a1.7 1.7 0 001 1.5 1.7 1.7 0 001.8-.3l.1-.1a2 2 0 112.8 2.8l-.1.1a1.7 1.7 0 00-.3 1.8V9a1.7 1.7 0 001.5 1H21a2 2 0 010 4h-.1a1.7 1.7 0 00-1.5 1z"/></svg></a>
+        <a class="bell" href="#notifications" aria-label="Notifications"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 01-3.4 0"/></svg><span class="bell-count" id="notif-count" hidden></span></a>
+        <a class="btn btn-ghost btn-sm hide-sm" href="index.html" target="_blank" rel="noopener">Voir le site</a>
+        <a class="me-chip" href="#compte" title="Mon compte">
+          <span class="me-photo" id="me-photo"></span>
+          <span class="me-txt"><strong id="me-nom"></strong><small><span class="live-dot" aria-hidden="true"></span><span id="me-role"></span> · en ligne</small></span>
+        </a>
+        <button class="btn btn-ghost btn-sm" type="button" id="logout">Se déconnecter</button>
+      </div>
+    </header>
+    <main class="main" id="vue" tabindex="-1"></main>
+  </div>
+</div>
+
+<dialog class="modal" id="modal" aria-labelledby="modal-titre">
+  <form method="dialog" id="modal-form" novalidate>
+    <div class="modal-head"><h2 id="modal-titre"></h2><button class="icon-btn" type="button" data-close aria-label="Fermer">×</button></div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-foot" id="modal-foot"></div>
+  </form>
+</dialog>
+
+<script src="contenu.js?v=49"></script>
+<script src="store.js?v=49"></script>
+<script src="fichiers.js?v=49"></script>
+<script src="admin-core.js?v=49"></script>
+<script src="admin-pilotage.js?v=49"></script>
+<script src="admin-commercial.js?v=49"></script>
+<script src="admin-operations.js?v=49"></script>
+<script src="admin-services.js?v=49"></script>
+<script src="admin-finances.js?v=49"></script>
+<script src="admin-academie.js?v=49"></script>
+<script src="admin-equipe.js?v=49"></script>
+<script src="admin-plus.js?v=49"></script>
+<script src="admin-ui.js?v=49"></script>
+</body>
+</html>

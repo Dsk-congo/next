@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Carrières – Rejoindre NextGenIT</title>
+<meta name="description" content="Rejoignez NextGenIT à Kolwezi : offres d’emploi en réseaux, cybersécurité, vidéosurveillance et développement web, stages et candidature spontanée.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="carrieres">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <div class="page-head actu-tete"><h1>Rejoindre NextGenIT</h1><p class="lead">Nous construisons l’informatique des entreprises du Lualaba. Vous aimez la technique, le terrain et le travail bien fait ? Venez grandir avec nous.</p></div>
+  <div class="valeurs">
+    <div class="card"><span class="ci-ico">🎓</span><strong>Formation continue</strong><span class="muted">Certifications, labos et accès gratuit à notre académie.</span></div>
+    <div class="card"><span class="ci-ico">🛠</span><strong>Projets concrets</strong><span class="muted">Sites miniers, banques, écoles : des chantiers variés et formateurs.</span></div>
+    <div class="card"><span class="ci-ico">🤝</span><strong>Esprit d’équipe</strong><span class="muted">Des collègues disponibles, des méthodes claires, un suivi transparent.</span></div>
+    <div class="card"><span class="ci-ico">📈</span><strong>Évolution</strong><span class="muted">Responsabilités et rémunération qui suivent vos résultats.</span></div>
+  </div>
+  <h2 class="etu-h" style="font-size:1.6rem;margin-top:28px">Offres ouvertes</h2>
+  <div id="offres" class="stack"></div>
+</main>
+<dialog class="modal cli-dlg" id="dlg-cand" aria-labelledby="cand-titre">
+  <form id="form-cand" novalidate>
+    <div class="modal-head"><h2 id="cand-titre">Postuler</h2><button type="button" class="tiroir-fermer" data-x aria-label="Fermer">✕</button></div>
+    <div class="modal-body">
+      <label class="field">Poste<input name="poste" readonly></label>
+      <label class="field">Nom complet<input name="nom" required autocomplete="name"></label>
+      <label class="field">Téléphone / WhatsApp<input name="tel" type="tel" required autocomplete="tel"></label>
+      <label class="field">Email<input name="email" type="email" autocomplete="email"></label>
+      <label class="field">Votre CV (PDF, moins de 700 Ko)<input name="cv" type="file" accept=".pdf,.doc,.docx"></label>
+      <label class="field">Quelques mots sur vous<textarea name="message" style="min-height:90px" placeholder="Expérience, certifications, disponibilité…"></textarea></label>
+      <p class="error-text" id="err-cand" hidden></p>
+      <p class="notice" id="ok-cand" hidden>✔ Candidature envoyée. Merci ! Nous vous contactons si votre profil correspond.</p>
+      <button class="btn btn-primary" type="submit">Envoyer ma candidature</button>
+    </div>
+  </form>
+</dialog>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, esc = window.NGUtil.esc, auj = new Date().toISOString().slice(0, 10);
+  var O = S.liste("offres_emploi").filter(function (o) { return o.publie && (!o.limite || o.limite >= auj); });
+  var box = document.getElementById("offres");
+  box.innerHTML = O.map(function (o) { return '<article class="card offre" data-o="' + o.id + '"><div class="offre-tete"><div><h3>' + esc(o.titre) + '</h3><div class="actu-meta"><span class="tag tag-accent">' + esc(o.contrat) + "</span><small>📍 " + esc(o.lieu) + (o.limite ? " · jusqu’au " + new Date(o.limite + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" }) : "") + '</small></div></div><button class="btn btn-primary" type="button" data-postuler>Postuler</button></div>' + (o.description ? "<details><summary>Missions et profil</summary><p style=\"white-space:pre-line\">" + esc(o.description) + "</p>" + (o.profil ? '<p style="white-space:pre-line"><strong>Profil recherché</strong><br>' + esc(o.profil) + "</p>" : "") + "</details>" : "") + "</article>"; }).join("") +
+    '<article class="card offre spontanee"><div class="offre-tete"><div><h3>Candidature spontanée</h3><span class="muted">Techniciens réseau, vidéosurveillance, sécurité, développeurs web, commerciaux, stagiaires : envoyez-nous votre CV.</span></div><button class="btn btn-gold" type="button" data-postuler data-spont>Envoyer mon CV</button></div></article>';
+  var dlg = document.getElementById("dlg-cand"), f = document.getElementById("form-cand"), offre = null;
+  box.querySelectorAll("[data-postuler]").forEach(function (b) { b.addEventListener("click", function () { var a = b.closest("[data-o]"); offre = a ? O.filter(function (x) { return x.id === a.dataset.o; })[0] : null; f.reset(); f.querySelectorAll("input, textarea, button").forEach(function (x) { x.disabled = false; }); f.poste.value = offre ? offre.titre : "Candidature spontanée"; document.getElementById("ok-cand").hidden = true; document.getElementById("err-cand").hidden = true; dlg.showModal(); }); });
+  dlg.querySelector("[data-x]").addEventListener("click", function () { dlg.close(); });
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var err = document.getElementById("err-cand");
+    if (!f.nom.value.trim() || !f.tel.value.trim()) { err.textContent = "Indiquez votre nom et votre téléphone."; err.hidden = false; return; }
+    var fi = f.cv.files[0];
+    if (fi && fi.size > 700 * 1024) { err.textContent = "Le CV dépasse 700 Ko : envoyez une version PDF plus légère."; err.hidden = false; return; }
+    var data = { offreId: offre ? offre.id : "", poste: f.poste.value, nom: f.nom.value.trim(), telephone: f.tel.value.trim(), email: f.email.value.trim(), message: f.message.value.trim(), statut: "nouvelle" };
+    var fin = function () { S.ajouter("candidatures", data, "CAND-"); S.log("Candidature reçue", data.nom + " · " + data.poste); err.hidden = true; f.querySelectorAll("input, textarea, button[type=submit]").forEach(function (x) { x.disabled = true; }); document.getElementById("ok-cand").hidden = false; };
+    if (fi) { data.cvCle = "cv-" + Date.now().toString(36); data.cvNom = fi.name; window.NGFichiers.enregistrer(data.cvCle, fi).then(fin, fin); } else fin();
+  });
+})();
+</script>
+</body>
+</html>

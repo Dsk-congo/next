@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vérification d’un badge ou d’une attestation – NextGenIT</title>
+<meta name="description" content="Mentions légales et politique de confidentialité de NextGenIT.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="verification">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container verif-page" style="max-width:720px;padding-bottom:90px">
+  <div id="resultat" aria-live="polite"></div>
+  <section class="card verif-form">
+    <div class="verif-ent"><span class="verif-ent-ico" aria-hidden="true"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4"/></svg></span><div><h1>Vérifier un badge ou une attestation</h1><p class="muted">Scannez le QR code avec l’appareil photo du téléphone, ou saisissez le numéro.</p></div></div>
+    <form id="form-v" novalidate><label class="field">Numéro<input name="code" required autocomplete="off" inputmode="text" placeholder="ex. NG-T-0142 ou ATT-2026-0154"></label><button class="btn btn-primary" type="submit">Vérifier</button></form>
+  </section>
+</main>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, U = window.NGUtil, esc = U.esc, C = window.NG_CONTENU;
+  var f = document.getElementById("form-v"), out = document.getElementById("resultat");
+  var qp = new URLSearchParams(location.search), dernier = "";
+  function jour(d) { return new Date(d).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }); }
+  function photo(p, t) { return p.photo ? '<img class="vf-photo" src="' + esc(p.photo) + '" alt="Photo de ' + esc(p.nom) + '" width="' + t + '" height="' + t + '">' : '<span class="vf-photo vf-ini" style="width:' + t + "px;height:" + t + 'px">' + esc(String(p.nom || "?").split(" ").map(function (m) { return m[0]; }).join("").slice(0, 2).toUpperCase()) + "</span>"; }
+  function attenteEnLigne() { var F = window.NG_FIREBASE || {}; return F.apiKey && !window.NGCloud; }
+  function verifier(code) {
+    code = String(code || "").trim().toUpperCase(); if (!code) return; dernier = code;
+    var p = S.liste("personnel").filter(function (x) { return (x.badge || "").toUpperCase() === code; })[0];
+    var e = S.liste("comptes_etudiants").filter(function (x) { return (x.attestation || "").toUpperCase() === code && x.attestationAutorisee !== false; })[0];
+    var v = C.verifications && C.verifications[code];
+    if (p) {
+      var aujourd = new Date().toISOString().slice(0, 10), expire = p.badgeExpire && p.badgeExpire < aujourd, valide = p.actif !== false && !expire;
+      var fonction = (p.poste || "agent").toLowerCase(), art = /^[aeiouyéèh]/i.test(fonction) ? "Cet " : "Ce ";
+      out.innerHTML = '<article class="vf-carte ' + (valide ? "ok" : "ko") + '"><div class="vf-bandeau">' + (valide ? '<span class="vf-coche" aria-hidden="true">✔</span><div><strong>' + esc(art + fonction) + " est bien de NextGenIT</strong><span>Badge reconnu dans le système · authentique et valide</span></div>" : '<span class="vf-coche ko" aria-hidden="true">✖</span><div><strong>Badge non valide</strong><span>' + (expire ? "Date de validité dépassée (" + jour(p.badgeExpire + "T12:00:00") + ")" : "Cet agent ne fait plus partie de l’équipe") + "</span></div>") + "</div>" +
+        '<div class="vf-id">' + photo(p, 120) + '<div><h2>' + esc(p.nom) + '</h2><p class="vf-poste">' + esc(p.poste || "") + "</p>" + (p.specialites && p.specialites.length ? '<p class="muted">' + esc(p.specialites.join(" · ")) + "</p>" : "") + '<div class="vf-puces"><span>ID ' + esc(p.badge) + "</span>" + (p.badgeExpire ? "<span>Valable jusqu’au " + jour(p.badgeExpire + "T12:00:00") + "</span>" : "") + "</div></div></div>" +
+        (valide ? '<p class="vf-note">Vous pouvez laisser entrer cette personne. En cas de doute, appelez NextGenIT au <a href="tel:' + esc(String(C.entreprise.telephone).replace(/\s/g, "")) + '">' + esc(C.entreprise.telephone) + "</a>.</p>" : '<p class="vf-note ko">Ne laissez pas entrer cette personne sans avoir appelé NextGenIT au <a href="tel:' + esc(String(C.entreprise.telephone).replace(/\s/g, "")) + '">' + esc(C.entreprise.telephone) + "</a>.</p>") + "</article>";
+      return;
+    }
+    if (e) {
+      var fo = S.formations().filter(function (x) { return x.id === e.formationId; })[0];
+      out.innerHTML = '<article class="vf-carte ok"><div class="vf-bandeau"><span class="vf-coche" aria-hidden="true">✔</span><div><strong>Attestation authentique</strong><span>Délivrée par la NextGenIT Academy</span></div></div><div class="vf-id">' + photo(e, 110) + "<div><h2>" + esc(e.nom) + '</h2><p class="vf-poste">' + (fo ? "Formation « " + esc(fo.titre) + " »" : "") + '</p><div class="vf-puces"><span>N° ' + esc(e.attestation) + "</span><span>Délivrée le " + jour(e.attestationLe || Date.now()) + "</span>" + (fo ? "<span>" + esc(fo.duree) + "</span>" : "") + "</div></div></div></article>";
+      return;
+    }
+    if (v) { out.innerHTML = '<article class="vf-carte ok"><div class="vf-bandeau"><span class="vf-coche">✔</span><div><strong>' + esc(v.type) + ' authentique</strong></div></div><div class="vf-id"><div><h2>' + esc(v.nom) + "</h2><p>" + esc(v.detail) + "</p></div></div></article>"; return; }
+    var n = qp.get("n") || qp.get("nom"), po = qp.get("p") || qp.get("poste"), duQR = (qp.get("code") || "").toUpperCase() === code;
+    if (attenteEnLigne()) { out.innerHTML = '<article class="vf-carte"><div class="vf-bandeau att"><span class="vf-coche att">⏳</span><div><strong>Vérification en cours…</strong><span>Connexion à la base NextGenIT</span></div></div></article>'; return; }
+    if (duQR && n && !(window.NGCloud && window.NGCloud.actif)) {
+      out.innerHTML = '<article class="vf-carte"><div class="vf-bandeau att"><span class="vf-coche att">!</span><div><strong>Vérification en ligne impossible pour le moment</strong><span>Le badge indique les informations ci-dessous</span></div></div><div class="vf-id"><span class="vf-photo vf-ini" style="width:110px;height:110px">' + esc(n.split(" ").map(function (m) { return m[0]; }).join("").slice(0, 2).toUpperCase()) + '</span><div><h2>' + esc(n) + '</h2><p class="vf-poste">' + esc(po || "") + '</p><div class="vf-puces"><span>ID ' + esc(code) + '</span></div></div></div><p class="vf-note">Appelez NextGenIT au <a href="tel:' + esc(String(C.entreprise.telephone).replace(/\s/g, "")) + '">' + esc(C.entreprise.telephone) + "</a> pour confirmer.</p></article>";
+      return;
+    }
+    out.innerHTML = '<article class="vf-carte ko"><div class="vf-bandeau"><span class="vf-coche ko">✖</span><div><strong>Numéro non reconnu</strong><span>Aucun badge ni attestation NextGenIT ne porte le numéro « ' + esc(code) + " »</span></div></div><p class=\"vf-note ko\">Vérifiez le numéro ou appelez NextGenIT au <a href=\"tel:" + esc(String(C.entreprise.telephone).replace(/\s/g, "")) + '">' + esc(C.entreprise.telephone) + "</a>.</p></article>";
+  }
+  f.addEventListener("submit", function (ev) { ev.preventDefault(); verifier(f.code.value); out.scrollIntoView({ block: "start" }); });
+  var q = qp.get("code");
+  if (q) { f.code.value = q; verifier(q); }
+  /* Dès que les données en ligne arrivent (nouveau personnel enregistré sur un autre appareil), on revérifie */
+  window.addEventListener("ng-cloud", function () { if (dernier) verifier(dernier); });
+  window.addEventListener("ng-donnees", function () { if (dernier) verifier(dernier); });
+})();
+</script>
+</body>
+</html>

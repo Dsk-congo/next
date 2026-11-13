@@ -1,0 +1,159 @@
+/* =========================================================
+   NextGenIT – Design de l’administration (couleurs du logo)
+   Barre latérale bleu nuit fixe, barre du haut épurée,
+   boutons homogènes (cuivre = action principale, contour = secondaire),
+   cartes et indicateurs sobres.  Thème « NextGen Pro » uniquement.
+   ========================================================= */
+[data-theme="pro"] .admin {
+  --ink: #0b1f44; --ink-2: #33415c; --muted: #66728a;
+  --bg: #f5f3ef; --surface: #ffffff; --surface-2: #faf8f5; --line: #e9e3da; --line-2: #dad2c6;
+  --accent: #1d64e0; --accent-soft: #eaf1ff; --accent-soft-text: #1d64e0;
+  --cuivre: #d2763a; --cuivre-clair: #efb470; --cuivre-fonce: #b5552a;
+  --grad-cuivre: linear-gradient(135deg, #f2bb7b 0%, #d97c3e 52%, #b5552a 100%);
+  --grad-n: linear-gradient(150deg, #22d3ee 0%, #0ea5e9 45%, #2563eb 100%);
+  --ombre: 0 1px 2px rgba(11, 31, 68, .04), 0 10px 28px rgba(11, 31, 68, .06);
+  background: var(--bg) !important; color: var(--ink);
+  grid-template-columns: 268px minmax(0, 1fr) !important;
+}
+[data-theme="pro"] .admin h1, [data-theme="pro"] .admin h2, [data-theme="pro"] .admin h3 { color: var(--ink); letter-spacing: -.015em; }
+
+/* ---------- Barre latérale : pleine hauteur, bleu nuit ---------- */
+[data-theme="pro"] .admin .side { margin: 0 !important; height: 100vh !important; top: 0 !important; border-radius: 0 !important; background: #0b1f44 !important; padding: 20px 14px 24px !important; box-shadow: none !important; border-right: 1px solid rgba(255, 255, 255, .06) !important; scrollbar-width: thin; scrollbar-color: rgba(255, 255, 255, .15) transparent; }
+[data-theme="pro"] .admin .side::after { content: ""; position: absolute; top: 0; right: 0; width: 2px; height: 120px; background: var(--grad-cuivre); }
+[data-theme="pro"] .admin .side .brand { padding: 2px 8px 16px; margin-bottom: 6px; border-bottom: 1px solid rgba(255, 255, 255, .08); font-size: 1.3rem; gap: 10px; }
+[data-theme="pro"] .admin .side .brand span { color: #fff; font-weight: 800; }
+[data-theme="pro"] .admin .side .brand-logo { width: 40px !important; height: 40px !important; }
+[data-theme="pro"] .admin .side .url { display: none; }
+[data-theme="pro"] .admin .side-profil { display: none; }
+[data-theme="pro"] .admin .side-recherche { margin: 4px 2px 10px; }
+[data-theme="pro"] .admin .side-recherche input { border-radius: 10px !important; background: rgba(255, 255, 255, .06) !important; border-color: rgba(255, 255, 255, .1) !important; min-height: 40px !important; }
+[data-theme="pro"] .admin .nav-title { color: #7f93b5 !important; font-size: .7rem !important; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; margin: 16px 10px 6px !important; }
+[data-theme="pro"] .admin .side nav a { min-height: 38px !important; border-radius: 10px !important; color: #c9d4e8 !important; font-weight: 600 !important; font-size: .92rem; padding: 0 10px !important; }
+[data-theme="pro"] .admin .side nav a:hover { background: rgba(255, 255, 255, .06) !important; color: #fff !important; }
+[data-theme="pro"] .admin .side nav a[aria-current="page"] { background: linear-gradient(90deg, rgba(217, 124, 62, .22), rgba(217, 124, 62, .04)) !important; color: #fff !important; font-weight: 800 !important; }
+[data-theme="pro"] .admin .side nav a[aria-current="page"]::before { left: -14px !important; top: 6px !important; bottom: 6px !important; width: 4px !important; background: var(--grad-cuivre) !important; }
+[data-theme="pro"] .admin .side nav a .nav-ico { color: #8ea3c6; }
+[data-theme="pro"] .admin .side nav a[aria-current="page"] .nav-ico { color: var(--cuivre-clair); }
+[data-theme="pro"] .admin .side .count { background: var(--grad-cuivre) !important; color: #fff !important; font-weight: 800; min-width: 22px; border-radius: 999px; }
+
+/* ---------- Barre du haut ---------- */
+[data-theme="pro"] .admin .admin-top { background: rgba(255, 255, 255, .88) !important; backdrop-filter: blur(12px) saturate(1.3); border-bottom: 1px solid var(--line) !important; padding: 10px clamp(16px, 2.4vw, 28px) !important; min-height: 64px; box-shadow: 0 4px 18px rgba(11, 31, 68, .04); }
+[data-theme="pro"] .admin .top-right { gap: 8px !important; }
+[data-theme="pro"] .admin .bell, [data-theme="pro"] .admin .icon-btn { width: 40px !important; height: 40px !important; border-radius: 10px !important; background: #fff !important; border: 1px solid var(--line) !important; color: var(--ink-2) !important; box-shadow: none !important; }
+[data-theme="pro"] .admin .bell:hover, [data-theme="pro"] .admin .icon-btn:hover { border-color: var(--ink) !important; color: var(--ink) !important; }
+[data-theme="pro"] .admin .bell-count { background: var(--cuivre) !important; }
+[data-theme="pro"] .admin .me-chip { border-radius: 12px !important; border: 1px solid var(--line) !important; background: #fff !important; padding: 4px 12px 4px 4px !important; }
+[data-theme="pro"] .admin .me-chip strong { color: var(--ink); font-size: .9rem; }
+[data-theme="pro"] .admin #logout { font-size: 0 !important; width: 40px; padding: 0 !important; position: relative; }
+[data-theme="pro"] .admin #logout::before { content: ""; width: 18px; height: 18px; background: currentColor; -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9'/%3E%3C/svg%3E") center/contain no-repeat; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9'/%3E%3C/svg%3E") center/contain no-repeat; }
+[data-theme="pro"] .admin #logout:hover { color: #c1121f !important; border-color: #c1121f !important; }
+[data-theme="pro"] .admin .online-stack { font-size: .85rem; }
+.admin-top .btn-apercu-haut { display: inline-flex; }
+/* les boutons flottants en bas d’écran sont remplacés par ceux de la barre du haut */
+[data-theme="pro"] .admin-flottants { display: none !important; }
+
+/* ---------- Zone principale ---------- */
+[data-theme="pro"] .admin .main { padding: 26px clamp(16px, 2.6vw, 34px) 70px !important; max-width: 1500px; }
+[data-theme="pro"] .admin .page-head h1, [data-theme="pro"] .admin .main > header h1, [data-theme="pro"] .admin .entete h1 { font-size: clamp(1.5rem, 2.4vw, 1.9rem) !important; }
+
+/* ---------- Boutons : un seul système ---------- */
+[data-theme="pro"] .admin .btn { min-height: 42px; padding: 0 16px; border-radius: 10px !important; font-weight: 700 !important; font-size: .92rem; letter-spacing: 0; box-shadow: none !important; transition: background .15s, border-color .15s, color .15s, transform .15s; }
+[data-theme="pro"] .admin .btn-sm { min-height: 34px; padding: 0 12px; font-size: .85rem; border-radius: 9px !important; }
+[data-theme="pro"] .admin .btn-primary, [data-theme="pro"] .admin .btn-gold { background: var(--grad-cuivre) !important; color: #fff !important; border: 0 !important; }
+[data-theme="pro"] .admin .btn-primary:hover, [data-theme="pro"] .admin .btn-gold:hover { filter: brightness(1.06); transform: translateY(-1px); text-decoration: none; }
+[data-theme="pro"] .admin .btn-ghost, [data-theme="pro"] .admin .btn-blanc { background: #fff !important; color: var(--ink) !important; border: 1px solid var(--line-2) !important; }
+[data-theme="pro"] .admin .btn-ghost:hover, [data-theme="pro"] .admin .btn-blanc:hover { border-color: var(--ink) !important; background: #fff !important; text-decoration: none; }
+[data-theme="pro"] .admin .btn-whatsapp { background: #1faa59 !important; color: #fff !important; border: 0 !important; }
+[data-theme="pro"] .admin .ico-btn { width: 34px; height: 34px; border-radius: 9px; border: 1px solid var(--line-2); background: #fff; color: var(--ink-2); }
+[data-theme="pro"] .admin .ico-btn:hover { border-color: var(--ink); color: var(--ink); }
+[data-theme="pro"] .admin .ico-btn.danger:hover { border-color: #c1121f; color: #c1121f; background: #fff5f5; }
+[data-theme="pro"] .admin .btn-verre { background: rgba(255, 255, 255, .1) !important; border: 1px solid rgba(255, 255, 255, .22) !important; color: #fff !important; }
+
+/* ---------- Cartes et indicateurs ---------- */
+[data-theme="pro"] .admin .card { border-radius: 16px !important; border: 1px solid var(--line) !important; box-shadow: var(--ombre) !important; background: #fff; }
+[data-theme="pro"] .admin .kpi { border-radius: 16px !important; border: 1px solid var(--line) !important; box-shadow: var(--ombre) !important; background: #fff !important; padding: 18px !important; transform: none !important; }
+[data-theme="pro"] .admin .kpi::before, [data-theme="pro"] .admin .kpi::after { display: none !important; }
+[data-theme="pro"] .admin .kpi span:not(.ico) { color: var(--muted) !important; font-weight: 600; font-size: .84rem !important; }
+[data-theme="pro"] .admin .kpi strong { color: var(--ink) !important; font-size: 1.75rem !important; letter-spacing: -.02em; }
+[data-theme="pro"] .admin .kpi strong.down { color: #c1121f !important; }
+[data-theme="pro"] .admin .kpi strong.up { color: #0f7a4f !important; }
+[data-theme="pro"] .admin .kpi .ico { width: 38px !important; height: 38px !important; border-radius: 10px !important; background: #fbf1e8 !important; color: var(--cuivre) !important; box-shadow: none !important; }
+[data-theme="pro"] .admin .kpis { gap: 14px !important; }
+
+/* Bandeau de bienvenue : bleu nuit et lueur cuivre */
+[data-theme="pro"] .admin .bienvenue { background: #0b1f44 !important; border-radius: 20px !important; box-shadow: 0 18px 40px rgba(11, 31, 68, .18); }
+[data-theme="pro"] .admin .bienvenue::before { width: 420px !important; height: 420px !important; right: -120px !important; top: -200px !important; background: radial-gradient(circle, rgba(217, 124, 62, .35), transparent 65%) !important; }
+[data-theme="pro"] .admin .bienvenue::after { background: radial-gradient(circle, rgba(34, 211, 238, .18), transparent 65%) !important; }
+[data-theme="pro"] .admin .bienvenue .av { border-color: var(--cuivre) !important; }
+[data-theme="pro"] .admin .bienvenue h1, [data-theme="pro"] .admin .fiche-tete h3 { color: #fff !important; }
+[data-theme="pro"] .admin .bienvenue .date { color: var(--cuivre-clair) !important; }
+
+/* ---------- Onglets et filtres : contrôle segmenté ---------- */
+[data-theme="pro"] .admin .tabs { display: inline-flex !important; flex-wrap: wrap; gap: 4px !important; padding: 4px; border-radius: 12px; background: #ece6dd; border: 0 !important; }
+[data-theme="pro"] .admin .tab { min-height: 36px; padding: 0 14px !important; border-radius: 9px !important; border: 0 !important; background: transparent !important; color: var(--ink-2) !important; font-weight: 700 !important; box-shadow: none !important; }
+[data-theme="pro"] .admin .tab[aria-selected="true"] { background: #fff !important; color: var(--ink) !important; box-shadow: 0 2px 8px rgba(11, 31, 68, .1) !important; }
+[data-theme="pro"] .admin .chips .chip, [data-theme="pro"] .admin .filtre { border-radius: 999px; border: 1px solid var(--line-2) !important; background: #fff !important; color: var(--ink-2) !important; font-weight: 700; }
+[data-theme="pro"] .admin .chips .chip.on, [data-theme="pro"] .admin .chips .chip[aria-pressed="true"], [data-theme="pro"] .admin .filtre.on { background: #0b1f44 !important; border-color: #0b1f44 !important; color: #fff !important; }
+[data-theme="pro"] .admin .seg button[aria-pressed="true"] { background: #0b1f44 !important; }
+
+/* ---------- Tableaux ---------- */
+[data-theme="pro"] .admin table.t thead th { background: #f7f4ef !important; color: var(--muted) !important; font-size: .74rem !important; font-weight: 800 !important; letter-spacing: .08em; text-transform: uppercase; border-bottom: 1px solid var(--line) !important; }
+[data-theme="pro"] .admin table.t tbody tr:hover td { background: #fbf8f4 !important; }
+[data-theme="pro"] .admin table.t td { border-bottom: 1px solid #f0ebe3 !important; }
+[data-theme="pro"] .admin .toolbar input, [data-theme="pro"] .admin .toolbar select, [data-theme="pro"] .admin .field input, [data-theme="pro"] .admin .field select, [data-theme="pro"] .admin .field textarea { border-radius: 10px !important; border-color: var(--line-2) !important; background: #fff !important; }
+[data-theme="pro"] .admin input:focus, [data-theme="pro"] .admin select:focus, [data-theme="pro"] .admin textarea:focus { outline: none; border-color: var(--cuivre) !important; box-shadow: 0 0 0 4px rgba(217, 124, 62, .15) !important; }
+[data-theme="pro"] .admin input[type=checkbox], [data-theme="pro"] .admin input[type=radio] { accent-color: var(--cuivre); }
+
+/* ---------- Étiquettes ---------- */
+[data-theme="pro"] .admin .tag { border-radius: 999px; font-weight: 700; }
+[data-theme="pro"] .admin .tag-accent { background: #eaf1ff !important; color: #1d64e0 !important; }
+[data-theme="pro"] .admin .tag-warn { background: #fdf0e3 !important; color: #b5552a !important; }
+[data-theme="pro"] .admin .tag-ok { background: #e6f6ee !important; color: #0f7a4f !important; }
+
+/* ---------- Interrupteurs ---------- */
+[data-theme="pro"] .admin .switch[aria-checked="true"], [data-theme="pro"] .admin [role="switch"][aria-checked="true"] { background: #0f7a4f !important; }
+
+/* ---------- Fenêtres ---------- */
+[data-theme="pro"] .modal { border-radius: 18px !important; border: 0 !important; box-shadow: 0 40px 90px rgba(11, 31, 68, .3) !important; overflow: hidden; }
+[data-theme="pro"] .modal .modal-head { border-bottom: 1px solid #ece6dd !important; position: relative; }
+[data-theme="pro"] .modal .modal-head::before { content: ""; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, #2563eb, #22d3ee 40%, #e8995a 60%, #b5552a); }
+[data-theme="pro"] .modal .modal-head h2 { color: #0b1f44; }
+[data-theme="pro"] .modal .modal-foot { background: #faf8f5; border-top: 1px solid #ece6dd; }
+[data-theme="pro"] .modal::backdrop { background: rgba(11, 31, 68, .55); backdrop-filter: blur(3px); }
+
+/* ---------- Cartes du personnel : actions alignées ---------- */
+[data-theme="pro"] .admin .card.person .foot { display: grid !important; grid-template-columns: 1fr; gap: 10px !important; }
+[data-theme="pro"] .admin .card.person .foot > span:first-child { font-size: .82rem; color: var(--muted); word-break: break-word; }
+[data-theme="pro"] .admin .card.person .foot > span:last-child, [data-theme="pro"] .admin .card.person .foot .actions, [data-theme="pro"] .admin .card.person .foot > div { display: flex !important; flex-wrap: wrap; gap: 6px !important; }
+[data-theme="pro"] .admin .card.person .foot .btn { flex: 1 1 auto; justify-content: center; white-space: nowrap; }
+[data-theme="pro"] .admin .pers-carte::before { background: linear-gradient(120deg, rgba(37, 99, 235, .08), rgba(217, 124, 62, .08)) !important; }
+
+/* ---------- Écran de connexion ---------- */
+[data-theme="pro"] .login-brand-panel { background: #0b1f44 !important; }
+[data-theme="pro"] .login-brand-panel h2 span, [data-theme="pro"] .lb-centre h2 em, [data-theme="pro"] .lb-centre .gold-txt { background: linear-gradient(135deg, #f2bb7b, #b5552a); -webkit-background-clip: text; background-clip: text; color: transparent !important; }
+[data-theme="pro"] .login-box .btn-primary { background: linear-gradient(135deg, #f2bb7b 0%, #d97c3e 52%, #b5552a 100%) !important; border: 0 !important; color: #fff !important; box-shadow: 0 12px 26px rgba(210, 118, 58, .35) !important; border-radius: 12px !important; }
+[data-theme="pro"] .login-box input:focus { border-color: #d2763a !important; box-shadow: 0 0 0 4px rgba(217, 124, 62, .15) !important; }
+
+/* ---------- Mobile ---------- */
+@media (max-width: 900px) {
+  [data-theme="pro"] .admin { grid-template-columns: minmax(0, 1fr) !important; }
+  [data-theme="pro"] .admin .side { position: fixed !important; width: 280px; z-index: 80; }
+  [data-theme="pro"] .admin .me-txt { display: none; }
+}
+
+/* Cartes d’action du tableau de bord : même style pour toutes */
+[data-theme="pro"] .admin .desk-card { border-radius: 16px !important; border: 1px solid var(--line) !important; border-top: 1px solid var(--line) !important; box-shadow: var(--ombre) !important; background: #fff !important; }
+[data-theme="pro"] .admin .desk-card::before { display: none !important; }
+[data-theme="pro"] .admin .desk-card header > strong { color: var(--ink) !important; font-size: 1.9rem !important; }
+[data-theme="pro"] .admin .desk-card .desk-ico { background: #fbf1e8 !important; color: var(--cuivre) !important; border-radius: 10px !important; }
+[data-theme="pro"] .admin .desk-card > a:last-child, [data-theme="pro"] .admin .desk-card footer a { color: var(--cuivre-fonce) !important; font-weight: 800; }
+[data-theme="pro"] .admin .desk-card .desk-item, [data-theme="pro"] .admin .desk-card .desk-item strong { color: var(--ink) !important; }
+[data-theme="pro"] .admin .desk-card .desk-item small { color: var(--muted) !important; font-weight: 500; }
+[data-theme="pro"] .admin .kpis { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)) !important; }
+/* Champs des fenêtres */
+[data-theme="pro"] .modal .field input, [data-theme="pro"] .modal .field select, [data-theme="pro"] .modal .field textarea, [data-theme="pro"] .modal input:not([type=checkbox]):not([type=radio]):not([type=file]), [data-theme="pro"] .modal select, [data-theme="pro"] .modal textarea { background: #fff !important; border: 1px solid #dad2c6 !important; border-radius: 10px !important; color: #0b1f44; }
+[data-theme="pro"] .modal input:focus, [data-theme="pro"] .modal select:focus, [data-theme="pro"] .modal textarea:focus { outline: none !important; border-color: #d2763a !important; box-shadow: 0 0 0 4px rgba(217, 124, 62, .15) !important; }
+[data-theme="pro"] .modal .field > span, [data-theme="pro"] .modal .field { color: #0b1f44; }
+[data-theme="pro"] .modal .btn-primary { background: linear-gradient(135deg, #f2bb7b 0%, #d97c3e 52%, #b5552a 100%) !important; border: 0 !important; color: #fff !important; border-radius: 10px !important; }
+[data-theme="pro"] .modal .btn-ghost { background: #fff !important; border: 1px solid #dad2c6 !important; color: #0b1f44 !important; border-radius: 10px !important; }
+[data-theme="pro"] .modal input[type=checkbox], [data-theme="pro"] .modal input[type=radio] { accent-color: #d2763a; }

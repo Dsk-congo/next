@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prendre rendez-vous – NextGenIT</title>
+<meta name="description" content="Réservez en ligne une visite technique, un audit ou un appel avec un conseiller NextGenIT à Kolwezi.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="rendezvous">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <div class="page-head actu-tete"><h1>Prendre rendez-vous</h1><p class="lead">Choisissez le type de rendez-vous, le jour et l’heure : un conseiller confirme rapidement par WhatsApp.</p></div>
+  <form class="rv-etapes" id="form-rv" novalidate>
+    <section class="card"><h2 class="etu-h">1. Type de rendez-vous</h2><div class="rv-types" id="rv-types"></div></section>
+    <section class="card"><h2 class="etu-h">2. Jour et heure</h2><div class="rv-jours" id="rv-jours"></div><div class="rv-heures" id="rv-heures"><p class="muted">Choisissez d’abord un jour.</p></div></section>
+    <section class="card"><h2 class="etu-h">3. Vos coordonnées</h2><div class="form-grid"><label class="field">Nom complet<input name="nom" required autocomplete="name"></label><label class="field">Entreprise (facultatif)<input name="entreprise"></label><label class="field">Téléphone / WhatsApp<input name="tel" type="tel" required autocomplete="tel"></label><label class="field">Email<input name="email" type="email"></label><label class="field full">Adresse (pour une visite sur place)<input name="adresse" placeholder="Quartier, avenue, numéro – Kolwezi"></label><label class="field full">Précisions (facultatif)<textarea name="note" style="min-height:80px"></textarea></label></div>
+      <p class="error-text" id="err-rv" hidden></p><button class="btn btn-primary" type="submit">Réserver ce créneau</button>
+      <div class="notice" id="ok-rv" hidden></div></section>
+  </form>
+</main>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, esc = window.NGUtil.esc, f = document.getElementById("form-rv"), choix = { type: "", date: "", heure: "" };
+  var TYPES = [["Visite technique gratuite", "🛠", "Un technicien vient évaluer votre besoin sur place"], ["Audit de sécurité", "🛡", "Réseau, pare-feu, accès : un point complet"], ["Appel avec un conseiller", "📞", "30 minutes au téléphone pour parler de votre projet"], ["Démonstration (espace client, vidéosurveillance…)", "💻", "Voir nos solutions en fonctionnement"]];
+  var HEURES = ["08:30", "09:30", "10:30", "11:30", "13:30", "14:30", "15:30", "16:30"];
+  document.getElementById("rv-types").innerHTML = TYPES.map(function (t, i) { return '<label class="rv-type"><input type="radio" name="type" value="' + esc(t[0]) + '"' + (i === 0 ? " checked" : "") + '><span><b>' + t[1] + " " + esc(t[0]) + "</b><small>" + esc(t[2]) + "</small></span></label>"; }).join("");
+  choix.type = TYPES[0][0];
+  f.querySelectorAll("[name=type]").forEach(function (r) { r.addEventListener("change", function () { choix.type = r.value; }); });
+  var jours = [], d = new Date(); d.setHours(12, 0, 0, 0);
+  while (jours.length < 12) { d.setDate(d.getDate() + 1); if (d.getDay() !== 0) jours.push(new Date(d)); }
+  function iso(x) { return x.toISOString().slice(0, 10); }
+  document.getElementById("rv-jours").innerHTML = jours.map(function (x) { return '<button type="button" class="rv-jour" data-j="' + iso(x) + '"><small>' + x.toLocaleDateString("fr-FR", { weekday: "short" }) + "</small><b>" + x.getDate() + "</b><small>" + x.toLocaleDateString("fr-FR", { month: "short" }) + "</small></button>"; }).join("");
+  function heures() {
+    var pris = S.liste("rendezvous").filter(function (r) { return r.date === choix.date && r.statut !== "annule"; }).map(function (r) { return r.heure; });
+    var samedi = new Date(choix.date + "T12:00:00").getDay() === 6;
+    document.getElementById("rv-heures").innerHTML = HEURES.filter(function (h) { return !samedi || h < "13:00"; }).map(function (h) { var p = pris.indexOf(h) > -1; return '<button type="button" class="rv-heure' + (choix.heure === h ? " on" : "") + '" data-h="' + h + '"' + (p ? " disabled" : "") + ">" + h + (p ? " · pris" : "") + "</button>"; }).join("");
+    document.querySelectorAll("[data-h]").forEach(function (b) { b.addEventListener("click", function () { choix.heure = b.dataset.h; heures(); }); });
+  }
+  document.querySelectorAll("[data-j]").forEach(function (b) { b.addEventListener("click", function () { document.querySelectorAll("[data-j]").forEach(function (x) { x.classList.toggle("on", x === b); }); choix.date = b.dataset.j; choix.heure = ""; heures(); }); });
+  f.addEventListener("submit", function (e) {
+    e.preventDefault(); var err = document.getElementById("err-rv");
+    if (!choix.date || !choix.heure) { err.textContent = "Choisissez un jour et une heure."; err.hidden = false; return; }
+    if (!f.nom.value.trim() || !f.tel.value.trim()) { err.textContent = "Indiquez votre nom et votre téléphone."; err.hidden = false; return; }
+    if (S.liste("rendezvous").some(function (r) { return r.date === choix.date && r.heure === choix.heure && r.statut !== "annule"; })) { err.textContent = "Ce créneau vient d’être pris : choisissez-en un autre."; err.hidden = false; heures(); return; }
+    var r = S.ajouter("rendezvous", { type: choix.type, date: choix.date, heure: choix.heure, nom: f.nom.value.trim(), entreprise: f.entreprise.value.trim(), telephone: f.tel.value.trim(), email: f.email.value.trim(), adresse: f.adresse.value.trim(), note: f.note.value.trim(), statut: "a_confirmer" }, "RDV-");
+    S.log("Rendez-vous demandé en ligne", r.nom + " · " + r.date + " " + r.heure);
+    err.hidden = true; var ok = document.getElementById("ok-rv"); ok.hidden = false;
+    ok.innerHTML = "<strong>✔ Demande de rendez-vous envoyée</strong><br>" + esc(choix.type) + " · " + new Date(choix.date + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }) + " à " + esc(choix.heure) + ". Un conseiller vous confirme rapidement par WhatsApp.";
+    f.querySelectorAll("button, input, textarea").forEach(function (x) { if (!ok.contains(x)) x.disabled = true; });
+  });
+})();
+</script>
+</body>
+</html>

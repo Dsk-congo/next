@@ -1,0 +1,608 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Espace étudiant – NextGenIT Academy</title>
+<meta name="description" content="Vos cours, vidéos, supports, quiz, notes et attestations NextGenIT Academy.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="etudiant">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="etu-app">
+  <aside class="etu-side" aria-label="Menu de l’espace étudiant">
+    <div class="etu-profil" id="etu-profil"></div>
+    <nav class="etu-nav" id="lms-tabs">
+      <button type="button" class="etu-lien" data-t="tableau" aria-selected="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z"/></svg><span>Tableau de bord</span><span class="nav-n" id="n-tableau" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="cours" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 016.5 17H20V3H6.5A2.5 2.5 0 004 5.5zM4 19.5A2.5 2.5 0 006.5 22H20v-5"/></svg><span>Mes cours</span><span class="nav-n" id="n-cours" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="quiz" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8M20 12v7H4V5h11"/></svg><span>Quiz et tests</span><span class="nav-n" id="n-quiz" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="devoirs" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z"/></svg><span>Devoirs et TP</span><span class="nav-n" id="n-devoirs" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="docs" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l5 5v15H6zM14 2v6h6"/></svg><span>Documents et vidéos</span><span class="nav-n" id="n-docs" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="pubs" id="tab-pubs" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v12H5.2L4 17.2zM8 8h8M8 12h5"/></svg><span>Annonces</span><span class="nav-n" id="n-pubs" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="notes" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></svg><span>Notes et présences</span><span class="nav-n" id="n-notes" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="attestation" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15a6 6 0 100-12 6 6 0 000 12zM8.2 13.9L7 23l5-3 5 3-1.2-9.1"/></svg><span>Attestation</span><span class="nav-n" id="n-attestation" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="compte" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg><span>Mon compte</span><span class="nav-n" id="n-compte" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="aide" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a10 10 0 100-20 10 10 0 000 20zM9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg><span>Aide (FAQ)</span><span class="nav-n" id="n-aide" hidden></span></button>
+    </nav>
+    <button type="button" class="etu-lien cli-nouveau" data-installer hidden><span>📲 Installer l’application</span></button>
+    <button type="button" class="etu-sortir" id="lms-sortir"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Se déconnecter</span></button>
+  </aside>
+  <div class="etu-main">
+    <section id="lms-hero" hidden></section>
+    <section id="t-tableau"></section>
+    <section id="t-cours" class="lms-layout" hidden></section>
+    <section id="t-quiz" hidden></section>
+    <section id="t-devoirs" hidden></section>
+    <section id="t-docs" hidden></section>
+    <section id="t-pubs" hidden></section>
+    <section id="t-notes" hidden></section>
+    <section id="t-attestation" hidden></section>
+    <section id="t-compte" hidden></section>
+    <section id="t-aide" hidden></section>
+  </div>
+</main>
+
+<button type="button" class="ia-btn" id="ia-btn" aria-expanded="false" aria-controls="ia-panneau"><span aria-hidden="true">🤖</span> Assistant IA</button>
+<aside class="ia-panneau" id="ia-panneau" aria-label="Assistant IA d’étude" hidden>
+  <header><div><strong>Assistant d’étude</strong><small>Il répond à partir de vos cours, de Wikipédia, de DuckDuckGo, de Google et des experts</small></div><button type="button" id="ia-fermer" aria-label="Fermer l’assistant">×</button></header>
+  <div class="ia-fil" id="ia-fil" aria-live="polite"></div>
+  <form id="ia-form"><textarea name="q" rows="2" placeholder="Posez votre question… ex. À quoi sert un VLAN ?" aria-label="Votre question"></textarea><button type="submit" aria-label="Envoyer">➤</button></form>
+</aside>
+
+<dialog class="modal" id="dlg-mdp" aria-labelledby="dlg-mdp-titre">
+  <form id="form-premier" novalidate>
+    <div class="modal-head"><h2 id="dlg-mdp-titre">Choisissez votre mot de passe</h2></div>
+    <div class="modal-body">
+      <p class="muted">Pour protéger votre compte, remplacez le mot de passe provisoire reçu par WhatsApp ou par email.</p>
+      <label class="field">Nouveau mot de passe<input name="mdp" type="password" minlength="8" required autocomplete="new-password"><small>8 caractères minimum, avec au moins un chiffre.</small></label>
+      <label class="field">Confirmer<input name="mdp2" type="password" required autocomplete="new-password"></label>
+      <p class="error-text" id="err-premier" hidden>Les deux mots de passe doivent être identiques, 8 caractères minimum avec un chiffre.</p>
+    </div>
+    <div class="modal-foot"><button class="btn btn-primary" type="submit">Enregistrer et commencer</button></div>
+  </form>
+</dialog>
+
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="photo.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, U = window.NGUtil, esc = U.esc;
+  var id = null;
+  try { id = sessionStorage.getItem("ng_etudiant"); } catch (e) {}
+  function moi() { return S.liste("comptes_etudiants").filter(function (x) { return x.id === id; })[0]; }
+  var e = moi();
+  if (!e || !e.actif) { location.replace("connexion.html?etudiant"); return; }
+  function formation() { return S.formations().filter(function (x) { return x.id === moi().formationId; })[0]; }
+  var f = formation();
+  if (!f) { document.getElementById("lms-hero").innerHTML = "<h1>Formation introuvable</h1><p>Contactez NextGenIT pour vérifier votre inscription.</p>"; return; }
+  function sha(t) { return crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)).then(function (b) { return Array.prototype.map.call(new Uint8Array(b), function (x) { return ("0" + x.toString(16)).slice(-2); }).join(""); }); }
+  var AUJ = new Date().toISOString().slice(0, 10);
+  function pourMoi(l) { return !l.cible || S.visiblePour(l.cible, moi()); }
+  function ouverte(l) { return !l.disponibleLe || l.disponibleLe <= AUJ; }
+  function lecons() { var out = []; (formation().modules || []).forEach(function (m, mi) { (m.lecons || []).forEach(function (l) { if (pourMoi(l) && ouverte(l)) out.push(Object.assign({ module: m.titre, mi: mi }, l)); }); }); return out; }
+  function stats() {
+    var x = moi(), fo = formation(), se = fo.seances || [], L = lecons();
+    var pres = se.length ? Math.round(se.filter(function (s) { return (s.presents || []).indexOf(x.id) > -1; }).length / se.length * 100) : null;
+    var notes = (fo.evaluations || []).map(function (ev) { return (x.notes || {})[ev.id]; }).filter(function (n) { return n !== undefined && n !== null && n !== ""; }).map(Number);
+    var quiz = Object.keys(x.quiz || {}).map(function (k) { return Number(x.quiz[k]); }), all = notes.length ? notes : quiz;
+    var moy = all.length ? Math.round(all.reduce(function (a, b) { return a + b; }, 0) / all.length) : null;
+    return { presence: pres, moyenne: moy, progression: L.length ? Math.round(L.filter(function (l) { return (x.lecons || {})[l.id]; }).length / L.length * 100) : 0, eligible: pres !== null && pres >= 80 && moy !== null && moy >= 50, faites: L.filter(function (l) { return (x.lecons || {})[l.id]; }).length, total: L.length };
+  }
+  var ABR = { video: "Vidéo", youtube: "Vidéo", pdf: "PDF", doc: "Document", texte: "Leçon", quiz: "Quiz", tp: "Travail pratique", lien: "Document en ligne" };
+  function badges() {
+    var x = moi(), st = stats(), qz = Object.keys(x.quiz || {}).map(function (k) { return x.quiz[k]; }), L = lecons();
+    var modOk = (formation().modules || []).some(function (m) { return (m.lecons || []).length && m.lecons.every(function (l) { return (x.lecons || {})[l.id]; }); });
+    return [
+      { ok: st.faites >= 1, ico: "1", nom: "Premier pas" },
+      { ok: qz.some(function (q) { return q >= 50; }), ico: "✓", nom: "Quiz réussi" },
+      { ok: qz.some(function (q) { return q === 100; }), ico: "★", nom: "Sans faute" },
+      { ok: modOk, ico: "M", nom: "Module terminé" },
+      { ok: Object.keys(x.rendus || {}).length > 0, ico: "TP", nom: "Premier TP rendu" },
+      { ok: st.presence !== null && st.presence >= 90, ico: "P", nom: "Assidu" },
+      { ok: L.length > 0 && st.faites === L.length, ico: "🏆", nom: "Parcours complet" }
+    ];
+  }
+
+  function initiales(n) { return esc(String(n || "").split(" ").map(function (m) { return m[0]; }).join("").slice(0, 2).toUpperCase()); }
+  function hero() {
+    var x = moi(), fo = formation(), st = stats();
+    document.getElementById("etu-profil").innerHTML = '<button type="button" class="cli-photo" id="etu-photo-btn" title="Ma photo">' + window.NGPhoto.avatar(x, 48) + '</button><div><strong>' + esc(x.nom) + "</strong><small>" + esc(fo.titre) + "</small><small>" + esc(x.modeSuivi || fo.mode || "") + '</small></div><div class="etu-mini"><div class="progress"><span style="width:' + st.progression + '%"></span></div><small>' + st.progression + " % du parcours</small></div>";
+    majCompteurs();
+    document.getElementById("etu-photo-btn").addEventListener("click", function () { ouvrirOnglet("compte"); });
+  }
+  function majCompteurs() {
+    var n = function (id, v) { var el = document.getElementById("n-" + id); if (!el) return; el.textContent = v || ""; el.hidden = !v; };
+    n("pubs", nonLues());
+    n("devoirs", aRendre().length);
+    n("quiz", lecons().filter(function (l) { return l.type === "quiz" && (moi().quiz || {})[l.id] == null; }).length);
+  }
+  document.getElementById("lms-sortir").addEventListener("click", function () { sessionStorage.removeItem("ng_etudiant"); location.href = "connexion.html?etudiant"; });
+
+  /* ---------- Cours ---------- */
+  var courante = null;
+  function cours() {
+    var fo = formation(), x = moi(), L = lecons();
+    if (!courante) courante = (x.derniereLecon && L.some(function (l) { return l.id === x.derniereLecon; })) ? x.derniereLecon : (L.filter(function (l) { return !(x.lecons || {})[l.id]; })[0] || L[0] || {}).id;
+    var box = document.getElementById("t-cours");
+    if (!L.length) { box.innerHTML = '<div class="card" style="grid-column:1/-1"><h2 style="font-size:1.3rem">Les cours arrivent bientôt</h2><p>Votre formateur ajoute les vidéos, supports et quiz. Vous serez prévenu dès qu’ils sont disponibles.</p></div>'; return; }
+    box.innerHTML = '<nav class="card lms-nav" aria-label="Modules du cours">' + (fo.modules || []).map(function (m, mi) {
+      return '<div class="lms-mod"><strong>Module ' + (mi + 1) + " · " + esc(m.titre) + "</strong>" + ((m.lecons || []).filter(pourMoi).map(function (l) { if (!ouverte(l)) return '<div class="lms-lecon verrou" aria-disabled="true"><span class="lms-check" aria-hidden="true">🔒</span><span>' + esc(l.titre) + "<small>Disponible le " + new Date(l.disponibleLe + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long" }) + "</small></span></div>"; var fait = (x.lecons || {})[l.id]; return '<button type="button" class="lms-lecon' + (l.id === courante ? " actif" : "") + '" data-l="' + l.id + '" aria-current="' + (l.id === courante) + '"><span class="lms-check' + (fait ? " ok" : "") + '" aria-hidden="true">' + (fait ? "✓" : "") + "</span><span>" + esc(l.titre) + "<small>" + ABR[l.type] + (l.type === "quiz" && (x.quiz || {})[l.id] != null ? " · " + x.quiz[l.id] + " %" : "") + "</small></span></button>"; }).join("") || '<small class="muted">À venir</small>') + "</div>";
+    }).join("") + '</nav><article class="card lms-view" id="lms-view" aria-live="polite"></article>';
+    box.querySelectorAll("[data-l]").forEach(function (b) { b.addEventListener("click", function () { courante = b.dataset.l; cours(); if (innerWidth < 900) document.getElementById("lms-view").scrollIntoView({ behavior: "smooth" }); }); });
+    afficher(L.filter(function (l) { return l.id === courante; })[0] || L[0]);
+  }
+  function embed(url) {
+    var m = url.match(/(?:youtu\.be\/|v=|embed\/)([\w-]{11})/);
+    if (m) return "https://www.youtube-nocookie.com/embed/" + m[1];
+    var v = url.match(/vimeo\.com\/(\d+)/);
+    if (v) return "https://player.vimeo.com/video/" + v[1];
+    return null;
+  }
+  function afficher(l) {
+    var view = document.getElementById("lms-view"), x = moi(), L = lecons(), i = L.map(function (a) { return a.id; }).indexOf(l.id), fait = (x.lecons || {})[l.id];
+    var nav = '<div class="lms-foot">' + (i > 0 ? '<button class="btn btn-ghost btn-sm" type="button" data-go="' + L[i - 1].id + '">← Précédente</button>' : "<span></span>") + (l.type !== "quiz" ? '<button class="btn ' + (fait ? "btn-ghost" : "btn-primary") + '" type="button" id="lms-fait">' + (fait ? "Leçon terminée ✓" : "Marquer comme terminée") + "</button>" : "") + (i < L.length - 1 ? '<button class="btn btn-ghost btn-sm" type="button" data-go="' + L[i + 1].id + '">Suivante →</button>' : "<span></span>") + "</div>";
+    var corps = "";
+    if (l.type === "texte") corps = '<div class="lms-texte">' + esc(l.contenu || "").split(/\n{2,}/).map(function (p) { return "<p>" + p.replace(/\n/g, "<br>") + "</p>"; }).join("") + "</div>";
+    if (l.type === "lien") {
+      var u0 = l.url || "", gd = u0.match(/drive\.google\.com\/file\/d\/([\w-]+)/), prev = gd ? "https://drive.google.com/file/d/" + gd[1] + "/preview" : /\.pdf(\?|$)/i.test(u0) ? u0 : null;
+      corps = (prev ? '<div class="lms-media" style="background:#fff"><iframe src="' + esc(prev) + '" title="' + esc(l.titre) + '" style="aspect-ratio:auto;height:70vh"></iframe></div>' : "") + '<p><a class="btn btn-primary" href="' + esc(u0) + '" target="_blank" rel="noopener">Ouvrir le document</a></p>';
+    }
+    if (l.type === "youtube") { var src = embed(l.url || ""); corps = src ? '<div class="lms-media"><iframe src="' + esc(src) + '" title="' + esc(l.titre) + '" allow="accelerometer; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>' : '<p><a class="btn btn-primary" href="' + esc(l.url) + '" target="_blank" rel="noopener">Ouvrir la vidéo</a></p>'; }
+    if (l.type === "video" || l.type === "pdf" || l.type === "doc") corps = '<div class="lms-media" id="lms-fichier"><p class="muted" style="padding:20px">Chargement du fichier…</p></div>';
+    if (l.type === "quiz") corps = quizHtml(l);
+    if (l.type === "examen") corps = examenHtml(l);
+    if (l.type === "tp") {
+      var rd = (x.rendus || {})[l.id];
+      corps = '<div class="lms-texte">' + esc(l.contenu || "").split(/\n{2,}/).map(function (p) { return "<p>" + p.replace(/\n/g, "<br>") + "</p>"; }).join("") + "</div>" +
+        (rd ? '<div class="notice">Travail rendu le ' + new Date(rd.date).toLocaleDateString("fr-FR") + " : <strong>" + esc(rd.nom) + "</strong>" + (rd.note != null ? "<br>Note : <strong>" + rd.note + " / 100</strong>" + (rd.commentaire ? "<br>Commentaire du formateur : " + esc(rd.commentaire) : "") : "<br>En attente de correction.") + "</div>" : "") +
+        '<form id="tp-form" class="stack" style="gap:10px"><label class="field">' + (rd ? "Remplacer mon travail" : "Déposer mon travail") + ' (configuration, script, rapport…)<input type="file" name="f" required></label><button class="btn btn-primary" type="submit" style="justify-self:start">Envoyer au formateur</button></form>';
+    }
+    view.innerHTML = '<span class="tag tag-accent" style="align-self:flex-start">Module ' + (l.mi + 1) + " · " + esc(l.module) + '</span><h2 style="font-size:1.5rem">' + esc(l.titre) + "</h2>" + corps + nav + qaHtml(l);
+    S.modifier("comptes_etudiants", x.id, { derniereLecon: l.id, derniereActivite: new Date().toISOString(), activite: activitePlus(x) });
+    view.classList.remove("in"); void view.offsetWidth; view.classList.add("in");
+    view.querySelectorAll("[data-go]").forEach(function (b) { b.addEventListener("click", function () { courante = b.dataset.go; cours(); }); });
+    var bf = view.querySelector("#lms-fait");
+    if (bf) bf.addEventListener("click", function () { var y = moi(), ls = Object.assign({}, y.lecons || {}); ls[l.id] = !ls[l.id]; S.modifier("comptes_etudiants", y.id, { lecons: ls }); hero(); cours(); });
+    if (l.type === "quiz") brancherQuiz(l);
+    var eg = document.getElementById("exam-go"); if (eg) eg.addEventListener("click", function () { demarrerExamen(l); });
+    brancherQa(l);
+    var tpf = view.querySelector("#tp-form");
+    if (tpf) tpf.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var fi = tpf.f.files[0]; if (!fi) return;
+      var y = moi(), cle = "rendu-" + y.id + "-" + l.id;
+      window.NGFichiers.enregistrer(cle, fi).then(function () {
+        var rs = Object.assign({}, y.rendus || {}); rs[l.id] = { nom: fi.name, taille: fi.size, date: new Date().toISOString(), cle: cle };
+        var ls = Object.assign({}, y.lecons || {}); ls[l.id] = true;
+        S.modifier("comptes_etudiants", y.id, { rendus: rs, lecons: ls });
+        S.log("TP rendu", y.nom + " · " + l.titre);
+        hero(); cours();
+      });
+    });
+    if (l.fichierCle && window.NGFichiers) {
+      window.NGFichiers.lire(l.fichierCle).then(function (blob) {
+        var zone = document.getElementById("lms-fichier"); if (!zone) return;
+        if (!blob) { zone.innerHTML = '<p class="notice" style="margin:0">Ce fichier n’est pas encore disponible sur cet appareil. Une fois le site relié à son stockage en ligne, il s’affichera ici.</p>'; return; }
+        var u = URL.createObjectURL(blob);
+        if (l.type === "video") zone.innerHTML = '<video controls preload="metadata" src="' + u + '"></video>';
+        else if (l.type === "pdf") zone.innerHTML = '<iframe src="' + u + '" title="' + esc(l.titre) + '"></iframe><p style="padding:10px 0 0"><a class="btn btn-ghost btn-sm" href="' + u + '" download="' + esc(l.fichierNom) + '">Télécharger le PDF</a></p>';
+        else zone.innerHTML = '<div style="padding:20px"><p>' + esc(l.fichierNom) + '</p><a class="btn btn-primary" href="' + u + '" download="' + esc(l.fichierNom) + '">Télécharger le document</a></div>';
+      }).catch(function () { var z = document.getElementById("lms-fichier"); if (z) z.innerHTML = '<p class="notice" style="margin:0">Fichier indisponible.</p>'; });
+    }
+  }
+  function melanger(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function quizHtml(l) {
+    var deja = (moi().quiz || {})[l.id];
+    return '<form id="quiz" class="stack" style="gap:16px">' + (deja != null ? '<p class="notice">Votre dernier résultat : <strong>' + deja + " %</strong>. Vous pouvez repasser le quiz.</p>" : '<p class="muted">' + (l.questions || []).length + " questions · réussite à partir de 50 %</p>") +
+      (l.questions || []).map(function (q, qi) { return '<fieldset class="quiz-q"><legend>' + (qi + 1) + ". " + esc(q.q) + "</legend>" + melanger(q.choix).map(function (c) { return '<label class="quiz-c"><input type="radio" name="q' + qi + '" value="' + esc(c) + '" required> <span>' + esc(c) + "</span></label>"; }).join("") + "</fieldset>"; }).join("") +
+      '<p class="error-text" id="quiz-err" hidden>Répondez à toutes les questions.</p><button class="btn btn-primary" type="submit" style="justify-self:start">Valider mes réponses</button><div id="quiz-res" aria-live="polite"></div></form>';
+  }
+  /* ---------- Examen chronométré : tirage au hasard, minuteur, envoi automatique ---------- */
+  var minuteur = null;
+  function examenHtml(l) {
+    var x = moi(), ex = (x.examens || {})[l.id], faits = ex ? ex.tentatives || 1 : 0, max = l.tentatives || 1, nbq = Math.min(l.nbQuestions || 20, (l.questions || []).length);
+    return '<div class="exam-intro"><div class="exam-infos"><span>⏱ <b>' + (l.duree || 30) + ' min</b></span><span>❓ <b>' + nbq + ' questions</b> tirées au hasard</span><span>🔁 <b>' + faits + " / " + max + "</b> tentative(s)</span></div>" +
+      (ex ? '<div class="quiz-score ' + (ex.score >= 50 ? "ok" : "ko") + '"><strong>' + ex.score + ' %</strong><span>Dernier résultat · ' + new Date(ex.date).toLocaleString("fr-FR") + "</span></div>" : "") +
+      (faits < max ? '<p>Le minuteur démarre dès que vous cliquez. Les réponses sont envoyées automatiquement à la fin du temps. Ne quittez pas la page.</p><button class="btn btn-primary" type="button" id="exam-go">▶ Commencer l’examen</button>' : '<p class="notice">Vous avez utilisé toutes vos tentatives. Contactez votre formateur si besoin.</p>') + '</div><div id="exam-zone"></div>';
+  }
+  function demarrerExamen(l) {
+    var qs = (l.questions || []).slice().sort(function () { return Math.random() - 0.5; }).slice(0, Math.min(l.nbQuestions || 20, (l.questions || []).length));
+    qs = qs.map(function (q) { return { q: q.q, bonne: q.bonne, choix: q.choix.slice().sort(function () { return Math.random() - 0.5; }) }; });
+    var fin = Date.now() + (l.duree || 30) * 60000, zone = document.getElementById("exam-zone");
+    document.querySelector(".exam-intro").hidden = true;
+    zone.innerHTML = '<div class="exam-barre"><strong>Examen en cours</strong><span class="exam-temps" id="exam-temps"></span></div><form id="exam-form">' + qs.map(function (q, i) { return '<fieldset class="quiz-q"><legend>' + (i + 1) + ". " + esc(q.q) + "</legend>" + q.choix.map(function (c) { return '<label class="quiz-c"><input type="radio" name="e' + i + '" value="' + esc(c) + '"> ' + esc(c) + "</label>"; }).join("") + "</fieldset>"; }).join("") + '<button class="btn btn-primary" type="submit">Terminer et envoyer</button></form>';
+    var envoyer = function (auto) {
+      clearInterval(minuteur); minuteur = null;
+      var f = document.getElementById("exam-form"), bonnes = 0;
+      qs.forEach(function (q, i) { var r = f.querySelector('[name="e' + i + '"]:checked'); if (r && r.value === q.bonne) bonnes++; });
+      var score = Math.round(bonnes / qs.length * 100), y = moi(), exs = Object.assign({}, y.examens || {}), old = exs[l.id];
+      exs[l.id] = { score: Math.max(score, old ? old.score : 0), dernier: score, date: new Date().toISOString(), tentatives: (old ? old.tentatives || 1 : 0) + 1, auto: !!auto };
+      var qz = Object.assign({}, y.quiz || {}); qz[l.id] = exs[l.id].score;
+      var ls = Object.assign({}, y.lecons || {}); if (score >= 50) ls[l.id] = true;
+      S.modifier("comptes_etudiants", y.id, { examens: exs, quiz: qz, lecons: ls, activite: activitePlus(y) });
+      S.log("Examen terminé" + (auto ? " (temps écoulé)" : ""), y.nom + " · " + l.titre + " · " + score + " %");
+      zone.innerHTML = '<div class="quiz-score ' + (score >= 50 ? "ok" : "ko") + '"><strong>' + score + " %</strong><span>" + bonnes + " bonne(s) réponse(s) sur " + qs.length + (auto ? " · temps écoulé, envoi automatique" : "") + "</span></div>";
+      hero();
+    };
+    document.getElementById("exam-form").addEventListener("submit", function (e) { e.preventDefault(); if (confirm("Envoyer vos réponses maintenant ?")) envoyer(false); });
+    var tic = function () { var r = Math.max(0, fin - Date.now()), m = Math.floor(r / 60000), sec = Math.floor(r % 60000 / 1000), el = document.getElementById("exam-temps"); if (!el) { clearInterval(minuteur); return; } el.textContent = "⏱ " + m + ":" + String(sec).padStart(2, "0"); el.classList.toggle("urgent", r < 60000); if (r <= 0) envoyer(true); };
+    tic(); minuteur = setInterval(tic, 1000);
+  }
+  function brancherQuiz(l) {
+    var form = document.getElementById("quiz");
+    form.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var qs = l.questions || [], bonnes = 0, manque = false;
+      qs.forEach(function (q, qi) {
+        var r = form.querySelector('[name="q' + qi + '"]:checked');
+        if (!r) { manque = true; return; }
+        var fs = form.querySelectorAll("fieldset")[qi];
+        fs.querySelectorAll(".quiz-c").forEach(function (lab) { var v = lab.querySelector("input").value; lab.classList.toggle("bon", v === q.bonne); lab.classList.toggle("faux", v === r.value && v !== q.bonne); });
+        if (r.value === q.bonne) bonnes++;
+      });
+      document.getElementById("quiz-err").hidden = !manque;
+      if (manque) return;
+      var score = Math.round(bonnes / qs.length * 100), y = moi();
+      var qz = Object.assign({}, y.quiz || {}); qz[l.id] = score;
+      var ls = Object.assign({}, y.lecons || {}); if (score >= 50) ls[l.id] = true;
+      S.modifier("comptes_etudiants", y.id, { quiz: qz, lecons: ls, activite: activitePlus(y) });
+      document.getElementById("quiz-res").innerHTML = '<div class="quiz-score ' + (score >= 50 ? "ok" : "ko") + '"><strong>' + score + " %</strong><span>" + bonnes + " bonne(s) réponse(s) sur " + qs.length + (score >= 50 ? " · quiz réussi" : " · révisez puis réessayez") + "</span></div>";
+      hero();
+      form.querySelector("button[type=submit]").textContent = "Repasser le quiz";
+      form.querySelector("button[type=submit]").onclick = function (ev2) { ev2.preventDefault(); cours(); };
+    });
+  }
+
+  function qaHtml(l) {
+    var Q = S.liste("questions").filter(function (q) { return q.leconId === l.id; });
+    return '<section class="qa" aria-label="Questions sur cette leçon"><strong>Questions et réponses (' + Q.length + ")</strong>" +
+      Q.map(function (q) { return '<div class="qa-item"><small>' + esc(q.auteur) + " · " + new Date(q.creeLe).toLocaleDateString("fr-FR") + "</small><div>" + esc(q.texte) + "</div>" + (q.reponse ? '<div class="rep"><small>Réponse de ' + esc(q.repondPar || "votre formateur") + "</small><div>" + esc(q.reponse) + "</div></div>" : '<small>En attente de réponse du formateur</small>') + "</div>"; }).join("") +
+      '<form id="qa-form" class="stack" style="gap:8px"><label class="field">Poser une question au formateur<textarea name="t" style="min-height:70px" placeholder="Votre question sur cette leçon…" required></textarea></label><button class="btn btn-ghost btn-sm" type="submit" style="justify-self:start">Envoyer la question</button></form></section>';
+  }
+  function brancherQa(l) {
+    var fq = document.getElementById("qa-form");
+    if (fq) fq.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      if (!fq.t.value.trim()) return;
+      var y = moi();
+      S.ajouter("questions", { formationId: y.formationId, leconId: l.id, lecon: l.titre, etudiantId: y.id, auteur: y.nom, texte: fq.t.value.trim() }, "Q-");
+      S.log("Question d’un étudiant", y.nom + " · " + l.titre);
+      afficher(l);
+    });
+  }
+
+  /* ---------- Notes et présences ---------- */
+  function notes() {
+    var x = moi(), fo = formation(), st = stats(), se = (fo.seances || []).slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+    var Lq = lecons().filter(function (l) { return l.type === "quiz"; });
+    document.getElementById("t-notes").innerHTML = '<div class="layout-2"><div class="card"><h2 style="font-size:1.3rem">Mes notes</h2><div class="stack">' +
+      ((fo.evaluations || []).map(function (ev) { var v = (x.notes || {})[ev.id]; return '<div class="row-item"><span>' + esc(ev.titre) + "</span><strong>" + (v == null || v === "" ? '<span class="muted">À venir</span>' : v + " / " + (ev.sur || 100)) + "</strong></div>"; }).join("") +
+      Lq.map(function (l) { var v = (x.quiz || {})[l.id]; return '<div class="row-item"><span>Quiz · ' + esc(l.titre) + "</span><strong>" + (v == null ? '<span class="muted">Non passé</span>' : v + " %") + "</strong></div>"; }).join("") || '<p class="muted">Aucune évaluation pour le moment.</p>') +
+      '</div><div class="row-item mt-2" style="background:var(--accent-soft);color:var(--accent-soft-text)"><span>Moyenne</span><strong>' + (st.moyenne === null ? "—" : st.moyenne + " / 100") + '</strong></div></div><div class="card"><h2 style="font-size:1.3rem">Mes présences</h2><div class="stack">' +
+      (se.map(function (s) { var p = (s.presents || []).indexOf(x.id) > -1; return '<div class="row-item"><span>' + new Date(s.date + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" }) + (s.titre ? " · " + esc(s.titre) : "") + '</span><span class="tag ' + (p ? "tag-ok" : "tag-warn") + '">' + (p ? "Présent" : "Absent") + "</span></div>"; }).join("") || '<p class="muted">Aucune séance enregistrée.</p>') +
+      '</div><div class="row-item mt-2" style="background:var(--accent-soft);color:var(--accent-soft-text)"><span>Taux de présence</span><strong>' + (st.presence === null ? "—" : st.presence + " %") + "</strong></div></div></div>";
+  }
+  function attestation() {
+    var x = moi(), fo = formation(), st = stats();
+    var ok = !!(x.attestationAutorisee || (x.attestation && x.attestationAutorisee !== false)), freq = !!x.frequentationAutorisee;
+    var L0 = lecons(), fini = fo.statut === "terminee" || (L0.length && L0.every(function (l) { return (x.lecons || {})[l.id]; }));
+    var carteFreq = '<div class="card doc-carte"><span class="doc-ic">📋</span><h3>Fiche de fréquentation</h3><p class="muted">Vos présences, votre progression et vos notes, signées par NextGenIT.</p>' + (freq ? '<span class="tag tag-ok" style="align-self:flex-start">✔ Disponible</span><a class="btn btn-primary" href="document.html?type=frequentation&eid=' + x.id + '" target="_blank" rel="noopener">Télécharger</a>' : '<span class="tag tag-muted" style="align-self:flex-start">⏳ Disponible après validation par NextGenIT</span>') + "</div>";
+    var carteAtt = '<div class="card doc-carte"><span class="doc-ic">🎓</span><h3>Attestation de formation</h3>' +
+      (ok ? '<p class="muted">Présence ' + st.presence + " %, moyenne " + st.moyenne + '/100. Signée, scellée et vérifiable par QR code.</p><span class="tag tag-ok" style="align-self:flex-start">✔ Autorisée</span><a class="btn btn-primary" href="document.html?type=attestation&eid=' + x.id + '" target="_blank" rel="noopener">Télécharger mon attestation</a>' + (function () { var d = new Date(x.attestationLe || Date.now()), verif = location.href.split("/etudiant.html")[0] + "/verification.html?code=" + encodeURIComponent(x.attestation || ""); return '<a class="btn btn-linkedin" target="_blank" rel="noopener" href="https://www.linkedin.com/profile/add?startTask=CERTIFICATION_NAME&name=' + encodeURIComponent(fo.titre) + "&organizationName=" + encodeURIComponent("NextGenIT Academy") + "&issueYear=" + d.getFullYear() + "&issueMonth=" + (d.getMonth() + 1) + "&certUrl=" + encodeURIComponent(verif) + "&certId=" + encodeURIComponent(x.attestation || "") + '">in Ajouter à mon profil LinkedIn</a><a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(verif) + '">Partager ma réussite</a>'; })()
+        : st.eligible && fini ? '<p class="muted">Bravo, vous avez terminé et vous remplissez les conditions.</p><span class="tag tag-accent" style="align-self:flex-start">⏳ En validation par NextGenIT</span>'
+        : '<p class="muted">Délivrée à la fin de la formation avec 80 % de présence et 50/100 de moyenne.</p><div class="stack"><div class="row-item"><span>Présence</span><strong>' + (st.presence === null ? "—" : st.presence + " %") + ' / 80 %</strong></div><div class="row-item"><span>Moyenne</span><strong>' + (st.moyenne === null ? "—" : st.moyenne + " / 100") + ' / 50</strong></div><div class="row-item"><span>Fin de la formation</span><strong>' + new Date(fo.fin + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) + "</strong></div></div>") + "</div>";
+    document.getElementById("t-attestation").innerHTML = '<div class="etu-titre"><h1>Mes documents officiels</h1><p class="muted">Ils apparaissent ici dès que NextGenIT les autorise.</p></div><div class="etu-cartes" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))">' + carteAtt + carteFreq + "</div>";
+  }
+
+  function compte() {
+    var x = moi();
+    document.getElementById("t-compte").innerHTML = '<div class="etu-titre"><h1>Mon compte</h1></div><div class="card cli-photo-carte" style="margin:14px 0"><div class="cli-grande">' + window.NGPhoto.avatar(x, 132) + '</div><div class="hero-actions" style="justify-content:center"><label class="btn btn-primary btn-sm" style="cursor:pointer">📷 ' + (x.photo ? "Changer la photo" : "Ajouter une photo") + '<input type="file" accept="image/*" id="etu-photo-in" class="sr-only"></label>' + (x.photo ? '<button class="btn btn-ghost btn-sm" type="button" id="etu-photo-adj">✂ Ajuster</button><button class="btn btn-ghost btn-sm" type="button" id="etu-photo-sup">Retirer</button>' : "") + '</div><p class="muted" style="font-size:.85rem">Votre photo apparaît dans votre espace, sur la liste du formateur et sur votre fiche.</p></div><div class="layout-2"><div class="card"><h2 style="font-size:1.3rem">Mes informations</h2><div class="row-item"><span class="muted">Nom</span><strong>' + esc(x.nom) + '</strong></div><div class="row-item"><span class="muted">Identifiant</span><strong>' + esc(x.identifiant) + '</strong></div><div class="row-item"><span class="muted">Téléphone</span><strong>' + esc(x.telephone || "—") + '</strong></div><div class="row-item"><span class="muted">Email</span><strong>' + esc(x.email || "—") + '</strong></div><p class="muted" style="font-size:.9rem">Pour corriger une information, écrivez à NextGenIT.</p></div>' +
+      '<form class="card" id="form-mdp" novalidate><h2 style="font-size:1.3rem">Changer mon mot de passe</h2><label class="field">Mot de passe actuel<input name="actuel" type="password" required autocomplete="current-password"></label><label class="field">Nouveau mot de passe<input name="mdp" type="password" minlength="8" required autocomplete="new-password"></label><label class="field">Confirmer<input name="mdp2" type="password" required autocomplete="new-password"></label><p class="error-text" id="err-mdp" hidden></p><button class="btn btn-primary" type="submit" style="align-self:flex-start">Changer le mot de passe</button></form></div>';
+    var majPhoto = function (u) { if (u === null) return; S.modifier("comptes_etudiants", x.id, { photo: u }); S.log("Photo de profil étudiant", x.nom); hero(); compte(); };
+    var pin = document.getElementById("etu-photo-in");
+    pin.addEventListener("change", function () { var fi = pin.files[0]; if (fi) window.NGPhoto.recadrer(fi).then(majPhoto); });
+    var pa = document.getElementById("etu-photo-adj"); if (pa) pa.addEventListener("click", function () { window.NGPhoto.recadrer(x.photo).then(majPhoto); });
+    var ps = document.getElementById("etu-photo-sup"); if (ps) ps.addEventListener("click", function () { majPhoto(""); });
+    var fm = document.getElementById("form-mdp");
+    fm.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var err = document.getElementById("err-mdp"), y = moi();
+      if (fm.mdp.value.length < 8 || !/\d/.test(fm.mdp.value) || fm.mdp.value !== fm.mdp2.value) { err.textContent = "8 caractères minimum avec un chiffre, identiques dans les deux champs."; err.hidden = false; return; }
+      sha(y.identifiant.toLowerCase() + ":" + fm.actuel.value).then(function (h) {
+        if (h !== y.hash) { err.textContent = "Mot de passe actuel incorrect."; err.hidden = false; return; }
+        sha(y.identifiant.toLowerCase() + ":" + fm.mdp.value).then(function (h2) { S.modifier("comptes_etudiants", y.id, { hash: h2, doitChanger: false }); err.hidden = true; fm.reset(); fm.insertAdjacentHTML("beforeend", '<p class="notice">Mot de passe changé.</p>'); });
+      });
+    });
+  }
+
+  function aide() {
+    var Q = (window.NG_CONTENU.faqEtudiant || []);
+    document.getElementById("t-aide").innerHTML = '<div class="layout-2"><div class="faq">' + Q.map(function (x) { return "<details><summary>" + esc(x.q) + "</summary><p>" + esc(x.r) + "</p></details>"; }).join("") + '</div><aside class="card"><h2 style="font-size:1.15rem">Besoin d’aide pendant vos cours ?</h2><p>L’assistant IA cherche la réponse dans vos leçons et ouvre Google, YouTube ou Wikipédia avec la bonne recherche.</p><button class="btn btn-primary" type="button" id="aide-ia">🤖 Ouvrir l’assistant IA</button><a class="btn btn-whatsapp" href="https://wa.me/' + esc(window.NG_CONTENU.entreprise.whatsapp) + '" target="_blank" rel="noopener">Contacter NextGenIT</a></aside></div>';
+    document.getElementById("aide-ia").addEventListener("click", function () { ouvrirIA(true); });
+  }
+
+  /* ---------- Assistant IA d'étude ----------
+     1) cherche la réponse dans les leçons, quiz et FAQ de la formation ;
+     2) prépare des recherches ciblées (Google, YouTube, Wikipédia, Google Scholar…) ;
+     3) si un service d'IA est configuré (window.NG_IA_URL), il rédige une réponse. */
+  var iaBtn = document.getElementById("ia-btn"), iaP = document.getElementById("ia-panneau"), iaFil = document.getElementById("ia-fil"), iaF = document.getElementById("ia-form");
+  function ouvrirIA(o) { iaP.hidden = !o; iaBtn.setAttribute("aria-expanded", String(o)); if (o) { if (!iaFil.children.length) bulle("ia", "Bonjour " + esc(moi().nom.split(" ")[0]) + " 👋<br>Posez-moi une question sur « " + esc(formation().titre) + " ». Je cherche la réponse dans vos cours, sur Wikipédia et chez les experts en réseaux et sécurité, puis je vous la résume ici."); iaF.q.focus(); } }
+  iaBtn.addEventListener("click", function () { ouvrirIA(iaP.hidden); });
+  document.getElementById("ia-fermer").addEventListener("click", function () { ouvrirIA(false); iaBtn.focus(); });
+  function bulle(qui, html) { var d = document.createElement("div"); d.className = "ia-bulle " + qui; d.innerHTML = html; iaFil.appendChild(d); iaFil.scrollTop = iaFil.scrollHeight; return d; }
+  var VIDES = "le la les un une des de du d l et ou a à au aux en est que qui quoi quel quelle quels comment pourquoi ce cet cette ces pour par sur dans avec sans se sa son ses mon ma mes il elle on je tu nous vous ils elles ne pas plus moins c qu y faire fait sont être avoir".split(" ");
+  function mots(t) { return String(t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(/[^a-z0-9]+/).filter(function (m) { return m.length > 1 && VIDES.indexOf(m) < 0; }); }
+  function chercherDansCours(q) {
+    var cles = mots(q), res = [];
+    if (!cles.length) return res;
+    var sources = [];
+    lecons().forEach(function (l) {
+      if (l.contenu) l.contenu.split(/\n+/).forEach(function (p) { if (p.trim()) sources.push({ txt: p.trim(), ou: "Leçon « " + l.titre + " »", id: l.id }); });
+      sources.push({ txt: l.titre, ou: "Module « " + l.module + " »", id: l.id });
+      (l.questions || []).forEach(function (x) { sources.push({ txt: x.q + " → " + x.bonne, ou: "Quiz « " + l.titre + " »", id: l.id }); });
+    });
+    (window.NG_CONTENU.faqEtudiant || []).forEach(function (x) { sources.push({ txt: x.q + " " + x.r, ou: "FAQ" }); });
+    sources.forEach(function (s0) { var m = mots(s0.txt), sc = cles.filter(function (c) { return m.some(function (x) { return x === c || (c.length > 3 && x.indexOf(c) === 0); }); }).length; if (sc) res.push(Object.assign({ score: sc / cles.length }, s0)); });
+    return res.sort(function (a, b) { return b.score - a.score; }).slice(0, 3);
+  }
+  function liens(q) {
+    var t = encodeURIComponent(q + " " + formation().titre.replace(/\(.*?\)/g, "")), brut = encodeURIComponent(q);
+    return '<div class="ia-liens">' +
+      '<a href="https://www.google.com/search?q=' + t + '" target="_blank" rel="noopener">🔎 Google</a>' +
+      '<a href="https://www.youtube.com/results?search_query=' + t + '" target="_blank" rel="noopener">▶ YouTube (tutoriels)</a>' +
+      '<a href="https://fr.wikipedia.org/w/index.php?search=' + brut + '" target="_blank" rel="noopener">📘 Wikipédia</a>' +
+      '<a href="https://scholar.google.com/scholar?q=' + brut + '" target="_blank" rel="noopener">🎓 Google Scholar</a>' +
+      '<a href="https://www.perplexity.ai/search?q=' + t + '" target="_blank" rel="noopener">✨ Perplexity (IA)</a>' +
+      '<a href="https://chatgpt.com/?q=' + t + '" target="_blank" rel="noopener">💬 ChatGPT</a></div>';
+  }
+  iaF.q.addEventListener("keydown", function (e) { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); iaF.requestSubmit ? iaF.requestSubmit() : iaF.dispatchEvent(new Event("submit")); } });
+  /* Recherche en ligne (sans clé, depuis le navigateur) : Wikipédia (FR puis EN) et les sites d'experts Stack Exchange */
+  function delai(p, ms) { return Promise.race([p, new Promise(function (_, rej) { setTimeout(function () { rej(new Error("délai")); }, ms); })]); }
+  function texteBrut(html) { var d = document.createElement("div"); d.innerHTML = html; d.querySelectorAll("pre, code").forEach(function (c) { c.textContent = " " + c.textContent + " "; }); return (d.textContent || "").replace(/\s+/g, " ").trim(); }
+  function phrasesUtiles(texte, q, n) {
+    var cles = mots(q), ph = texte.replace(/\s+/g, " ").match(/[^.!?]+[.!?]+/g) || [texte];
+    var notees = ph.map(function (p, i) { var m = mots(p); return { p: p.trim(), i: i, sc: cles.filter(function (c) { return m.some(function (x) { return x === c || (c.length > 3 && x.indexOf(c.slice(0, 5)) === 0); }); }).length + (i === 0 ? 0.5 : 0) }; });
+    return notees.sort(function (a, b) { return b.sc - a.sc || a.i - b.i; }).slice(0, n).sort(function (a, b) { return a.i - b.i; }).map(function (x) { return x.p; }).join(" ");
+  }
+  function wikipedia(q, langue) {
+    var base = "https://" + langue + ".wikipedia.org/w/api.php?origin=*&format=json&";
+    var requete = mots(q).join(" ") || q;
+    return delai(fetch(base + "action=query&list=search&srlimit=3&srsearch=" + encodeURIComponent(requete)).then(function (r) { return r.json(); }), 6000)
+      .then(function (d) {
+        var hits = ((d.query || {}).search || []); if (!hits.length) return null;
+        var titre = hits[0].title;
+        return delai(fetch(base + "action=query&prop=extracts&explaintext=1&exsectionformat=plain&exchars=2600&redirects=1&titles=" + encodeURIComponent(titre)).then(function (r) { return r.json(); }), 6000)
+          .then(function (d2) { var pages = (d2.query || {}).pages || {}, p = pages[Object.keys(pages)[0]] || {}; if (!p.extract) return null; return { titre: p.title || titre, texte: phrasesUtiles(p.extract, q, 4), url: "https://" + langue + ".wikipedia.org/wiki/" + encodeURIComponent((p.title || titre).replace(/ /g, "_")), langue: langue }; });
+      }).catch(function () { return null; });
+  }
+  function expertsSE(q) {
+    var sites = ["networkengineering", "superuser", "serverfault", "security"], requete = mots(q).join(" ");
+    if (!requete) return Promise.resolve(null);
+    var essai = function (k) {
+      if (k >= sites.length) return Promise.resolve(null);
+      return delai(fetch("https://api.stackexchange.com/2.3/search/advanced?order=desc&sort=relevance&accepted=True&pagesize=1&site=" + sites[k] + "&q=" + encodeURIComponent(requete)).then(function (r) { return r.json(); }), 6000)
+        .then(function (d) {
+          var it = (d.items || [])[0]; if (!it || !it.accepted_answer_id) return essai(k + 1);
+          return delai(fetch("https://api.stackexchange.com/2.3/answers/" + it.accepted_answer_id + "?site=" + sites[k] + "&filter=withbody").then(function (r) { return r.json(); }), 6000)
+            .then(function (a) { var b = ((a.items || [])[0] || {}).body; if (!b) return null; var t = texteBrut(b); return { titre: texteBrut(it.title), texte: t.length > 600 ? t.slice(0, 600) + "…" : t, url: it.link, site: sites[k] }; });
+        }).catch(function () { return essai(k + 1); });
+    };
+    return essai(0);
+  }
+  /* DuckDuckGo (réponses instantanées, sans clé, par JSONP) */
+  function duckduckgo(q) {
+    return delai(new Promise(function (ok) {
+      var nom = "ngddg" + Date.now(), sc = document.createElement("script");
+      window[nom] = function (d) { ok(d); delete window[nom]; sc.remove(); };
+      sc.onerror = function () { ok(null); sc.remove(); };
+      sc.src = "https://api.duckduckgo.com/?format=json&no_html=1&skip_disambig=1&t=nextgenit&callback=" + nom + "&q=" + encodeURIComponent(q);
+      document.head.appendChild(sc);
+    }), 6000).then(function (d) {
+      if (!d) return null;
+      var t = d.Answer || d.AbstractText || d.Definition || ((d.RelatedTopics || []).filter(function (x) { return x.Text; })[0] || {}).Text;
+      if (!t) return null;
+      return { texte: phrasesUtiles(texteBrut(String(t)), q, 3), url: d.AbstractURL || d.DefinitionURL || "https://duckduckgo.com/?q=" + encodeURIComponent(q), source: d.AbstractSource || "DuckDuckGo" };
+    }).catch(function () { return null; });
+  }
+  /* Google (si une clé « Programmable Search » est renseignée dans firebase-config.js : window.NG_GOOGLE) */
+  function google(q) {
+    var G = window.NG_GOOGLE || {};
+    if (!G.cle || !G.cx) return Promise.resolve(null);
+    return delai(fetch("https://www.googleapis.com/customsearch/v1?num=4&lr=lang_fr&key=" + encodeURIComponent(G.cle) + "&cx=" + encodeURIComponent(G.cx) + "&q=" + encodeURIComponent(q)).then(function (r) { return r.json(); }), 7000)
+      .then(function (d) { var it = (d.items || []).slice(0, 3); if (!it.length) return null; return { texte: phrasesUtiles(it.map(function (x) { return (x.snippet || "").replace(/\s+/g, " "); }).join(" "), q, 4), sources: it.map(function (x) { return { titre: x.title, url: x.link }; }) }; })
+      .catch(function () { return null; });
+  }
+  iaF.addEventListener("submit", function (ev) {
+    ev.preventDefault();
+    var q = iaF.q.value.trim(); if (!q) return;
+    iaF.q.value = "";
+    bulle("moi", esc(q));
+    var R0 = chercherDansCours(q);
+    var att = bulle("ia", '<span class="ia-cherche"><i></i><i></i><i></i> Je cherche dans vos cours, sur Wikipédia, DuckDuckGo' + (window.NG_GOOGLE && window.NG_GOOGLE.cle ? ", Google" : "") + " et chez les experts…</span>");
+    var y0 = moi(); S.modifier("comptes_etudiants", y0.id, { questionsIA: (y0.questionsIA || []).concat([{ q: q, date: new Date().toISOString() }]).slice(-50), activite: activitePlus(y0) });
+    var ia = window.NG_IA_URL ? delai(fetch(window.NG_IA_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: q, formation: formation().titre, extraits: R0.map(function (r) { return r.txt; }) }) }).then(function (r) { return r.json(); }), 20000).catch(function () { return null; }) : Promise.resolve(null);
+    Promise.all([wikipedia(q, "fr").then(function (w) { return w || wikipedia(q, "en"); }), expertsSE(q), ia, duckduckgo(q), google(q)]).then(function (res) {
+      var w = res[0], se = res[1], gen = res[2], dd = res[3], gg = res[4], parts = [], sources = [];
+      if (gen && (gen.reponse || gen.answer)) parts.push('<div class="ia-rep"><b>Réponse</b><p style="white-space:pre-line">' + esc(gen.reponse || gen.answer) + "</p></div>");
+      if (R0.length) parts.push('<div class="ia-rep"><b>📘 D’après votre cours</b>' + R0.slice(0, 2).map(function (r) { return "<p>" + esc(r.txt.length > 300 ? r.txt.slice(0, 300) + "…" : r.txt) + ' <button type="button" class="lien-btn" data-lecon="' + (r.id || "") + '">(' + esc(r.ou) + ")</button></p>"; }).join("") + "</div>");
+      if (gg) { parts.push('<div class="ia-rep"><b>🔎 D’après le web (Google)</b><p>' + esc(gg.texte) + "</p></div>"); gg.sources.forEach(function (x) { sources.push('<a href="' + esc(x.url) + '" target="_blank" rel="noopener">' + esc(x.titre.length > 40 ? x.titre.slice(0, 40) + "…" : x.titre) + "</a>"); }); }
+      if (dd && (!w || dd.texte.slice(0, 60) !== w.texte.slice(0, 60))) { parts.push('<div class="ia-rep"><b>🦆 Réponse rapide (DuckDuckGo)</b><p>' + esc(dd.texte) + "</p></div>"); sources.push('<a href="' + esc(dd.url) + '" target="_blank" rel="noopener">DuckDuckGo · ' + esc(dd.source) + "</a>"); }
+      if (w) { parts.push('<div class="ia-rep"><b>🌐 Explication' + (w.langue === "en" ? " (source en anglais)" : "") + "</b><p>" + esc(w.texte) + "</p></div>"); sources.push('<a href="' + esc(w.url) + '" target="_blank" rel="noopener">Wikipédia · ' + esc(w.titre) + "</a>"); }
+      if (se) { parts.push('<div class="ia-rep"><b>💬 Réponse d’un expert (en anglais)</b><p class="muted" style="font-size:.85rem">' + esc(se.titre) + "</p><p>" + esc(se.texte) + "</p></div>"); sources.push('<a href="' + esc(se.url) + '" target="_blank" rel="noopener">Stack Exchange · ' + esc(se.site) + "</a>"); }
+      if (!parts.length) parts.push("<p>Je n’ai pas trouvé de réponse fiable à cette question. Reformulez-la avec des mots-clés (ex. « VLAN », « masque /24 », « pare-feu FortiGate ») ou posez-la à votre formateur.</p>");
+      att.innerHTML = parts.join("") + (sources.length ? '<div class="ia-sources">Sources : ' + sources.join(" · ") + "</div>" : "") + '<button type="button" class="lien-btn" data-formateur>✉ Poser aussi la question au formateur</button>';
+      att.querySelectorAll("[data-lecon]").forEach(function (x) { x.addEventListener("click", function () { if (x.dataset.lecon) { courante = x.dataset.lecon; ouvrirOnglet("cours"); } }); });
+      att.querySelector("[data-formateur]").addEventListener("click", function () {
+        var y = moi(), l = lecons().filter(function (z) { return z.id === courante; })[0] || lecons()[0] || { id: "", titre: "Général" };
+        S.ajouter("questions", { formationId: y.formationId, leconId: l.id, lecon: l.titre, etudiantId: y.id, auteur: y.nom, texte: q }, "Q-");
+        S.log("Question d’un étudiant (assistant IA)", y.nom + " · " + q.slice(0, 60));
+        this.replaceWith(Object.assign(document.createElement("span"), { textContent: "✔ Question envoyée au formateur." }));
+      });
+      iaFil.scrollTop = iaFil.scrollHeight;
+    });
+  });
+
+  /* ---------- Annonces, cours, documents, vidéos et devoirs publiés pour cet étudiant ---------- */
+  var ICO_P = { annonce: "📢", cours: "📘", document: "📄", video: "▶", devoir: "📝" };
+  function mesPubs() { return S.liste("publications").filter(function (p) { return (!p.publierLe || p.publierLe <= AUJ) && S.visiblePour(p.cible, moi()); }).sort(function (a, b) { return (b.epingle ? 1 : 0) - (a.epingle ? 1 : 0) || (a.creeLe < b.creeLe ? 1 : -1); }); }
+  function nonLues() { var v = moi().vus || {}; return mesPubs().filter(function (p) { return !v[p.id]; }).length; }
+  function majOngletPubs() { majCompteurs(); }
+  function pubs() {
+    var P = mesPubs(), x = moi(), box = document.getElementById("t-pubs");
+    if (!P.length) { box.innerHTML = '<div class="card"><h2 style="font-size:1.3rem">Rien de nouveau pour le moment</h2><p>Les annonces, supports, vidéos et devoirs de vos formateurs apparaîtront ici.</p></div>'; return; }
+    box.innerHTML = '<div class="stack" style="gap:16px">' + P.map(function (p) {
+      var neuf = !(x.vus || {})[p.id], d = (x.devoirs || {})[p.id], src = p.lien ? embed(p.lien) : null, retard = p.dateLimite && p.dateLimite < AUJ;
+      return '<article class="card pub" data-p="' + p.id + '"><div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center"><span class="tag tag-accent">' + (ICO_P[p.type] || "") + " " + esc({ annonce: "Annonce", cours: "Cours", document: "Document", video: "Vidéo", devoir: "Devoir" }[p.type] || p.type) + "</span>" + (p.epingle ? '<span class="tag tag-warn">📌 Épinglé</span>' : "") + (neuf ? '<span class="tag tag-ok">Nouveau</span>' : "") + '<small class="muted" style="margin-left:auto">' + esc(p.auteur || "NextGenIT") + " · " + new Date(p.creeLe).toLocaleDateString("fr-FR") + "</small></div>" +
+        '<h2 style="font-size:1.3rem">' + esc(p.titre) + "</h2>" + (p.texte ? '<div class="lms-texte">' + esc(p.texte).split(/\n{2,}/).map(function (t) { return "<p>" + t.replace(/\n/g, "<br>") + "</p>"; }).join("") + "</div>" : "") +
+        (src ? '<div class="lms-media"><iframe src="' + esc(src) + '" title="' + esc(p.titre) + '" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe></div>' : p.lien ? '<a class="btn btn-primary" href="' + esc(p.lien) + '" target="_blank" rel="noopener" style="align-self:flex-start">Ouvrir le ' + (p.type === "document" ? "document" : "lien") + "</a>" : "") +
+        (p.fichierCle ? '<button class="btn btn-primary" type="button" data-pub-fic="' + p.id + '" style="align-self:flex-start">📎 Ouvrir ' + esc(p.fichierNom || "le fichier") + "</button>" : "") +
+        (p.type === "devoir" ? '<div class="notice"' + (retard && !d ? ' style="background:var(--warn-soft);color:var(--warn)"' : "") + ">" + (p.dateLimite ? "À rendre avant le <strong>" + new Date(p.dateLimite + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }) + "</strong>. " : "") + (d ? "✔ Rendu le " + new Date(d.date).toLocaleDateString("fr-FR") + " : " + esc(d.nom) + (d.note != null ? " · Note : <strong>" + d.note + "/100</strong>" : " · en attente de correction") : retard ? "La date limite est dépassée : rendez-le vite." : "Pas encore rendu.") + "</div>" +
+          '<form class="dev-form" data-dev><label class="field">' + (d ? "Remplacer mon travail" : "Déposer mon travail") + '<input type="file" name="f" required></label><button class="btn btn-primary btn-sm" type="submit" style="justify-self:start">Envoyer</button></form>' : "") + "</article>";
+    }).join("") + "</div>";
+    var v = Object.assign({}, x.vus || {}), maj = false;
+    P.forEach(function (p) { if (!v[p.id]) { v[p.id] = new Date().toISOString(); maj = true; } });
+    if (maj) S.modifier("comptes_etudiants", x.id, { vus: v });
+    majOngletPubs();
+    box.querySelectorAll("[data-pub-fic]").forEach(function (b) { b.addEventListener("click", function () { var p = P.filter(function (x) { return x.id === b.dataset.pubFic; })[0]; window.NGFichiers.ouvrir(p.fichierCle, p.fichierNom); }); });
+    box.querySelectorAll("[data-dev]").forEach(function (fm) {
+      fm.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var fi = fm.f.files[0], pid = fm.closest("[data-p]").dataset.p, y = moi(); if (!fi) return;
+        var cle = "devoir-" + y.id + "-" + pid;
+        window.NGFichiers.enregistrer(cle, fi).then(function () {
+          var dv = Object.assign({}, y.devoirs || {}); dv[pid] = { nom: fi.name, taille: fi.size, date: new Date().toISOString(), cle: cle };
+          S.modifier("comptes_etudiants", y.id, { devoirs: dv }); S.log("Devoir rendu", y.nom + " · " + pid); pubs();
+        });
+      });
+    });
+  }
+
+  /* ---------- Activité, graphiques, tableau de bord ---------- */
+  function activitePlus(x) { var a = Object.assign({}, x.activite || {}), j = new Date().toISOString().slice(0, 10); a[j] = (a[j] || 0) + 1; Object.keys(a).sort().slice(0, -60).forEach(function (k) { delete a[k]; }); return a; }
+  function anneau(pc, centre, couleur) {
+    var r = 52, c = 2 * Math.PI * r, v = Math.max(0, Math.min(100, pc || 0));
+    return '<svg class="g-anneau" viewBox="0 0 130 130" role="img" aria-label="' + esc(centre) + '"><circle cx="65" cy="65" r="' + r + '" fill="none" stroke="var(--line)" stroke-width="13"/><circle cx="65" cy="65" r="' + r + '" fill="none" stroke="' + (couleur || "var(--accent)") + '" stroke-width="13" stroke-linecap="round" stroke-dasharray="' + (c * v / 100).toFixed(1) + " " + c.toFixed(1) + '" transform="rotate(-90 65 65)"/><text x="65" y="62" text-anchor="middle" class="g-val">' + Math.round(v) + ' %</text><text x="65" y="82" text-anchor="middle" class="g-lbl">' + esc(centre) + "</text></svg>";
+  }
+  function barres(items, max, suffixe) {
+    if (!items.length) return '<p class="muted">Pas encore de données.</p>';
+    max = max || Math.max.apply(null, items.map(function (i) { return i.val; }).concat([1]));
+    return '<div class="g-barres">' + items.map(function (i) { var h = Math.max(3, Math.round(i.val / max * 100)); return '<div class="g-col" title="' + esc(i.label + " : " + i.val + (suffixe || "")) + '"><span class="g-v">' + i.val + (suffixe || "") + '</span><span class="g-b" style="height:' + h + "%;" + (i.couleur ? "background:" + i.couleur : "") + '"></span><span class="g-l">' + esc(i.court || i.label) + "</span></div>"; }).join("") + "</div>";
+  }
+  function aRendre() {
+    var x = moi(), out = [];
+    mesPubs().filter(function (p) { return p.type === "devoir" && !(x.devoirs || {})[p.id]; }).forEach(function (p) { out.push({ titre: p.titre, date: p.dateLimite, ou: "pubs", id: p.id }); });
+    lecons().filter(function (l) { return l.type === "tp" && !(x.rendus || {})[l.id]; }).forEach(function (l) { out.push({ titre: l.titre, date: "", ou: "cours", id: l.id }); });
+    return out;
+  }
+  function tableau() {
+    var x = moi(), fo = formation(), st = stats(), L = lecons(), qz = L.filter(function (l) { return l.type === "quiz"; });
+    var notesEv = (fo.evaluations || []).map(function (ev) { var v = (x.notes || {})[ev.id]; return v == null || v === "" ? null : { label: ev.titre, court: ev.titre.slice(0, 10), val: Number(v), couleur: Number(v) >= 50 ? "var(--ok)" : "var(--danger)" }; }).filter(Boolean)
+      .concat(qz.filter(function (l) { return (x.quiz || {})[l.id] != null; }).map(function (l) { var v = x.quiz[l.id]; return { label: "Quiz : " + l.titre, court: "Quiz " + (l.titre.length > 8 ? l.titre.slice(0, 8) + "…" : l.titre), val: v, couleur: v >= 50 ? "var(--accent)" : "var(--danger)" }; }));
+    var jours = []; for (var i = 13; i >= 0; i--) { var d = new Date(Date.now() - i * 864e5), k = d.toISOString().slice(0, 10); jours.push({ label: d.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }), court: d.toLocaleDateString("fr-FR", { day: "2-digit" }), val: (x.activite || {})[k] || 0 }); }
+    var suivante = L.filter(function (l) { return !(x.lecons || {})[l.id]; })[0];
+    var seances = (fo.seances || []).filter(function (s0) { return s0.date >= AUJ; }).sort(function (a, b) { return a.date < b.date ? -1 : 1; }).slice(0, 3);
+    var devs = aRendre().slice(0, 4), nl = mesPubs().filter(function (p) { return !(x.vus || {})[p.id]; }).slice(0, 3);
+    var B = badges();
+    document.getElementById("t-tableau").innerHTML =
+      '<div class="etu-bienvenue"' + (fo.image ? ' style="background:linear-gradient(120deg,rgba(4,23,53,.92),rgba(11,74,162,.75)),url(' + "'" + esc(fo.image) + "'" + ') center/cover"' : "") + '><div><p>' + new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }) + "</p><h1>Bonjour " + esc(x.nom.split(" ")[0]) + ' 👋</h1><p>' + esc(fo.titre) + " · " + esc(fo.periode) + "</p></div>" + (suivante ? '<button class="btn btn-gold" type="button" data-continuer="' + suivante.id + '">▶ Continuer : ' + esc(suivante.titre.length > 34 ? suivante.titre.slice(0, 34) + "…" : suivante.titre) + "</button>" : '<span class="tag tag-ok">✔ Toutes les leçons sont terminées</span>') + "</div>" +
+      '<div class="etu-kpis">' +
+        '<div class="etu-kpi"><span>Progression</span><strong>' + st.progression + " %</strong><small>" + st.faites + " / " + st.total + " leçons</small></div>" +
+        '<div class="etu-kpi"><span>Moyenne</span><strong>' + (st.moyenne === null ? "—" : st.moyenne + "/100") + "</strong><small>" + notesEv.length + " note(s)</small></div>" +
+        '<div class="etu-kpi"><span>Présence</span><strong>' + (st.presence === null ? "—" : st.presence + " %") + "</strong><small>" + (fo.seances || []).length + " séance(s)</small></div>" +
+        '<div class="etu-kpi"><span>À rendre</span><strong>' + aRendre().length + "</strong><small>devoirs et TP</small></div>" +
+        '<div class="etu-kpi"><span>Badges</span><strong>' + B.filter(function (b) { return b.ok; }).length + " / " + B.length + "</strong><small>obtenus</small></div>" +
+      "</div>" +
+      '<div class="etu-grille">' +
+        '<div class="card"><h2 class="etu-h">Mon parcours</h2><div class="g-anneaux">' + anneau(st.progression, "leçons", "var(--accent)") + anneau(st.presence || 0, "présence", "var(--ok)") + anneau(st.moyenne || 0, "moyenne", "#f59e0b") + '</div><p class="muted" style="font-size:.85rem">Attestation : 80 % de présence et 50/100 de moyenne.</p></div>' +
+        '<div class="card"><h2 class="etu-h">Mes notes</h2>' + barres(notesEv, 100, "") + "</div>" +
+        '<div class="card"><h2 class="etu-h">Mon activité (14 jours)</h2>' + barres(jours) + "</div>" +
+        '<div class="card"><h2 class="etu-h">Progression par module</h2>' + ((fo.modules || []).map(function (m) { var Lm = (m.lecons || []).filter(function (l) { return pourMoi(l) && ouverte(l); }), n = Lm.filter(function (l) { return (x.lecons || {})[l.id]; }).length, pc = Lm.length ? Math.round(n / Lm.length * 100) : 0; return '<div class="mod-ligne"><div><span>' + esc(m.titre) + "</span><b>" + n + "/" + Lm.length + '</b></div><div class="progress"><span style="width:' + pc + '%"></span></div></div>'; }).join("") || '<p class="muted">Aucun module.</p>') + "</div>" +
+        '<div class="card"><h2 class="etu-h">À faire</h2><ul class="a-faire">' +
+          devs.map(function (d) { return '<li><span>📝</span><button type="button" class="lien-btn" data-aller="' + d.ou + '" data-id="' + d.id + '">' + esc(d.titre) + "</button>" + (d.date ? "<small>avant le " + new Date(d.date + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short" }) + "</small>" : "") + "</li>"; }).join("") +
+          seances.map(function (s0) { var auj0 = s0.date === AUJ; return "<li><span>" + (s0.lien ? "🎥" : "📅") + "</span><span>Séance" + (s0.titre ? " : " + esc(s0.titre) : "") + (s0.lien && auj0 ? ' <button type="button" class="btn btn-primary btn-sm" data-rejoindre="' + s0.id + '">Rejoindre la classe</button>' : s0.lien ? ' <small class="muted">(en ligne)</small>' : "") + "</span><small>" + new Date(s0.date + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "short", day: "numeric", month: "short" }) + (s0.heure ? " " + esc(s0.heure) : "") + "</small></li>"; }).join("") +
+          nl.map(function (p) { return '<li><span>📢</span><button type="button" class="lien-btn" data-aller="pubs">' + esc(p.titre) + "</button><small>nouveau</small></li>"; }).join("") +
+          (!devs.length && !seances.length && !nl.length ? "<li><span>✔</span><span>Rien d’urgent. Continuez vos leçons !</span></li>" : "") + "</ul></div>" +
+        '<div class="card"><h2 class="etu-h">Mes badges</h2><div class="badges">' + B.map(function (b) { return '<span class="badge-ach' + (b.ok ? "" : " off") + '"><i>' + b.ico + "</i>" + esc(b.nom) + "</span>"; }).join("") + "</div></div>" +
+      "</div>";
+    document.querySelectorAll("[data-rejoindre]").forEach(function (b) { b.addEventListener("click", function () {
+      var f0 = formation(), se = (f0.seances || []).map(function (z) { if (z.id === b.dataset.rejoindre && (z.presents || []).indexOf(moi().id) < 0) { z.presents = (z.presents || []).concat([moi().id]); z.enLigne = (z.enLigne || []).concat([moi().id]); } return z; });
+      var cible = (f0.seances || []).filter(function (z) { return z.id === b.dataset.rejoindre; })[0];
+      S.enregistrerFormations(S.formations().map(function (z) { return z.id === f0.id ? Object.assign({}, z, { seances: se }) : z; }));
+      S.log("Présence en classe virtuelle", moi().nom + " · " + f0.titre);
+      window.open(cible.lien, "_blank", "noopener"); b.replaceWith(Object.assign(document.createElement("span"), { textContent: " ✔ présence notée", className: "muted" }));
+    }); });
+    var bc = document.querySelector("[data-continuer]"); if (bc) bc.addEventListener("click", function () { courante = bc.dataset.continuer; ouvrirOnglet("cours"); });
+    document.querySelectorAll("#t-tableau [data-aller]").forEach(function (b) { b.addEventListener("click", function () { if (b.dataset.aller === "cours") courante = b.dataset.id; ouvrirOnglet(b.dataset.aller); }); });
+  }
+  function quizz() {
+    var x = moi(), Q = lecons().filter(function (l) { return l.type === "quiz" || l.type === "examen"; });
+    var faits = Q.filter(function (l) { return (x.quiz || {})[l.id] != null; }), moy = faits.length ? Math.round(faits.reduce(function (a, l) { return a + x.quiz[l.id]; }, 0) / faits.length) : null;
+    document.getElementById("t-quiz").innerHTML = '<div class="etu-titre"><h1>Quiz et tests</h1><p class="muted">' + faits.length + " / " + Q.length + " passé(s)" + (moy !== null ? " · moyenne " + moy + " %" : "") + "</p></div>" +
+      (Q.length ? '<div class="etu-cartes">' + Q.map(function (l) { var v = (x.quiz || {})[l.id]; return '<article class="card etu-carte"><span class="tag ' + (v == null ? "tag-muted" : v >= 50 ? "tag-ok" : "tag-warn") + '">' + (v == null ? "À passer" : v >= 50 ? "Réussi" : "À repasser") + '</span><h3>' + esc(l.titre) + '</h3><p class="muted">' + esc(l.module) + " · " + (l.questions || []).length + " question(s)</p>" + (v != null ? '<div class="progress"><span style="width:' + v + '%"></span></div><p><strong>' + v + " %</strong></p>" : "") + '<button class="btn ' + (v == null ? "btn-primary" : "btn-ghost") + ' btn-sm" type="button" data-l="' + l.id + '">' + (v == null ? "Passer le quiz" : "Repasser") + "</button></article>"; }).join("") + "</div>" : '<div class="card"><p>Aucun quiz pour le moment.</p></div>');
+    document.querySelectorAll("#t-quiz [data-l]").forEach(function (b) { b.addEventListener("click", function () { courante = b.dataset.l; ouvrirOnglet("cours"); }); });
+  }
+  function devoirs() {
+    var x = moi(), D = mesPubs().filter(function (p) { return p.type === "devoir"; }), T = lecons().filter(function (l) { return l.type === "tp"; });
+    var ligne = function (titre, date, rendu, note, bouton) { return '<article class="card etu-carte"><span class="tag ' + (rendu ? (note != null ? "tag-ok" : "tag-accent") : date && date < AUJ ? "tag-warn" : "tag-muted") + '">' + (rendu ? (note != null ? "Noté" : "Rendu") : date && date < AUJ ? "En retard" : "À rendre") + "</span><h3>" + esc(titre) + "</h3>" + (date ? '<p class="muted">Avant le ' + new Date(date + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }) + "</p>" : "") + (rendu ? "<p>Rendu le " + new Date(rendu.date).toLocaleDateString("fr-FR") + " : " + esc(rendu.nom) + (note != null ? " · <strong>" + note + "/100</strong>" : "") + "</p>" : "") + bouton + "</article>"; };
+    document.getElementById("t-devoirs").innerHTML = '<div class="etu-titre"><h1>Devoirs et travaux pratiques</h1><p class="muted">' + aRendre().length + " à rendre</p></div>" +
+      ((D.length || T.length) ? '<div class="etu-cartes">' + D.map(function (p) { var r = (x.devoirs || {})[p.id]; return ligne(p.titre, p.dateLimite, r, r && r.note, '<button class="btn btn-primary btn-sm" type="button" data-pub="' + p.id + '">' + (r ? "Voir / remplacer" : "Ouvrir et rendre") + "</button>"); }).join("") + T.map(function (l) { var r = (x.rendus || {})[l.id]; return ligne(l.titre + " (TP)", "", r, r && r.note, '<button class="btn btn-primary btn-sm" type="button" data-l="' + l.id + '">' + (r ? "Voir / remplacer" : "Ouvrir et rendre") + "</button>"); }).join("") + "</div>" : '<div class="card"><p>Aucun devoir pour le moment.</p></div>');
+    document.querySelectorAll("#t-devoirs [data-l]").forEach(function (b) { b.addEventListener("click", function () { courante = b.dataset.l; ouvrirOnglet("cours"); }); });
+    document.querySelectorAll("#t-devoirs [data-pub]").forEach(function (b) { b.addEventListener("click", function () { ouvrirOnglet("pubs"); var c = document.querySelector('#t-pubs [data-p="' + b.dataset.pub + '"]'); if (c) c.scrollIntoView({ block: "start" }); }); });
+  }
+  function docs() {
+    var L = lecons().filter(function (l) { return ["pdf", "doc", "video", "youtube", "texte", "lien"].indexOf(l.type) > -1; }), P = mesPubs().filter(function (p) { return ["document", "video", "cours"].indexOf(p.type) > -1; });
+    var IC = { pdf: "📄", doc: "📎", video: "🎬", youtube: "▶", texte: "📘", document: "📄", cours: "📘", lien: "🔗" };
+    document.getElementById("t-docs").innerHTML = '<div class="etu-titre"><h1>Documents et vidéos</h1><p class="muted">' + (L.length + P.length) + " ressource(s)</p></div>" +
+      ((L.length || P.length) ? '<div class="etu-cartes">' + L.map(function (l) { return '<article class="card etu-carte"><span class="etu-ic">' + (IC[l.type] || "📄") + "</span><h3>" + esc(l.titre) + '</h3><p class="muted">' + esc(l.module) + '</p><button class="btn btn-ghost btn-sm" type="button" data-l="' + l.id + '">Ouvrir</button></article>'; }).join("") + P.map(function (p) { return '<article class="card etu-carte"><span class="etu-ic">' + (IC[p.type] || "📄") + "</span><h3>" + esc(p.titre) + '</h3><p class="muted">Publié le ' + new Date(p.creeLe).toLocaleDateString("fr-FR") + "</p>" + (p.lien ? '<a class="btn btn-ghost btn-sm" href="' + esc(p.lien) + '" target="_blank" rel="noopener">Ouvrir</a>' : '<button class="btn btn-ghost btn-sm" type="button" data-pub="1">Lire</button>') + "</article>"; }).join("") + "</div>" : '<div class="card"><p>Aucun document pour le moment.</p></div>');
+    document.querySelectorAll("#t-docs [data-l]").forEach(function (b) { b.addEventListener("click", function () { courante = b.dataset.l; ouvrirOnglet("cours"); }); });
+    document.querySelectorAll("#t-docs [data-pub]").forEach(function (b) { b.addEventListener("click", function () { ouvrirOnglet("pubs"); }); });
+  }
+
+  var rendus = { tableau: tableau, quiz: quizz, devoirs: devoirs, docs: docs, pubs: pubs, aide: aide, cours: cours, notes: notes, attestation: attestation, compte: compte };
+  var tabs = document.querySelectorAll("#lms-tabs [data-t]");
+  function ouvrirOnglet(nom) { tabs.forEach(function (o) { o.setAttribute("aria-selected", String(o.dataset.t === nom)); document.getElementById("t-" + o.dataset.t).hidden = o.dataset.t !== nom; }); rendus[nom](); }
+  tabs.forEach(function (t) { t.addEventListener("click", function () { ouvrirOnglet(t.dataset.t); window.scrollTo(0, 0); }); });
+  hero(); ouvrirOnglet("tableau");
+
+  /* Premier accès : remplacer le mot de passe provisoire */
+  if (e.doitChanger) {
+    var dlg = document.getElementById("dlg-mdp"), fp = document.getElementById("form-premier");
+    dlg.addEventListener("cancel", function (ev) { ev.preventDefault(); });
+    dlg.showModal();
+    fp.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var bad = fp.mdp.value.length < 8 || !/\d/.test(fp.mdp.value) || fp.mdp.value !== fp.mdp2.value;
+      document.getElementById("err-premier").hidden = !bad;
+      if (bad) return;
+      var y = moi();
+      sha(y.identifiant.toLowerCase() + ":" + fp.mdp.value).then(function (h) { S.modifier("comptes_etudiants", y.id, { hash: h, doitChanger: false }); dlg.close(); });
+    });
+  }
+})();
+</script>
+</body>
+</html>

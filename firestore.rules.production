@@ -1,0 +1,25 @@
+rules_version = '2';
+// Règles renforcées NextGenIT (à utiliser à la place de firestore.rules quand le site est public).
+// Elles empêchent la suppression des données et les contenus anormaux.
+// Pour une protection complète, ajoutez aussi :
+//   1. Firebase App Check (reCAPTCHA) : seules vos pages peuvent écrire.
+//   2. Une restriction de la clé API aux domaines www.nextgenit.com et VOTRE-NOM.github.io
+//      (Google Cloud Console → Identifiants → clé API → Restrictions d'application → Sites web).
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /nextgenit/{cle} {
+      allow read: if true;
+      allow create, update: if cle.matches('ng_[a-zA-Z0-9_-]{1,80}')
+        && request.resource.data.keys().hasOnly(['v', 't'])
+        && request.resource.data.v is string
+        && request.resource.data.v.size() < 950000
+        && request.resource.data.t is number;
+      allow delete: if false;
+    }
+    match /nextgenit_fichiers/{cle} {
+      allow read: if true;
+      allow create, update: if request.resource.data.d is string && request.resource.data.d.size() < 1000000;
+      allow delete: if false;
+    }
+  }
+}

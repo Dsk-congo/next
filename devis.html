@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demander un devis – NextGenIT</title>
+<meta name="description" content="Décrivez votre besoin informatique : un spécialiste NextGenIT l’évalue et vous envoie un devis détaillé par email, WhatsApp ou SMS.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="devis">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <div id="vue-formulaire">
+    <div class="page-head">
+      <h1>Demander un devis</h1>
+      <p class="lead">Décrivez votre besoin. Un spécialiste l’évalue, fixe le montant exact et vous envoie le devis détaillé. Vous ne payez qu’après l’avoir accepté.</p>
+    </div>
+    <ol class="flow">
+      <li><div><strong>Vous envoyez</strong><small>Besoin et coordonnées</small></div></li>
+      <li><div><strong>Nous évaluons</strong><small>Un spécialiste étudie</small></div></li>
+      <li><div><strong>Devis envoyé</strong><small>Email, WhatsApp ou SMS</small></div></li>
+      <li><div><strong>Vous acceptez</strong><small>Puis paiement en ligne</small></div></li>
+    </ol>
+
+    <section class="card simu" aria-labelledby="simu-titre">
+      <div class="simu-tete"><span class="simu-ico" aria-hidden="true">🧭</span><div><h2 id="simu-titre">Préparez votre demande en 30 secondes</h2><p class="muted">Indiquez votre projet et sa taille : nous préparons votre demande. Le prix vous est communiqué <strong>en privé</strong>, dans votre devis personnalisé.</p></div></div>
+      <div class="simu-grille">
+        <label class="field">Votre projet<select id="simu-type">
+          <option value="cctv">Vidéosurveillance (caméras)</option><option value="reseau">Câblage réseau (prises)</option><option value="wifi">Wi-Fi d’entreprise (bornes)</option><option value="vitrine">Site web vitrine</option><option value="ecommerce">Site e-commerce</option><option value="maintenance">Contrat de maintenance (postes)</option>
+        </select></label>
+        <label class="field"><span id="simu-q-lib">Nombre de caméras</span><input id="simu-q" type="number" min="1" max="500" value="4" inputmode="numeric"></label>
+        <div class="simu-res" aria-live="polite"><small>Ce que comprend l’étude</small><strong id="simu-montant">Visite et devis gratuits</strong><small id="simu-detail"></small></div>
+      </div>
+      <button class="btn btn-ghost" type="button" id="simu-utiliser">Utiliser pour ma demande ↓</button>
+    </section>
+    <form id="form-devis" class="layout-2" novalidate>
+      <div class="stack" style="gap:24px">
+        <div class="card" role="group" aria-labelledby="titre-services">
+          <h2 id="titre-services" style="font-size:1.3rem">1. Quels services vous intéressent ?</h2>
+          <div class="choice-grid" id="choix-services"></div>
+          <p class="error-text" id="err-services" hidden>Choisissez au moins un service.</p>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:1.3rem">2. Votre besoin</h2>
+          <div class="form-grid">
+            <label class="field full">Décrivez le besoin ou le problème
+              <textarea name="description" required placeholder="Ex. : 6 caméras pour l’entrepôt et l’entrée, consultation sur téléphone…"></textarea>
+            </label>
+            <label class="field">Nombre de postes ou d’équipements (environ)
+              <input name="quantite" type="number" min="0" inputmode="numeric" placeholder="Ex. 15">
+            </label>
+            <label class="field">Date souhaitée
+              <input name="date" type="date">
+            </label>
+            <label class="field">Urgence
+              <select name="urgence">
+                <option>Normale – sous 48 h</option>
+                <option>Prioritaire – sous 24 h</option>
+                <option>Critique – activité arrêtée</option>
+              </select>
+            </label>
+            <label class="field">Photos ou documents (facultatif)
+              <input name="fichiers" type="file" multiple accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx">
+              <small>Photos du lieu, plan, cahier des charges PDF, courte vidéo.</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:1.3rem">3. Vos coordonnées</h2>
+          <div class="form-grid">
+            <label class="field">Nom complet<input name="nom" required autocomplete="name"></label>
+            <label class="field">Entreprise (facultatif)<input name="entreprise" autocomplete="organization"></label>
+            <label class="field">Téléphone / WhatsApp<input name="telephone" type="tel" required autocomplete="tel" placeholder="+243 …"></label>
+            <label class="field">Email<input name="email" type="email" autocomplete="email" placeholder="vous@exemple.com"></label>
+            <label class="field full">Adresse d’intervention<input name="adresse" autocomplete="street-address" placeholder="Quartier, avenue, numéro – Kolwezi"></label>
+          </div>
+          <p class="error-text mt-1" id="err-coord" hidden>Indiquez votre nom, une description et un numéro de téléphone.</p>
+        </div>
+      </div>
+
+      <aside class="card sticky">
+        <h2 style="font-size:1.2rem">Recevoir mon devis par</h2>
+        <div class="choice-grid" style="grid-template-columns:1fr">
+          <label class="choice"><input type="checkbox" name="canal" value="WhatsApp" checked><div><strong>WhatsApp</strong><small>Message avec le PDF du devis</small></div></label>
+          <label class="choice"><input type="checkbox" name="canal" value="Email" checked><div><strong>Email</strong><small>Devis PDF en pièce jointe</small></div></label>
+          <label class="choice"><input type="checkbox" name="canal" value="SMS"><div><strong>SMS</strong><small>Lien vers le devis</small></div></label>
+        </div>
+        <div class="notice">Montant : fixé après évaluation. Paiement ensuite par M-Pesa, Orange Money, Airtel Money, carte Visa / Mastercard ou virement.</div>
+        <label style="display:flex;gap:10px;align-items:flex-start;font-size:.88rem" class="muted">
+          <input type="checkbox" name="accord" required style="width:20px;height:20px;margin:2px 0 0;flex-shrink:0">
+          J’accepte que NextGenIT utilise mes coordonnées pour traiter cette demande.
+        </label>
+        <p class="error-text" id="err-accord" hidden>Cochez la case pour continuer.</p>
+        <button class="btn btn-primary btn-block" type="submit">Envoyer ma demande</button>
+      </aside>
+    </form>
+  </div>
+
+  <div id="vue-merci" class="success" hidden tabindex="-1">
+    <div class="big-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></div>
+    <h1 style="font-size:2.2rem">Demande envoyée</h1>
+    <p class="lead mt-2" style="margin-inline:auto">Votre ticket <strong id="merci-id"></strong> est créé. Un spécialiste l’évalue et vous envoie le devis par <span id="merci-canaux"></span>.</p>
+    <div class="hero-actions mt-3" style="justify-content:center">
+      <a class="btn btn-primary" href="connexion.html">Suivre dans mon espace</a>
+      <a class="btn btn-ghost" href="devis.html">Faire une autre demande</a>
+    </div>
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var C = window.NG_CONTENU, U = window.NGUtil;
+  var params = new URLSearchParams(location.search);
+  var pre = params.get("service") || "";
+  var preFormation = params.get("formation") || "";
+  var options = C.services.map(function (s) { return { titre: s.titre, texte: s.texte, icone: s.icone }; });
+  options.push({ titre: "Contrat de maintenance", texte: "Essentiel, Pro ou Entreprise", icone: "engrenage" });
+  options.push({ titre: "Formation", texte: preFormation || "Inscription à une formation", icone: "calendrier" });
+
+  var box = document.getElementById("choix-services");
+  box.innerHTML = options.map(function (o) {
+    var coche = (pre && (o.titre === pre || (pre.indexOf("Contrat") === 0 && o.titre === "Contrat de maintenance"))) || (preFormation && o.titre === "Formation");
+    return '<label class="choice"><input type="checkbox" name="services" value="' + U.esc(o.titre) + '"' + (coche ? " checked" : "") + '><span class="icon-box">' + U.icone(o.icone) + "</span><div><strong>" + U.esc(o.titre) + "</strong><small>" + U.esc(o.texte) + "</small></div></label>";
+  }).join("");
+  if (pre && pre.indexOf("Contrat") === 0) document.querySelector("textarea[name=description]").value = "Je souhaite un devis pour le " + pre + ".";
+  if (preFormation) document.querySelector("textarea[name=description]").value = "Je souhaite m’inscrire à la formation « " + preFormation + " ».";
+
+  var form = document.getElementById("form-devis");
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var fd = new FormData(form);
+    var services = fd.getAll("services");
+    var canaux = fd.getAll("canal");
+    var ok = true;
+    var show = function (id, bad) { document.getElementById(id).hidden = !bad; if (bad) ok = false; };
+    show("err-services", services.length === 0);
+    show("err-coord", !fd.get("nom").trim() || !fd.get("telephone").trim() || !fd.get("description").trim());
+    show("err-accord", !fd.get("accord"));
+    if (!ok) { form.querySelector(".error-text:not([hidden])").scrollIntoView({ behavior: "smooth", block: "center" }); return; }
+
+    var fichiers = Array.prototype.map.call(form.querySelector("[name=fichiers]").files, function (f) { return f.name; });
+    var d = window.NGStore.ajouterDemande({
+      type: preFormation ? "formation" : "service",
+      services: services,
+      formation: preFormation,
+      description: fd.get("description").trim(),
+      quantite: fd.get("quantite"),
+      date: fd.get("date"),
+      urgence: fd.get("urgence"),
+      fichiers: fichiers,
+      nom: fd.get("nom").trim(),
+      entreprise: fd.get("entreprise").trim(),
+      telephone: fd.get("telephone").trim(),
+      email: fd.get("email").trim(),
+      adresse: fd.get("adresse").trim(),
+      canaux: canaux.length ? canaux : ["WhatsApp"]
+    });
+    try { localStorage.setItem("ng_client_tel", d.telephone); } catch (er) {}
+    document.getElementById("merci-id").textContent = d.id;
+    document.getElementById("merci-canaux").textContent = d.canaux.join(", ").replace(/, ([^,]*)$/, " et $1");
+    document.getElementById("vue-formulaire").hidden = true;
+    var merci = document.getElementById("vue-merci");
+    merci.hidden = false;
+    merci.focus();
+    window.scrollTo(0, 0);
+  });
+})();
+
+/* Préparation de la demande (aucun prix affiché : il est communiqué en privé dans le devis) */
+(function () {
+  var t = document.getElementById("simu-type"), q = document.getElementById("simu-q");
+  var TYPES = {
+    cctv: { lib: "Nombre de caméras", service: "Vidéosurveillance (CCTV)", det: "Repérage des emplacements, choix des caméras, enregistreur, accès sur téléphone" },
+    reseau: { lib: "Nombre de prises réseau", service: "Conception et câblage structuré", det: "Plan de câblage, baie, prises et tests de certification" },
+    wifi: { lib: "Nombre de bornes Wi-Fi", service: "Wi-Fi d’entreprise", det: "Étude de couverture, bornes professionnelles, réseau invités" },
+    vitrine: { lib: "Nombre de pages", service: "Sites vitrines et e-commerce", det: "Maquette, contenus, adaptation au téléphone, mise en ligne" },
+    ecommerce: { lib: "Nombre de produits (environ)", service: "Sites vitrines et e-commerce", det: "Boutique, paiement Mobile Money et carte, formation" },
+    maintenance: { lib: "Nombre de postes", service: "Contrats de maintenance", det: "Inventaire du parc, visites préventives, support, rapport mensuel" }
+  };
+  function maj() { var T = TYPES[t.value]; document.getElementById("simu-q-lib").textContent = T.lib; document.getElementById("simu-detail").textContent = T.det; }
+  t.addEventListener("change", function () { q.value = { cctv: 4, reseau: 20, wifi: 3, vitrine: 5, ecommerce: 50, maintenance: 10 }[t.value]; maj(); });
+  maj();
+  document.getElementById("simu-utiliser").addEventListener("click", function () {
+    var T = TYPES[t.value], f = document.getElementById("form-devis"), cb = f.querySelector('input[value="' + T.service + '"]');
+    if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event("change", { bubbles: true })); }
+    if (f.quantite) f.quantite.value = q.value;
+    if (f.description && !f.description.value.trim()) f.description.value = T.lib + " : " + q.value + ".";
+    f.scrollIntoView({ block: "start" });
+  });
+})();
+</script>
+</body>
+</html>

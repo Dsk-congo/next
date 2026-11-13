@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /admin/
+Disallow: /document.html
+Disallow: /test-github.html
+Sitemap: https://www.nextgenit.com/sitemap.xml

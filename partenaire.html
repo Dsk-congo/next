@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portail partenaires – NextGenIT</title>
+<meta name="description" content="Contactez NextGenIT à Kolwezi : téléphone, WhatsApp, email, adresse et formulaire. Réponse rapide, urgences 24/7.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+<meta name="robots" content="noindex">
+</head>
+<body data-page="partenaire">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <section id="pa-login" class="card pa-login">
+    <img src="assets/img/embleme.png" alt="" width="64" height="64">
+    <h1>Portail partenaires</h1>
+    <p class="muted">Revendeurs et apporteurs d’affaires : vos prix, vos commandes et vos commissions.</p>
+    <form id="form-pa" novalidate><label class="field">Email ou téléphone<input name="id" required autocomplete="username"></label><label class="field">Mot de passe<input name="mdp" type="password" required autocomplete="current-password"></label><p class="error-text" hidden></p><button class="btn btn-primary" type="submit">Se connecter</button></form>
+    <p class="muted" style="font-size:.88rem">Pas encore partenaire ? <a href="contact.html">Contactez-nous</a> (sujet « Partenariat »).</p>
+  </section>
+  <section id="pa-app" hidden></section>
+</main>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, esc = window.NGUtil.esc, id = null, onglet = "catalogue", panier = {};
+  function sha(t) { return crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)).then(function (b) { return Array.prototype.map.call(new Uint8Array(b), function (x) { return ("0" + x.toString(16)).slice(-2); }).join(""); }); }
+  function argent(n) { return "$ " + Number(n || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  try { id = sessionStorage.getItem("ng_partenaire"); } catch (e) {}
+  function moi() { return S.liste("partenaires").filter(function (p) { return p.id === id; })[0]; }
+  var f = document.getElementById("form-pa");
+  f.addEventListener("submit", function (e) {
+    e.preventDefault(); var err = f.querySelector(".error-text"), ident = f.id.value.trim().toLowerCase();
+    var p = S.liste("partenaires").filter(function (x) { return x.identifiant && x.identifiant === ident; })[0];
+    if (!p || p.actif === false) { err.textContent = "Accès inconnu ou désactivé."; err.hidden = false; return; }
+    sha(ident + ":" + f.mdp.value).then(function (h) { if (h !== p.hash) { err.textContent = "Mot de passe incorrect."; err.hidden = false; return; } sessionStorage.setItem("ng_partenaire", p.id); id = p.id; S.log("Connexion au portail partenaire", p.nom); rendre(); });
+  });
+  function prix(a, p) { return (Number(a.prixVente) || 0) * (1 - (Number(p.remise) || 0) / 100); }
+  function rendre() {
+    var p = moi(); if (!p) return;
+    document.getElementById("pa-login").hidden = true; var box = document.getElementById("pa-app"); box.hidden = false;
+    var A = S.liste("articles").filter(function (a) { return a.boutique; }), CO = S.liste("commandes_partenaires").filter(function (c) { return c.partenaireId === p.id; }), LD = S.liste("leads_partenaires").filter(function (l) { return l.partenaireId === p.id; });
+    var dus = LD.filter(function (l) { return l.statut === "gagne"; }).reduce(function (a, l) { return a + (Number(l.commission) || 0); }, 0), payes = LD.filter(function (l) { return l.commissionPayee; }).reduce(function (a, l) { return a + (Number(l.commission) || 0); }, 0);
+    var ong = [["catalogue", "Catalogue et prix"], ["commandes", "Mes commandes"], ["leads", "Recommander un client"], ["commissions", "Mes commissions"]];
+    box.innerHTML = '<div class="cli-hero" style="margin-top:18px"><div class="cli-hero-fond"></div><div class="cli-hero-id"><img src="assets/img/embleme.png" alt="" width="70" height="70"><div><p class="cli-date">Portail partenaire</p><h1>' + esc(p.nom) + '</h1><div class="cli-puces"><span>Remise ' + (p.remise || 0) + ' %</span><span>Commission ' + (p.commission || 0) + ' %</span><span>' + CO.length + ' commande(s)</span></div></div><button class="btn btn-ghost btn-sm" type="button" id="pa-sortir" style="margin-left:auto">Se déconnecter</button></div></div>' +
+      '<div class="chips" style="margin:16px 0">' + ong.map(function (o) { return '<button type="button" class="filtre-pub' + (onglet === o[0] ? " on" : "") + '" data-o="' + o[0] + '">' + o[1] + "</button>"; }).join("") + "</div>" +
+      (onglet === "catalogue" ? '<p class="notice">Ces prix sont <strong>vos prix partenaires</strong>, réservés à votre compte. Ne les communiquez pas.</p><div class="cat-mise"><div class="actu-grille" style="margin:0">' + (A.map(function (a) { var q = panier[a.id] || 0; return '<article class="card actu-carte" data-a="' + a.id + '">' + (a.photo ? '<span class="actu-img" style="background-image:url(' + "'" + esc(a.photo) + "'" + ');background-size:contain;background-color:#fff"></span>' : '<span class="actu-img actu-img-vide">📦</span>') + '<span class="actu-txt"><strong>' + esc(a.nom) + '</strong><small class="muted">' + esc(a.reference || "") + " · " + (a.quantite > 0 ? a.quantite + " en stock" : "sur commande") + '</small><span class="cat-prix">' + (a.prixVente ? argent(prix(a, p)) + " HT" : "Prix sur demande") + '</span><span class="cat-q"><button type="button" data-m="-1" aria-label="Retirer">−</button><b>' + q + '</b><button type="button" data-m="1" aria-label="Ajouter">+</button></span></span></article>'; }).join("") || '<p class="muted">Catalogue en préparation.</p>') + '</div><aside class="card cat-panier"><h2 class="etu-h">Ma commande</h2>' + (function () { var ids = Object.keys(panier).filter(function (k) { return panier[k] > 0; }), tot = 0; if (!ids.length) return '<p class="muted">Ajoutez des articles.</p>'; var li = ids.map(function (k) { var a = A.filter(function (x) { return x.id === k; })[0]; tot += prix(a, p) * panier[k]; return "<li><span>" + esc(a.nom) + "</span><b>× " + panier[k] + "</b></li>"; }).join(""); return '<ul class="cat-lignes">' + li + '</ul><p><strong>Total : ' + argent(tot) + ' HT</strong></p><label class="field">Note (livraison, délai…)<input id="pa-note"></label><button class="btn btn-primary" type="button" id="pa-commander">Envoyer la commande</button>'; })() + "</aside></div>" : "") +
+      (onglet === "commandes" ? (CO.length ? CO.map(function (c) { return '<div class="row-item"><span><strong>' + new Date(c.creeLe).toLocaleDateString("fr-FR") + '</strong><br><small class="muted">' + (c.lignes || []).map(function (l) { return l.qte + " × " + esc(l.nom); }).join(", ") + "</small></span><span><strong>" + argent(c.total) + '</strong> <span class="tag tag-accent">' + ({ nouvelle: "Reçue", confirmee: "Confirmée", livree: "Livrée", annulee: "Annulée" }[c.statut] || c.statut) + "</span></span></div>"; }).join("") : '<p class="muted">Aucune commande.</p>') : "") +
+      (onglet === "leads" ? '<form class="card" id="pa-lead" novalidate style="max-width:640px"><h2 class="etu-h">Recommander une entreprise</h2><p class="muted">Si elle devient cliente, vous touchez votre commission (' + (p.commission || 0) + ' %).</p><div class="form-grid"><label class="field">Entreprise<input name="ent" required></label><label class="field">Contact<input name="contact"></label><label class="field">Téléphone<input name="tel" type="tel"></label><label class="field full">Besoin<textarea name="besoin" style="min-height:80px"></textarea></label></div><button class="btn btn-primary" type="submit">Envoyer</button></form>' + LD.map(function (l) { return '<div class="row-item"><span><strong>' + esc(l.entreprise) + '</strong><br><small class="muted">' + new Date(l.creeLe).toLocaleDateString("fr-FR") + '</small></span><span class="tag tag-accent">' + ({ nouveau: "Reçu", contacte: "Contacté", gagne: "Devenu client 🎉", perdu: "Sans suite" }[l.statut] || l.statut) + "</span></div>"; }).join("") : "") +
+      (onglet === "commissions" ? '<div class="kpis"><div class="kpi"><span>Commissions gagnées</span><strong>' + argent(dus) + '</strong></div><div class="kpi"><span>Déjà payées</span><strong>' + argent(payes) + '</strong></div><div class="kpi"><span>Reste à recevoir</span><strong>' + argent(dus - payes) + "</strong></div></div>" : "");
+    document.getElementById("pa-sortir").addEventListener("click", function () { sessionStorage.removeItem("ng_partenaire"); location.reload(); });
+    box.querySelectorAll("[data-o]").forEach(function (b) { b.addEventListener("click", function () { onglet = b.dataset.o; rendre(); }); });
+    box.querySelectorAll("[data-m]").forEach(function (b) { b.addEventListener("click", function () { var k = b.closest("[data-a]").dataset.a; panier[k] = Math.max(0, (panier[k] || 0) + Number(b.dataset.m)); rendre(); }); });
+    var bc = document.getElementById("pa-commander");
+    if (bc) bc.addEventListener("click", function () { var ids = Object.keys(panier).filter(function (k) { return panier[k] > 0; }), tot = 0, lignes = ids.map(function (k) { var a = A.filter(function (x) { return x.id === k; })[0], pu = prix(a, p); tot += pu * panier[k]; return { articleId: k, nom: a.nom, qte: panier[k], pu: pu }; }); S.ajouter("commandes_partenaires", { partenaireId: p.id, partenaireNom: p.nom, lignes: lignes, total: Math.round(tot * 100) / 100, note: document.getElementById("pa-note").value.trim(), statut: "nouvelle" }, "CMD-"); S.log("Commande partenaire", p.nom, tot); panier = {}; onglet = "commandes"; rendre(); });
+    var fl = document.getElementById("pa-lead");
+    if (fl) fl.addEventListener("submit", function (e) { e.preventDefault(); if (!fl.ent.value.trim()) return; S.ajouter("leads_partenaires", { partenaireId: p.id, entreprise: fl.ent.value.trim(), contact: fl.contact.value.trim(), telephone: fl.tel.value.trim(), besoin: fl.besoin.value.trim(), statut: "nouveau" }, "LEAD-"); S.log("Client recommandé par un partenaire", p.nom + " → " + fl.ent.value.trim()); rendre(); });
+  }
+  if (id && moi()) rendre();
+})();
+</script>
+</body>
+</html>

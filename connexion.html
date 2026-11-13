@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Se connecter – Espace client et étudiant NextGenIT</title>
+<meta name="description" content="Connectez-vous pour suivre vos demandes, vos devis, vos formations et vos attestations.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="connexion">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container auth-wrap">
+  <section class="auth-card">
+    <aside class="auth-side" aria-hidden="true">
+      <span class="auth-lock"><svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg></span>
+      <h2>Votre espace NextGenIT</h2>
+      <ul>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18v13H3zM8 7V4h8v3"/></svg> Clients : devis, factures, suivi de projet, support</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5"/></svg> Étudiants : cours, vidéos, quiz, attestation</li>
+        <li><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4"/></svg> Connexion protégée, mots de passe chiffrés</li>
+      </ul>
+    </aside>
+    <div class="auth-main">
+      <div class="tabs" role="tablist" aria-label="Connexion ou création de compte">
+        <button class="tab" type="button" role="tab" aria-selected="true" data-vue="login">Se connecter</button>
+        <button class="tab" type="button" role="tab" aria-selected="false" data-vue="signup">Créer un compte</button>
+      </div>
+
+      <form id="form-login" class="stack" novalidate>
+        <div class="choice-grid" role="radiogroup" aria-label="Type de compte" style="grid-template-columns:1fr 1fr">
+          <label class="choice" style="padding:12px"><input type="radio" name="role-login" value="client" checked><span class="icon-box"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18v13H3zM8 7V4h8v3"/></svg></span><div><strong>Client</strong><small>Entreprise ou particulier</small></div></label>
+          <label class="choice" style="padding:12px"><input type="radio" name="role-login" value="etudiant"><span class="icon-box"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 9l10-5 10 5-10 5zM6 11v5c3 2 9 2 12 0v-5"/></svg></span><div><strong>Étudiant</strong><small>Formations</small></div></label>
+        </div>
+        <label class="field">Email ou téléphone
+          <span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg><input name="identifiant" required autocomplete="username" placeholder="ex. client@exemple.cd ou +243 970 000 000"></span>
+        </label>
+        <label class="field">Mot de passe
+          <span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg><input name="mdp" type="password" required autocomplete="current-password" placeholder="Votre mot de passe"><button type="button" class="eye" data-eye aria-label="Afficher le mot de passe" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z"/></svg></button></span>
+        </label>
+        <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:.9rem">
+          <button type="button" class="lien-btn" id="mdp-oublie">Mot de passe oublié ?</button>
+        </div>
+        <p class="error-text" hidden id="err-login" role="alert"></p>
+        <button class="btn btn-primary btn-block" type="submit"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg> Se connecter</button>
+      </form>
+
+      <form id="form-signup" class="stack" hidden novalidate>
+        <div role="radiogroup" aria-label="Type de compte" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <label class="choice" style="padding:12px"><input type="radio" name="role-signup" value="client" checked><span><strong>Client</strong><br><small class="muted">Compte créé tout de suite</small></span></label>
+          <label class="choice" style="padding:12px"><input type="radio" name="role-signup" value="etudiant"><span><strong>Étudiant</strong><br><small class="muted">Validé par NextGenIT</small></span></label>
+        </div>
+        <div id="zone-etudiant" class="form-grid" hidden>
+          <label class="field">Formation souhaitée<select name="formation" id="su-formation"></select></label>
+          <label class="field">Je souhaite suivre<select name="mode"><option>En ligne</option><option>En présentiel</option><option>En ligne et en présentiel</option></select></label>
+          <p class="notice full" style="margin:0">Votre compte est créé tout de suite, puis <strong>validé par NextGenIT</strong>. Dès la validation, vous accédez à votre espace étudiant (cours, vidéos, quiz, notes) avec le mot de passe choisi ici.</p>
+        </div>
+        <div class="form-grid">
+          <label class="field">Nom complet<span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg><input name="nom" required autocomplete="name" placeholder="ex. Jean Mukendi"></span></label>
+          <label class="field">Entreprise (facultatif)<span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h18v13H3zM8 7V4h8v3"/></svg><input name="entreprise" autocomplete="organization" placeholder="ex. Société Minière du Lualaba"></span></label>
+          <label class="field">Téléphone / WhatsApp<span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 01-2.2 2A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7l.7 2.8-1.7 3.4a16 16 0 006 6l3.4-1.7 2.8.7a2 2 0 011.7 2z"/></svg><input name="tel" type="tel" required autocomplete="tel" placeholder="ex. +243 970 000 000"></span></label>
+          <label class="field">Email<span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18v12H3zM3 6l9 7 9-7"/></svg><input name="email" type="email" autocomplete="email" placeholder="ex. jean@entreprise.cd"></span></label>
+          <label class="field full">Mot de passe<span class="input-ico"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg><input name="mdp" type="password" required minlength="8" autocomplete="new-password" placeholder="8 caractères minimum avec un chiffre"><button type="button" class="eye" data-eye aria-label="Afficher le mot de passe" aria-pressed="false"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z"/></svg></button></span></label>
+        </div>
+        <div class="force" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+        <label style="display:flex;gap:10px;align-items:flex-start;font-size:.88rem" class="muted"><input type="checkbox" name="accord" style="width:20px;height:20px;margin:2px 0 0;flex-shrink:0"> J’accepte les <a href="mentions.html">conditions et la politique de confidentialité</a>.</label>
+        <p class="error-text" hidden id="err-signup" role="alert"></p>
+        <button class="btn btn-primary btn-block" type="submit" id="su-btn">Créer mon compte client</button>
+      </form>
+      <p class="auth-secure"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 11h14v10H5zM8 11V7a4 4 0 018 0v4M12 15v2"/></svg> Mots de passe chiffrés · 5 essais maximum puis blocage temporaire</p>
+    </div>
+  </section>
+  <p class="muted mt-2" style="font-size:.88rem;text-align:center">Membre de l’équipe ? <a href="admin.html">Connexion à l’administration</a></p>
+  <dialog class="modal" id="dlg-oubli" aria-labelledby="oubli-titre">
+    <form id="form-oubli" novalidate>
+      <div class="modal-head"><h2 id="oubli-titre">Mot de passe oublié</h2></div>
+      <div class="modal-body">
+        <p class="muted">Indiquez votre email ou votre téléphone. NextGenIT vérifie votre identité et vous envoie un nouveau mot de passe par WhatsApp ou par email.</p>
+        <label class="field">Email ou téléphone du compte<input name="ident" required autocomplete="username" placeholder="ex. client@exemple.cd ou +243 970 000 000"></label>
+        <label class="field">Numéro WhatsApp pour vous répondre<input name="tel" type="tel" placeholder="ex. +243 970 000 000"></label>
+        <p class="error-text" id="err-oubli" hidden></p>
+        <p class="notice" id="ok-oubli" hidden>✔ Demande envoyée. Vous recevrez votre nouveau mot de passe rapidement.</p>
+      </div>
+      <div class="modal-foot"><button class="btn btn-ghost" type="button" id="oubli-fermer">Fermer</button><button class="btn btn-primary" type="submit">Envoyer la demande</button></div>
+    </form>
+  </dialog>
+</main>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore;
+  function sha(t) { return crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)).then(function (b) { return Array.prototype.map.call(new Uint8Array(b), function (x) { return ("0" + x.toString(16)).slice(-2); }).join(""); }); }
+  var fl = document.getElementById("form-login"), fs = document.getElementById("form-signup");
+  var tabs = document.querySelectorAll("[data-vue]");
+  tabs.forEach(function (t) { t.addEventListener("click", function () { tabs.forEach(function (x) { x.setAttribute("aria-selected", String(x === t)); }); fl.hidden = t.dataset.vue !== "login"; fs.hidden = t.dataset.vue !== "signup"; }); });
+  if (/etudiant/.test(location.search)) fl.querySelector('[value="etudiant"]').checked = true;
+  if (/inscription/.test(location.search)) tabs[1].click();
+  document.querySelectorAll("[data-eye]").forEach(function (b) { b.addEventListener("click", function () { var i = b.parentNode.querySelector("input"), vis = i.type === "password"; i.type = vis ? "text" : "password"; b.setAttribute("aria-pressed", String(vis)); }); });
+  var errL = document.getElementById("err-login"), errS = document.getElementById("err-signup");
+  function msg(el, t) { el.textContent = t; el.hidden = !t; }
+
+  /* Plus de comptes de démonstration : les anciens sont supprimés */
+  ["comptes_clients", "comptes_etudiants"].forEach(function (col) { S.liste(col).filter(function (c) { return c.demo; }).forEach(function (c) { S.retirer(col, c.id); }); });
+
+  /* Blocage après 5 mots de passe faux : il ne concerne QUE le compte visé (chaque étudiant ou client a son propre compteur).
+     Le compteur est remis à zéro dès que la personne se connecte correctement. */
+  function lireBlocages() { try { return JSON.parse(localStorage.getItem("ng_blocage_comptes") || "{}"); } catch (e) { return {}; } }
+  function blocage(cle) { var x = lireBlocages()[cle] || { n: 0 }; if (x.jusqua && x.jusqua <= Date.now()) x = { n: 0 }; return x; }
+  function noterEchec(cle) { var b = lireBlocages(), x = blocage(cle); x.n++; if (x.n >= 5) { x.jusqua = Date.now() + 15 * 60000; x.n = 0; } b[cle] = x; localStorage.setItem("ng_blocage_comptes", JSON.stringify(b)); return x; }
+  function effacerBlocage(cle) { var b = lireBlocages(); if (b[cle]) { delete b[cle]; localStorage.setItem("ng_blocage_comptes", JSON.stringify(b)); } }
+  function normaliser(t) { t = t.trim(); return /@/.test(t) ? t.toLowerCase() : t.replace(/[^\d]/g, ""); }
+
+  fl.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var brut = fl.identifiant.value.trim(), id = normaliser(brut), mdp = fl.mdp.value;
+    if (!brut || !mdp) { msg(errL, "Indiquez votre email ou téléphone et votre mot de passe."); return; }
+    if (!window.crypto || !crypto.subtle) { msg(errL, "Ouvrez le site en https pour vous connecter."); return; }
+    var role = fl.querySelector("[name=role-login]:checked").value;
+    var liste = role === "etudiant" ? S.liste("comptes_etudiants") : S.liste("comptes_clients");
+    var compte = liste.filter(function (x) { return normaliser(x.identifiant || "") === id || (x.email && x.email.toLowerCase() === id) || (x.telephone && x.telephone.replace(/[^\d]/g, "") === id); })[0];
+    if (!compte) { msg(errL, role === "etudiant" ? "Identifiant inconnu. Utilisez celui reçu par WhatsApp ou par email après validation de votre inscription." : "Aucun compte avec cet identifiant. Créez votre compte dans l’onglet « Créer un compte »."); return; }
+    var cleB = role + ":" + compte.id, bl = blocage(cleB);
+    if (bl.jusqua > Date.now()) { msg(errL, "Trop d’essais sur ce compte : réessayez dans " + Math.ceil((bl.jusqua - Date.now()) / 60000) + " minute(s), ou demandez à NextGenIT de le débloquer. Les autres comptes ne sont pas concernés."); return; }
+    sha(compte.identifiant.toLowerCase() + ":" + mdp).then(function (h) {
+      if (h !== compte.hash) { var x = noterEchec(cleB); msg(errL, x.jusqua ? "Trop d’essais : ce compte est bloqué 15 minutes (les autres comptes ne sont pas concernés)." : "Mot de passe incorrect (" + (5 - x.n) + " essai(s) restant(s) pour ce compte)."); fl.mdp.value = ""; fl.mdp.focus(); return; }
+      effacerBlocage(cleB);
+      if (compte.suspendu) {
+        var col = role === "etudiant" ? "comptes_etudiants" : "comptes_clients";
+        if (compte.suspenduJusqua && compte.suspenduJusqua < new Date().toISOString().slice(0, 10)) { compte = S.modifier(col, compte.id, { suspendu: false, actif: true, suspenduJusqua: "", motifSuspension: "" }); S.log("Fin de suspension automatique", compte.nom); }
+        else { msg(errL, "Votre compte est suspendu" + (compte.suspenduJusqua ? " jusqu’au " + new Date(compte.suspenduJusqua + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "") + (compte.motifSuspension ? " (motif : " + compte.motifSuspension.toLowerCase() + ")" : "") + ". Contactez NextGenIT pour en parler."); return; }
+      }
+      if (role === "etudiant") {
+        if (!compte.actif) { msg(errL, compte.enAttenteApprobation ? "Votre compte étudiant est créé et attend la validation de NextGenIT. Vous serez prévenu par WhatsApp ou par email." : compte.enAttentePaiement ? "Votre compte est prêt : vos cours s’ouvriront automatiquement dès réception de votre paiement." : "Votre compte étudiant est désactivé" + (compte.motifDesactivation ? " (motif : " + compte.motifDesactivation.toLowerCase() + ")" : "") + ". Contactez NextGenIT."); return; }
+        sessionStorage.setItem("ng_etudiant", compte.id);
+        S.modifier("comptes_etudiants", compte.id, { derniereConnexion: new Date().toISOString() });
+        location.href = "etudiant.html"; return;
+      }
+      if (compte.actif === false) { msg(errL, "Votre compte client est désactivé" + (compte.motifDesactivation ? " (motif : " + compte.motifDesactivation.toLowerCase() + ")" : "") + ". Contactez NextGenIT."); return; }
+      localStorage.setItem("ng_session", JSON.stringify({ id: compte.id, nom: compte.nom, identifiant: compte.email || compte.telephone, role: "client" }));
+      if (compte.telephone) localStorage.setItem("ng_client_tel", compte.telephone);
+      S.modifier("comptes_clients", compte.id, { derniereConnexion: new Date().toISOString() });
+      location.href = "mon-espace.html";
+    });
+  });
+
+  var barres = fs.querySelectorAll(".force span");
+  fs.mdp.addEventListener("input", function () { var v = fs.mdp.value, n = (v.length >= 8) + /\d/.test(v) + /[A-Z]/.test(v) + /[^A-Za-z0-9]/.test(v); barres.forEach(function (b, i) { b.className = i < n ? (n < 2 ? "f1" : n < 4 ? "f2" : "f3") : ""; }); });
+  var esc0 = window.NGUtil.esc;
+  var zoneEtu = document.getElementById("zone-etudiant"), btnSu = document.getElementById("su-btn"), selF = document.getElementById("su-formation");
+  selF.innerHTML = S.formations().filter(function (x) { return x.publie !== false && x.inscriptionsOuvertes !== false && x.statut !== "terminee"; }).map(function (x) { return '<option value="' + x.id + '">' + esc0(x.titre) + " · " + esc0(x.periode) + "</option>"; }).join("") || '<option value="">Aucune formation ouverte pour le moment</option>';
+  var pf = new URLSearchParams(location.search).get("formation"); if (pf) selF.value = pf;
+  fs.querySelectorAll("[name=role-signup]").forEach(function (r) { r.addEventListener("change", function () { var etu = fs.querySelector("[name=role-signup]:checked").value === "etudiant"; zoneEtu.hidden = !etu; btnSu.textContent = etu ? "Créer mon compte étudiant" : "Créer mon compte client"; fs.entreprise.closest(".field").hidden = etu; }); });
+  if (pf) { var re = fs.querySelector("[name=role-signup][value=etudiant]"); re.checked = true; re.dispatchEvent(new Event("change")); }
+  fs.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (fs.querySelector("[name=role-signup]:checked").value === "etudiant") return inscrireEtudiant();
+    var nom = fs.nom.value.trim(), tel = fs.tel.value.trim(), email = fs.email.value.trim().toLowerCase(), mdp = fs.mdp.value;
+    if (!nom || !tel) return msg(errS, "Indiquez votre nom et votre téléphone.");
+    if (mdp.length < 8 || !/\d/.test(mdp)) return msg(errS, "Mot de passe : 8 caractères minimum avec au moins un chiffre.");
+    if (!fs.accord.checked) return msg(errS, "Cochez la case pour accepter les conditions.");
+    var ident = email || tel.replace(/[^\d]/g, "");
+    if (S.liste("comptes_clients").some(function (c) { return normaliser(c.identifiant) === normaliser(ident) || (email && c.email === email); })) return msg(errS, "Un compte existe déjà avec cet email ou ce téléphone. Connectez-vous.");
+    sha(ident.toLowerCase() + ":" + mdp).then(function (h) {
+      var c = S.ajouter("comptes_clients", { nom: nom, entreprise: fs.entreprise.value.trim(), telephone: tel, email: email, identifiant: ident, hash: h }, "CLI-");
+      S.log("Compte client créé depuis le site", nom + " · " + tel);
+      localStorage.setItem("ng_session", JSON.stringify({ id: c.id, nom: nom, identifiant: email || tel, role: "client" }));
+      localStorage.setItem("ng_client_tel", tel);
+      location.href = "mon-espace.html";
+    });
+  });
+  /* Compte étudiant : créé tout de suite, actif seulement après validation par l'administration */
+  /* Mot de passe oublié : la demande arrive dans l'administration (notification) */
+  var dlgO = document.getElementById("dlg-oubli"), fo = document.getElementById("form-oubli");
+  document.getElementById("mdp-oublie").addEventListener("click", function () { fo.reset(); document.getElementById("ok-oubli").hidden = true; dlgO.showModal(); });
+  document.getElementById("oubli-fermer").addEventListener("click", function () { dlgO.close(); });
+  fo.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var id = fo.ident.value.trim(), err = document.getElementById("err-oubli");
+    if (!id) { err.textContent = "Indiquez votre email ou votre téléphone."; err.hidden = false; return; }
+    var n = normaliser(id), trouve = null, type = "";
+    S.liste("comptes_clients").forEach(function (c) { if (!trouve && (normaliser(c.identifiant) === n || normaliser(c.email) === n || normaliser(c.telephone) === n)) { trouve = c; type = "client"; } });
+    S.liste("comptes_etudiants").forEach(function (c) { if (!trouve && (normaliser(c.identifiant) === n || normaliser(c.email) === n || normaliser(c.telephone) === n)) { trouve = c; type = "etudiant"; } });
+    S.ajouter("demandes_mdp", { identifiant: id, telephone: fo.tel.value.trim() || (trouve ? trouve.telephone : ""), compteId: trouve ? trouve.id : "", type: type, nom: trouve ? trouve.nom : "", statut: "en_attente" }, "MDP-");
+    S.log("Mot de passe oublié (demande)", id + (trouve ? " · " + trouve.nom : " · compte non trouvé"));
+    err.hidden = true; document.getElementById("ok-oubli").hidden = false;
+  });
+  function inscrireEtudiant() {
+    var nom = fs.nom.value.trim(), tel = fs.tel.value.trim(), email = fs.email.value.trim().toLowerCase(), mdp = fs.mdp.value, fo = S.formations().filter(function (x) { return x.id === selF.value; })[0];
+    if (!nom || !tel) return msg(errS, "Indiquez votre nom et votre téléphone.");
+    if (!fo) return msg(errS, "Choisissez une formation.");
+    if (mdp.length < 8 || !/\d/.test(mdp)) return msg(errS, "Mot de passe : 8 caractères minimum avec au moins un chiffre.");
+    if (!fs.accord.checked) return msg(errS, "Cochez la case pour accepter les conditions.");
+    var ident = email || tel.replace(/[^\d]/g, "");
+    if (S.liste("comptes_etudiants").some(function (c) { return normaliser(c.identifiant) === normaliser(ident) || (email && c.email === email); })) return msg(errS, "Un compte étudiant existe déjà avec cet email ou ce téléphone. Connectez-vous.");
+    sha(ident.toLowerCase() + ":" + mdp).then(function (h) {
+      var c = S.ajouter("comptes_etudiants", { nom: nom, telephone: tel, email: email, identifiant: ident, hash: h, actif: false, enAttenteApprobation: true, formationId: fo.id, modeSuivi: fs.mode.value, lecons: {}, quiz: {}, notes: {}, creeDepuis: "site" }, "ETU-");
+      S.ajouter("inscriptions", { formationId: fo.id, formation: fo.titre, nom: nom, telephone: tel, email: email, profil: "Compte créé sur le site · " + fs.mode.value, message: "", statut: "en_attente", compteId: c.id, modeSuivi: fs.mode.value }, "INS-");
+      S.log("Compte étudiant créé (à valider)", nom + " · " + fo.titre);
+      fs.innerHTML = '<div class="notice" style="display:grid;gap:8px"><strong style="font-size:1.15rem">✔ Compte créé, en attente de validation</strong><span>Merci ' + esc0(nom) + ". Votre demande pour « " + esc0(fo.titre) + " » a bien été envoyée. NextGenIT valide votre compte et vous prévient par WhatsApp ou par email. Vous pourrez alors vous connecter avec <strong>" + esc0(ident) + "</strong> et le mot de passe choisi.</span></div>";
+    });
+  }
+})();
+</script>
+</body>
+</html>

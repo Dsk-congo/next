@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact – NextGenIT, Kolwezi</title>
+<meta name="description" content="Contactez NextGenIT à Kolwezi : téléphone, WhatsApp, email, adresse et formulaire. Réponse rapide, urgences 24/7.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="contact">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <div class="page-head actu-tete"><h1>Parlons de votre projet</h1><p class="lead">Une question, un devis, une panne ou un partenariat : écrivez-nous, un conseiller vous répond rapidement.</p></div>
+  <div class="contact-grille">
+    <form class="card contact-form" id="form-contact" novalidate>
+      <h2 class="etu-h">Envoyer un message</h2>
+      <div class="form-grid">
+        <label class="field">Nom complet<input name="nom" required autocomplete="name"></label>
+        <label class="field">Entreprise (facultatif)<input name="entreprise" autocomplete="organization"></label>
+        <label class="field">Téléphone / WhatsApp<input name="tel" type="tel" required autocomplete="tel"></label>
+        <label class="field">Email<input name="email" type="email" autocomplete="email"></label>
+        <label class="field full">Sujet<select name="sujet"><option>Demande d’information</option><option>Demande de devis</option><option>Support technique</option><option>Formation</option><option>Partenariat</option><option>Autre</option></select></label>
+        <label class="field full">Votre message<textarea name="message" required style="min-height:150px" placeholder="Décrivez votre besoin…"></textarea></label>
+      </div>
+      <label class="check"><input type="checkbox" name="accord"> J’accepte que NextGenIT utilise mes coordonnées pour me répondre.</label>
+      <p class="error-text" id="err-contact" hidden></p>
+      <button class="btn btn-primary" type="submit">Envoyer le message</button>
+      <div class="notice" id="ok-contact" hidden><strong>✔ Message envoyé.</strong> Merci ! Un conseiller vous répond rapidement. Pour une urgence, appelez-nous ou écrivez sur WhatsApp.</div>
+    </form>
+    <aside class="contact-infos" id="contact-infos"></aside>
+  </div>
+  <div class="card contact-carte"><iframe title="Carte : NextGenIT à Kolwezi" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=Kolwezi,+Lualaba,+RDC&amp;output=embed"></iframe></div>
+</main>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var E = window.NG_CONTENU.entreprise, esc = window.NGUtil.esc, S = window.NGStore;
+  var tel = String(E.telephone).replace(/\s/g, "");
+  document.getElementById("contact-infos").innerHTML =
+    '<a class="card contact-item" href="tel:' + esc(tel) + '"><span class="ci-ico">📞</span><span><small>Téléphone</small><strong>' + esc(E.telephone) + "</strong></span></a>" +
+    '<a class="card contact-item" href="https://wa.me/' + esc(E.whatsapp) + '" target="_blank" rel="noopener"><span class="ci-ico">💬</span><span><small>WhatsApp</small><strong>Écrire sur WhatsApp</strong></span></a>' +
+    '<a class="card contact-item" href="mailto:' + esc(E.email) + '"><span class="ci-ico">✉</span><span><small>Email</small><strong>' + esc(E.email) + "</strong></span></a>" +
+    '<div class="card contact-item"><span class="ci-ico">📍</span><span><small>Adresse</small><strong>' + esc(E.adresse) + "</strong></span></div>" +
+    '<div class="card contact-item"><span class="ci-ico">🕘</span><span><small>Horaires</small><strong>' + esc(E.horaires) + "</strong></span></div>" +
+    '<div class="card contact-urgence"><strong>Une panne urgente ?</strong><span>Activité arrêtée : appelez-nous directement, une équipe intervient 24 h/24.</span><a class="btn btn-gold" href="tel:' + esc(tel) + '">Appeler maintenant</a></div>';
+  var f = document.getElementById("form-contact"), err = document.getElementById("err-contact");
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!f.nom.value.trim() || !f.tel.value.trim() || !f.message.value.trim()) { err.textContent = "Indiquez votre nom, votre téléphone et votre message."; err.hidden = false; return; }
+    if (!f.accord.checked) { err.textContent = "Cochez la case pour continuer."; err.hidden = false; return; }
+    S.ajouter("messages", { nom: f.nom.value.trim(), entreprise: f.entreprise.value.trim(), telephone: f.tel.value.trim(), email: f.email.value.trim(), sujet: f.sujet.value, message: f.message.value.trim(), statut: "nouveau", langue: window.NGLangue ? window.NGLangue.actuelle() : "fr" }, "MSG-");
+    S.log("Message reçu (page Contact)", f.nom.value.trim() + " · " + f.sujet.value);
+    err.hidden = true; f.querySelectorAll("input, select, textarea, button[type=submit]").forEach(function (x) { x.disabled = true; }); document.getElementById("ok-contact").hidden = false;
+  });
+})();
+</script>
+</body>
+</html>

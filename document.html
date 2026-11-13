@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Document – NextGenIT</title>
+<meta name="robots" content="noindex">
+<script src="firebase-config.js?v=46"></script>
+<script src="theme.js?v=46"></script>
+<script type="module" src="cloud.js?v=46"></script>
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Space+Grotesk:wght@600;700&family=Dancing+Script:wght@600&display=swap">
+<style>
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #E9ECF5; font-family: Inter, "Segoe UI", sans-serif; color: #0B1033; }
+  .bar { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; padding: 16px; }
+  .bar button, .bar a { min-height: 46px; padding: 0 18px; border-radius: 10px; border: 0; background: #1E7FE0; color: #fff; font: 700 15px Inter, sans-serif; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+  .bar a { background: #fff; color: #0B1033; border: 1px solid #C9D1EA; }
+  .page { width: min(210mm, 100% - 24px); min-height: 297mm; margin: 0 auto 24px; background: #fff; padding: 18mm 16mm; position: relative; box-shadow: 0 20px 50px rgba(11,16,51,.15); }
+  .page.paysage { width: min(297mm, 100% - 24px); min-height: 200mm; }
+  .band { position: absolute; top: 0; left: 0; right: 0; height: 8px; background: linear-gradient(100deg,#1A73E0,#34C6F4 48%,#9BE27A); }
+  .head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-family: "Space Grotesk", sans-serif; font-weight: 700; font-size: 24px; }
+  .logo img { height: 74px; width: auto; }
+  .logo b { color: #1E7FE0; }
+  .small { font-size: 12px; color: #4A5478; line-height: 1.6; }
+  .title { text-align: right; }
+  .title h1 { font-family: "Space Grotesk", sans-serif; font-size: 30px; margin: 0; letter-spacing: .04em; }
+  .title .num { color: #1E7FE0; font-weight: 800; }
+  .boxes { display: flex; flex-wrap: wrap; gap: 14px; margin: 26px 0 20px; }
+  .box { flex: 1 1 220px; background: #F4F6FD; border-radius: 10px; padding: 12px 14px; }
+  .box h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #5A6488; margin: 0 0 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th { background: #0B1033; color: #fff; text-align: left; padding: 9px 10px; font-weight: 600; }
+  td { padding: 9px 10px; border-bottom: 1px solid #E1E6F5; }
+  .r { text-align: right; }
+  .totals { margin-left: auto; width: min(300px, 100%); margin-top: 14px; font-size: 14px; }
+  .totals div { display: flex; justify-content: space-between; padding: 5px 0; }
+  .totals .ttc { background: linear-gradient(100deg,#1A73E0,#2AA9F0); color: #fff; border-radius: 8px; padding: 10px 12px; font-weight: 800; font-size: 16px; margin-top: 6px; }
+  .signs { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-top: 34px; flex-wrap: wrap; }
+  .sign { position: relative; width: 280px; min-height: 150px; border-top: 1px solid #E1E6F5; padding-top: 8px; }
+  .sign .sig-img { position: absolute; left: 0; top: 34px; max-height: 70px; max-width: 170px; z-index: 1; opacity: .9; pointer-events: none; }
+  .sign .sig-txt { position: absolute; left: 4px; top: 40px; font-family: "Dancing Script", cursive; font-size: 34px; color: #1E2A6E; transform: rotate(-5deg); }
+  .sign .seal { position: absolute; right: -6px; top: 4px; width: 132px; height: auto; opacity: .55; transform: rotate(-10deg); z-index: 0; pointer-events: none; }
+.sign .small, .sign .who { position: relative; z-index: 2; background: transparent; }
+.sign .small { display: inline-block; background: rgba(255,255,255,.75); padding: 0 4px; border-radius: 3px; }
+  .sig-client { margin-top: 14px; padding: 10px 12px; border: 1px solid #E1E6F5; border-radius: 10px; max-width: 360px; }
+  .sig-client img { display: block; max-height: 80px; max-width: 100%; margin-top: 6px; }
+  .rm-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin: 14px 0; }
+  .rm-kpis div { padding: 10px; border-radius: 10px; background: #F3F6FC; border: 1px solid #E1E6F5; display: grid; gap: 2px; }
+  .rm-kpis b { font-size: 18px; color: #081631; } .rm-kpis span { font-size: 11px; color: #4A5478; }
+  .ec-titre { font-size: 26px; margin: 14px 0 6px; color: #081631; }
+  .ec-photos { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+  .ec-photos figure { margin: 0; position: relative; } .ec-photos img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; }
+  .ec-photos figcaption { position: absolute; left: 8px; top: 8px; background: #081631; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 999px; }
+  .etude h3 { font-size: 15px; color: #b5552a; margin: 16px 0 4px; } .etude p { font-size: 13px; line-height: 1.6; }
+  .ec-res { padding: 10px 12px; background: #EAF1FF; border-radius: 10px; }
+  .ec-cit { margin: 14px 0; padding: 12px 16px; border-left: 4px solid #d2763a; background: #FBF5EF; font-style: italic; font-size: 14px; }
+  .ec-cta { margin-top: 18px; padding: 12px; text-align: center; border-radius: 10px; background: #081631; color: #fff; font-weight: 700; }
+  .stamp { display: inline-block; padding: 6px 14px; border: 2px solid #138A57; color: #138A57; border-radius: 8px; font-weight: 800; letter-spacing: .08em; transform: rotate(-4deg); }
+  .client-sig { max-height: 90px; border-bottom: 1px solid #C9D1EA; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .sign .who { position: absolute; bottom: 0; left: 0; font-size: 12px; font-weight: 700; z-index: 2; background: rgba(255,255,255,.8); padding: 1px 4px; border-radius: 3px; }
+  .foot { margin-top: 26px; font-size: 11px; color: #5A6488; text-align: center; }
+  .cert { border: 2px solid #1E7FE0; padding: 34px 40px; position: relative; min-height: 170mm; }
+  .cert::after { content: ""; position: absolute; inset: 7px; border: 1px solid #B4C6FF; pointer-events: none; }
+  .cert h1 { text-align: center; font-family: "Space Grotesk", sans-serif; letter-spacing: .08em; font-size: 30px; margin: 34px 0 10px; }
+  .cert .name { text-align: center; font-family: "Space Grotesk", sans-serif; font-size: 34px; color: #1B2A8A; font-weight: 700; margin: 8px 0; }
+  .cert p.c { text-align: center; font-size: 15px; line-height: 1.8; color: #3A4466; }
+  .empty { text-align: center; padding: 80px 20px; }
+  .badges-zone { display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; padding: 24px 12px; }
+  .badge-carte { width: 54mm; height: 85.6mm; border-radius: 4mm; background: #fff; box-shadow: 0 12px 30px rgba(4,23,53,.2); overflow: hidden; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 4mm 4mm; position: relative; }
+  .badge-carte.recto::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 30mm; background: linear-gradient(135deg, #081631, #1d64e0 60%, #0f766e); }
+  .bc-head { position: relative; display: flex; align-items: center; gap: 2mm; width: 100%; padding: 3mm 0 2mm; font-size: 6.5pt; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: #fff; }
+  .verso .bc-head { color: #081631; border-bottom: 1px solid #E1E6F5; }
+  .bc-head img { height: 9mm; width: auto; background: #fff; border-radius: 2mm; padding: .6mm; }
+  .bc-photo { position: relative; width: 26mm; height: 30mm; border-radius: 3mm; border: 1mm solid #e8995a; background: #EAF1FF; overflow: hidden; display: grid; place-items: center; margin-top: 2mm; }
+  .bc-photo img { width: 100%; height: 100%; object-fit: cover; }
+  .bc-photo span { font: 800 18pt Inter, sans-serif; color: #1d64e0; }
+  .bc-nom { font: 800 10.5pt Inter, sans-serif; margin-top: 3mm; color: #081631; }
+  .bc-poste { font-size: 7.5pt; color: #1d64e0; font-weight: 700; }
+  .bc-spec { font-size: 6.5pt; color: #4A5478; margin-top: 1mm; }
+  .bc-num { margin-top: auto; font: 800 9pt ui-monospace, monospace; padding: 1.5mm 3mm; border-radius: 2mm; background: #081631; color: #e8995a; letter-spacing: .06em; }
+  .bc-qr { position: relative; z-index: 1; margin-top: 3mm; padding: 1.2mm; border: 1px solid #E1E6F5; border-radius: 2mm; background: #fff; }
+  .bc-qr img, .bc-qr canvas { width: 28mm !important; height: 28mm !important; display: block; }
+  .bc-txt { position: relative; z-index: 1; font-size: 6pt; color: #4A5478; margin: 1.6mm 0 0; line-height: 1.35; }
+  .bc-val { position: relative; z-index: 1; font-size: 6.8pt; margin-top: 1.6mm; color: #081631; }
+  .bc-pied { position: relative; z-index: 1; margin-top: auto; font-size: 6pt; color: #4A5478; }
+  /* Signature et sceau : en filigrane, DERRIÈRE le texte */
+  .bc-sign { position: absolute; left: 0; right: 0; bottom: 6mm; height: 18mm; z-index: 0; pointer-events: none; }
+  .bc-sign img { position: absolute; left: 5mm; bottom: 2mm; height: 12mm; opacity: .28; }
+  .bc-sign .bc-sceau { left: auto; right: 4mm; bottom: 0; height: 17mm; opacity: .22; }
+  .badge-photo-btn { position: relative; }
+  .badge-form { max-width: 640px; margin: 0 auto 24px; padding: 20px; border-radius: 16px; background: #fff; border: 1px solid #E1E6F5; font-family: Inter, sans-serif; }
+  .badge-form h2 { margin: 0 0 4px; font-size: 18px; }
+  .bf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .bf-grid label { display: grid; gap: 4px; font-size: 13px; font-weight: 600; color: #0B1033; }
+  .bf-grid input { min-height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid #C9D1EA; font: 14px Inter, sans-serif; }
+  .bf-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 14px; }
+  .bf-actions button { min-height: 42px; padding: 0 16px; border-radius: 10px; border: 0; background: #1d64e0; color: #fff; font: 700 14px Inter, sans-serif; cursor: pointer; }
+  .bf-actions .bf-sec { background: #fff; color: #0B1033; border: 1px solid #C9D1EA; }
+  @media (max-width: 600px) { .bf-grid { grid-template-columns: 1fr; } }
+  @media print { .no-print { display: none !important; } }
+  @media print { .badges-zone { gap: 6mm; padding: 0; } .badge-carte { box-shadow: none; border: .2mm solid #ccc; } }
+  @media print {
+    body { background: #fff; }
+    .bar { display: none; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; color-adjust: exact !important; }
+    .page { box-shadow: none; margin: 0; width: auto; min-height: auto; }
+    @page { margin: 10mm; }
+  }
+</style>
+</head>
+<body>
+<div class="bar"><button type="button" onclick="window.print()">Imprimer ou enregistrer en PDF</button><a href="#" id="btn-retour">← Retour</a></div>
+<div id="doc"></div>
+<script>
+document.getElementById("btn-retour").addEventListener("click", function (e) {
+  e.preventDefault();
+  if (history.length > 1 && document.referrer) { history.back(); return; }
+  window.close();
+  setTimeout(function () { location.href = document.referrer || "admin.html"; }, 250);
+});
+</script>
+<script>if (/[?&]imprimer=1/.test(location.search)) addEventListener("load", function () { setTimeout(function () { window.print(); }, 700); });</script>
+<script src="contenu.js?v=46"></script>
+<script src="store.js?v=46"></script>
+<script>
+/* Le document s'affiche dans la langue du client (choisie dans son compte ou par l'administration) */
+(function () {
+  var p = new URLSearchParams(location.search), l = p.get("lang");
+  if (!l) {
+    try {
+      var S = window.NGStore, D = null, F = null;
+      if (p.get("fid")) F = S.liste("factures").filter(function (x) { return x.id === p.get("fid"); })[0];
+      if (p.get("pid")) { var pa = S.liste("paiements").filter(function (x) { return x.id === p.get("pid"); })[0]; if (pa) F = S.liste("factures").filter(function (x) { return x.id === pa.factureId; })[0]; }
+      if (p.get("id")) D = S.demandes().filter(function (x) { return x.id === p.get("id"); })[0];
+      var tel = String((F && F.telephone) || (D && D.telephone) || "").replace(/[^\d]/g, ""), em = String((F && F.email) || (D && D.email) || "").toLowerCase();
+      var c = S.liste("comptes_clients").filter(function (x) { return (tel && String(x.telephone || "").replace(/[^\d]/g, "") === tel) || (em && x.email === em); })[0];
+      var cl = S.liste("clients").filter(function (x) { return (tel && String(x.telephone || "").replace(/[^\d]/g, "") === tel) || (em && String(x.email || "").toLowerCase() === em); })[0];
+      l = (c && c.langue) || (cl && cl.langue) || "fr";
+    } catch (e) { l = "fr"; }
+  }
+  window.NG_LANGUE_FORCEE = l;
+})();
+</script>
+<script src="langue.js?v=46"></script>
+<script src="fichiers.js?v=46"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" defer></script>
+<script>
+function rendreDocument() {
+  var C = window.NG_CONTENU, S = window.NGStore, R = S.reglages(), E = C.entreprise;
+  var p = new URLSearchParams(location.search);
+  var type = p.get("type") || "devis";
+  var out = document.getElementById("doc");
+  function esc(t) { return String(t == null ? "" : t).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
+  function argent(n) { return "$\u00a0" + Number(n || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function jour(d) { return d ? new Date(d.length === 10 ? d + "T12:00:00" : d).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }) : "—"; }
+  var logo = '<img src="' + esc(R.logo) + '" alt="' + esc(E.nom) + '">';
+  var coord = esc(R.raisonSociale) + "<br>" + esc(E.adresse) + "<br>RCCM " + esc(R.rccm) + " · Id. Nat. " + esc(R.idnat) + " · NIF " + esc(R.nif) + "<br>" + esc(E.telephone) + " · " + esc(E.email);
+  var bloc = '<div class="signs"><div></div><div class="sign"><div class="small">Pour ' + esc(R.raisonSociale) + ', la Direction</div><img class="sig-img" src="' + esc(R.signature) + '" alt="Signature"><img class="seal" src="' + esc(R.sceau) + '" alt="Sceau"><div class="who">' + esc(R.directeur) + ", Directeur général</div></div></div>";
+  function entete(titre, num, infos) { return '<div class="band"></div><div class="head"><div><div class="logo">' + logo + '</div><div class="small" style="margin-top:6px">' + coord + '</div></div><div class="title"><h1>' + titre + '</h1><div class="num">' + esc(num) + '</div><div class="small">' + infos + "</div></div></div>"; }
+  function modesFacture(F) {
+    var m = []; S.liste("paiements").filter(function (p) { return p.factureId === F.id; }).forEach(function (p) { if (m.indexOf(p.mode) < 0) m.push(p.mode); });
+    return m.length ? m.join(", ") : (F.modePaiement || "");
+  }
+  function introuvable() {
+    var F0 = window.NG_FIREBASE || {};
+    if (F0.apiKey && !window.NGCloud) { out.innerHTML = '<div class="page"><div class="empty"><h1>Chargement du document…</h1><p class="small">Récupération des données en ligne.</p></div></div>'; return; }
+    out.innerHTML = '<div class="page"><div class="empty"><h1>Document introuvable</h1><p class="small">' + (window.NGCloud && window.NGCloud.actif ? "Ce document n’existe plus ou a été supprimé." : "Les données en ligne ne sont pas accessibles (" + esc((window.NGCloud && window.NGCloud.erreur) || "mode local") + "). Ouvrez le document depuis l’administration sur cet appareil.") + "</p></div></div>";
+  }
+  function tableLignes(lignes) { return '<table><thead><tr><th>Désignation</th><th class="r">Qté</th><th class="r">Prix unitaire</th><th class="r">Montant</th></tr></thead><tbody>' + (lignes.length ? lignes.map(function (l) { return "<tr><td>" + esc(l.designation) + '</td><td class="r">' + l.qte + '</td><td class="r">' + argent(l.pu) + '</td><td class="r">' + argent(l.qte * l.pu) + "</td></tr>"; }).join("") : '<tr><td colspan="4" class="small">Pas encore évalué.</td></tr>') + "</tbody></table>"; }
+  function totaux(ht, taux) { var tot = ht * (1 + (Number(taux) || 0) / 100); return '<div class="totals"><div class="ttc"><span>Total</span><span>' + argent(tot) + "</span></div></div>"; }
+  function paiement(mode) { return mode ? '<p style="margin-top:16px;font-size:13px"><b>Mode de paiement :</b> ' + esc(mode) + "</p>" : ""; }
+  function etudiant() { return S.liste("comptes_etudiants").filter(function (e) { return e.id === p.get("eid"); })[0]; }
+  function statsE(e, f) {
+    var se = f.seances || [], L = []; (f.modules || []).forEach(function (m) { (m.lecons || []).forEach(function (l) { L.push(l); }); });
+    var pres = se.length ? Math.round(se.filter(function (s) { return (s.presents || []).indexOf(e.id) > -1; }).length / se.length * 100) : null;
+    var notes = (f.evaluations || []).map(function (ev) { return (e.notes || {})[ev.id]; }).filter(function (n) { return n !== undefined && n !== null && n !== ""; }).map(Number);
+    var quiz = Object.keys(e.quiz || {}).map(function (k) { return Number(e.quiz[k]); }), all = notes.length ? notes : quiz;
+    return { pres: pres, moy: all.length ? Math.round(all.reduce(function (a, b) { return a + b; }, 0) / all.length) : null, prog: L.length ? Math.round(L.filter(function (l) { return (e.lecons || {})[l.id]; }).length / L.length * 100) : 0, se: se, L: L };
+  }
+
+  if (type === "attestation") {
+    var e = etudiant(), f = e ? S.formations().filter(function (x) { return x.id === e.formationId; })[0] : null, st = e && f ? statsE(e, f) : null;
+    if (p.get("eid") && !e) return introuvable();
+    if (e && !(e.attestationAutorisee || (e.attestation && e.attestationAutorisee !== false))) { out.innerHTML = '<div class="page"><div class="empty"><h1>Attestation pas encore autorisée</h1><p class="small">L’attestation sera disponible dès que NextGenIT l’aura validée.</p></div></div>'; return; }
+    var nom = e ? e.nom : p.get("nom"), form = f ? f.titre : p.get("formation"), per = f ? "du " + jour(f.debut) + " au " + jour(f.fin) : p.get("periode"), dur = f ? f.duree : p.get("duree"), pres = st ? st.pres : p.get("presence");
+    document.title = "Attestation – " + nom;
+    var numAtt = (e && e.attestation) || p.get("num") || "";
+    var urlVerif = location.href.split("/document.html")[0] + "/verification.html?code=" + encodeURIComponent(numAtt);
+    setTimeout(function () { var z = document.getElementById("qr"); if (!z) return; if (window.QRCode && numAtt) { new window.QRCode(z, { text: urlVerif, width: 92, height: 92, colorDark: "#0B1033", colorLight: "#ffffff" }); } else if (numAtt) { z.innerHTML = '<div class="small" style="max-width:140px">Vérification : ' + esc(numAtt) + "</div>"; } }, 400);
+    out.innerHTML = '<div class="page paysage"><div class="cert"><div class="head"><div class="logo">' + logo + '</div><div class="small">N° ' + esc((e && e.attestation) || p.get("num") || "ATT-" + new Date().getFullYear() + "-0000") + "</div></div><h1>ATTESTATION DE FORMATION</h1><p class=\"c\">La NextGenIT Academy atteste que</p><div class=\"name\">" + esc(nom) + '</div><p class="c">a suivi avec succès la formation <b>' + esc(form) + "</b><br>" + esc(per) + (dur ? ", soit " + esc(dur) : "") + (pres != null ? ", avec une présence de " + esc(pres) + " %" : "") + (st && st.moy != null ? " et une moyenne de " + st.moy + "/100" : "") + ".</p><p class=\"c small\">Fait à Kolwezi, le " + jour(new Date().toISOString()) + '</p><div style="display:flex;align-items:center;gap:12px;justify-content:center;margin-top:10px"><div id="qr" aria-label="QR code de vérification"></div><div class="small">Scannez pour vérifier<br>l’authenticité de ce document</div></div>' + bloc + "</div></div>";
+    return;
+  }
+  if (type === "frequentation") {
+    var e2 = etudiant(); if (!e2) return introuvable();
+    var adminConnecte = false; try { adminConnecte = !!sessionStorage.getItem("ng_admin") || Date.now() - Number(localStorage.getItem("nga_admin_ouvert") || 0) < 2 * 3600e3; } catch (er) {}
+    if (!e2.frequentationAutorisee && !adminConnecte) { out.innerHTML = '<div class="page"><div class="empty"><h1>Fiche pas encore publiée</h1><p class="small">Votre fiche de fréquentation sera disponible dès que NextGenIT l’aura validée.</p></div></div>'; return; }
+    var f2 = S.formations().filter(function (x) { return x.id === e2.formationId; })[0]; if (!f2) return introuvable();
+    var s2 = statsE(e2, f2);
+    document.title = "Fiche de fréquentation – " + e2.nom;
+    out.innerHTML = '<div class="page">' + entete("FICHE DE FRÉQUENTATION", f2.titre, "Période : " + jour(f2.debut) + " → " + jour(f2.fin) + "<br>Édité le " + jour(new Date().toISOString())) +
+      '<div class="boxes"><div class="box"><h2>Étudiant</h2><strong>' + esc(e2.nom) + '</strong><div class="small">' + esc(e2.telephone || "") + " · " + esc(e2.email || "") + '</div></div><div class="box"><h2>Formation</h2><strong>' + esc(f2.titre) + '</strong><div class="small">' + esc(f2.duree) + " · " + esc(f2.mode) + " · Formateur : " + esc(f2.formateur || "—") + "</div></div></div>" +
+      '<div class="grid2"><div class="box"><h2>Présence</h2><strong style="font-size:22px">' + (s2.pres == null ? "—" : s2.pres + " %") + '</strong></div><div class="box"><h2>Moyenne</h2><strong style="font-size:22px">' + (s2.moy == null ? "—" : s2.moy + " / 100") + "</strong></div></div>" +
+      '<h3 style="font-size:14px;margin:20px 0 8px">Séances</h3><table><thead><tr><th>Date</th><th>Thème</th><th class="r">Présence</th></tr></thead><tbody>' + (s2.se.map(function (x) { return "<tr><td>" + jour(x.date) + "</td><td>" + esc(x.titre || "") + '</td><td class="r">' + ((x.presents || []).indexOf(e2.id) > -1 ? "Présent" : "Absent") + "</td></tr>"; }).join("") || '<tr><td colspan="3" class="small">Aucune séance enregistrée.</td></tr>') + "</tbody></table>" +
+      '<h3 style="font-size:14px;margin:20px 0 8px">Évaluations</h3><table><thead><tr><th>Évaluation</th><th class="r">Note</th></tr></thead><tbody>' + (f2.evaluations || []).map(function (ev) { var v = (e2.notes || {})[ev.id]; return "<tr><td>" + esc(ev.titre) + '</td><td class="r">' + (v == null || v === "" ? "—" : v + " / " + (ev.sur || 100)) + "</td></tr>"; }).join("") + "</tbody></table>" +
+      '<p class="small" style="margin-top:14px">Progression dans les cours en ligne : ' + s2.prog + " % des leçons terminées.</p>" + bloc + "</div>";
+    return;
+  }
+  if (type === "badge") {
+    var ag0 = S.liste("personnel").filter(function (x) { return x.id === p.get("pid"); })[0];
+    if (!ag0) return introuvable();
+    if (!ag0.badge || !ag0.badgeExpire) {
+      var exp = new Date(); exp.setFullYear(exp.getFullYear() + 1);
+      ag0 = S.modifier("personnel", ag0.id, { badge: ag0.badge || ((ag0.type === "technicien" ? "NG-T-" : "NG-P-") + String(Math.floor(1000 + Math.random() * 9000))), badgeExpire: ag0.badgeExpire || exp.toISOString().slice(0, 10) });
+    }
+    var urlB = location.href.split("/document.html")[0] + "/verification.html?code=" + encodeURIComponent(ag0.badge || "") + "&nom=" + encodeURIComponent(ag0.nom) + "&poste=" + encodeURIComponent(ag0.poste || "");
+    document.title = "Badge – " + ag0.nom;
+    var ini = ag0.nom.split(" ").map(function (m) { return m[0]; }).join("").slice(0, 2).toUpperCase();
+    out.innerHTML = '<div class="badges-zone"><div class="badge-carte recto"><div class="bc-head"><img src="assets/img/embleme.png" alt="NextGenIT"><span>Carte professionnelle</span></div>' +
+      '<div class="bc-photo">' + (ag0.photo ? '<img src="' + esc(ag0.photo) + '" alt="">' : "<span>" + esc(ini) + "</span>") + '</div><div class="bc-nom">' + esc(ag0.nom) + '</div><div class="bc-poste">' + esc(ag0.poste) + "</div>" + (ag0.specialites && ag0.specialites.length ? '<div class="bc-spec">' + esc(ag0.specialites.slice(0, 3).join(" · ")) + "</div>" : "") +
+      '<div class="bc-num">ID : ' + esc(ag0.badge || "") + '</div></div><div class="badge-carte verso"><div class="bc-head"><img src="assets/img/embleme.png" alt=""><span>' + esc(R.raisonSociale) + '</span></div><div id="qr-badge" class="bc-qr"></div><p class="bc-txt"><b>' + esc(ag0.nom) + "</b> · " + esc(ag0.poste || "") + "<br>ID " + esc(ag0.badge || "") + '</p><p class="bc-txt">Scannez pour vérifier que ce badge est authentique.</p><div class="bc-val">Valable jusqu’au <b>' + (ag0.badgeExpire ? jour(ag0.badgeExpire) : "—") + '</b></div><div class="bc-sign" aria-hidden="true"><img src="' + esc(R.signature) + '" alt=""><img class="bc-sceau" src="' + esc(R.sceau) + '" alt=""></div><p class="bc-pied">En cas de doute : ' + esc(E.telephone) + "</p></div></div>" +
+      '<div class="no-print" style="display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:0 0 10px"><label class="badge-photo-btn" style="display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border-radius:10px;background:#1d64e0;color:#fff;font:700 15px Inter,sans-serif;cursor:pointer">📷 ' + (ag0.photo ? "Changer la photo" : "Ajouter la photo") + '<input type="file" accept="image/*" id="badge-photo" style="position:absolute;width:1px;height:1px;opacity:0"></label><button type="button" id="badge-modifier" class="badge-photo-btn" style="display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:0 18px;border-radius:10px;border:1px solid #C9D1EA;background:#fff;color:#0B1033;font:700 15px Inter,sans-serif;cursor:pointer">✎ Modifier le badge</button></div>' +
+      '<form id="badge-form" class="no-print badge-form" hidden><h2>Modifier le badge</h2><p class="small">Les changements sont enregistrés dans la fiche de l’agent et apparaissent tout de suite sur le badge, sur l’impression, dans l’administration et sur la page de vérification.</p>' +
+      '<div class="bf-grid"><label>Nom complet<input name="nom" required value="' + esc(ag0.nom) + '"></label><label>Fonction<input name="poste" value="' + esc(ag0.poste || "") + '"></label><label>Spécialités (séparées par des virgules)<input name="spec" value="' + esc((ag0.specialites || []).join(", ")) + '"></label><label>Numéro de badge (ID)<input name="badge" value="' + esc(ag0.badge || "") + '"></label><label>Valable jusqu’au<input name="exp" type="date" value="' + esc(ag0.badgeExpire || "") + '"></label><label>Téléphone<input name="tel" value="' + esc(ag0.telephone || "") + '"></label></div>' +
+      '<p class="small" id="bf-err" style="color:#C62828" hidden></p><div class="bf-actions"><button type="button" id="bf-annuler" class="bf-sec">Annuler</button><button type="submit">Enregistrer et mettre à jour le badge</button></div></form>' +
+      '<p class="small no-print" style="text-align:center">Format carte bancaire (85,6 × 54 mm). Imprimez sur carton, découpez, pliez ou plastifiez. Pour recadrer la photo plus finement : Administration → Personnel et RH → Modifier.</p>';
+    /* Le QR code contient les informations de la personne (lisibles par n'importe quel téléphone) et le lien de vérification */
+    var sansAccent = function (t) { return String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[’]/g, "'"); };
+    /* Le QR code est un lien direct : la caméra du téléphone ouvre la page de vérification, qui affiche la personne */
+    var texteQR = location.href.split("/document.html")[0] + "/verification.html?code=" + encodeURIComponent(ag0.badge || "") + "&n=" + encodeURIComponent(sansAccent(ag0.nom)) + "&p=" + encodeURIComponent(sansAccent(ag0.poste || ""));
+    var essai = 0;
+    (function qr() {
+      var z = document.getElementById("qr-badge"); if (!z) return;
+      if (window.QRCode) { z.innerHTML = ""; new window.QRCode(z, { text: texteQR, width: 200, height: 200, colorDark: "#081631", colorLight: "#ffffff", correctLevel: window.QRCode.CorrectLevel.M }); }
+      else if (essai++ < 15) { setTimeout(qr, 150); }
+      else { z.innerHTML = '<img alt="QR code de vérification" width="160" height="160" src="https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=0&data=' + encodeURIComponent(texteQR) + '">'; }
+    })();
+    /* Modifier le badge : la fiche de l'agent est mise à jour, puis le badge (et le QR code) est redessiné */
+    var bm = document.getElementById("badge-modifier"), bf = document.getElementById("badge-form");
+    if (bm && bf) {
+      bm.addEventListener("click", function () { bf.hidden = !bf.hidden; if (!bf.hidden) bf.nom.focus(); });
+      document.getElementById("bf-annuler").addEventListener("click", function () { bf.hidden = true; });
+      bf.addEventListener("submit", function (ev) {
+        ev.preventDefault();
+        var err = document.getElementById("bf-err"), code = bf.badge.value.trim().toUpperCase();
+        if (!bf.nom.value.trim()) { err.textContent = "Le nom est obligatoire."; err.hidden = false; return; }
+        if (code && S.liste("personnel").some(function (x) { return x.id !== ag0.id && (x.badge || "").toUpperCase() === code; })) { err.textContent = "Ce numéro de badge est déjà utilisé par un autre agent."; err.hidden = false; return; }
+        S.modifier("personnel", ag0.id, { nom: bf.nom.value.trim(), poste: bf.poste.value.trim(), specialites: bf.spec.value.split(",").map(function (x) { return x.trim(); }).filter(Boolean), badge: code || ag0.badge, badgeExpire: bf.exp.value || ag0.badgeExpire, telephone: bf.tel.value.trim() });
+        S.log("Badge modifié", bf.nom.value.trim() + " · " + (code || ag0.badge));
+        rendreDocument();
+        var ok = document.createElement("p"); ok.className = "no-print"; ok.style.cssText = "text-align:center;color:#138A57;font-weight:700"; ok.textContent = "✔ Badge mis à jour : vous pouvez l’imprimer.";
+        var z = document.querySelector(".badges-zone"); if (z) z.parentNode.insertBefore(ok, z.nextSibling);
+      });
+    }
+    /* Ajouter ou changer la photo directement depuis le badge */
+    var pb = document.getElementById("badge-photo");
+    if (pb) pb.addEventListener("change", function () {
+      var fi = pb.files[0]; if (!fi) return;
+      var fr = new FileReader();
+      fr.onload = function () {
+        var im = new Image();
+        im.onload = function () {
+          var c = document.createElement("canvas"), t = 420; c.width = t; c.height = Math.round(t * 30 / 26);
+          var k = Math.max(c.width / im.width, c.height / im.height), w = im.width * k, h = im.height * k;
+          var x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(im, (c.width - w) / 2, (c.height - h) / 3, w, h);
+          S.modifier("personnel", ag0.id, { photo: c.toDataURL("image/jpeg", 0.88) });
+          S.log("Photo du badge modifiée", ag0.nom + " · " + ag0.badge);
+          rendreDocument();
+        };
+        im.src = fr.result;
+      };
+      fr.readAsDataURL(fi);
+    });
+    return;
+  }
+  if (type === "paie") {
+    var ag = S.liste("personnel").filter(function (x) { return x.id === p.get("pid"); })[0], mois = p.get("mois") || new Date().toISOString().slice(0, 7);
+    if (!ag) return introuvable();
+    var etat = S.liste("paie_" + mois); if (Array.isArray(etat)) etat = {};
+    var c = (etat[ag.id] || {}).calcul || { fixe: Number(ag.salaire || 0), heures: 0, com: 0, interv: 0, primes: Number((etat[ag.id] || {}).primes || 0), avances: 0, retenues: Number((etat[ag.id] || {}).retenues || 0) };
+    c.net = c.net != null ? c.net : c.fixe + c.heures + c.com + c.primes - c.avances - c.retenues;
+    var nm = new Date(mois + "-01T12:00:00").toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+    document.title = "Bulletin de paie – " + ag.nom;
+    out.innerHTML = '<div class="page">' + entete("BULLETIN DE PAIE", nm, (etat[ag.id] || {}).payeLe ? "Payé le " + jour(etat[ag.id].payeLe) : "Non encore payé") +
+      '<div class="boxes"><div class="box"><h2>Agent</h2><strong>' + esc(ag.nom) + '</strong><div class="small">' + esc(ag.poste) + " · " + esc(ag.contrat || "") + (ag.embauche ? " · depuis le " + jour(ag.embauche) : "") + '</div></div><div class="box"><h2>Paiement</h2><strong>' + esc(ag.mode) + "</strong></div></div>" +
+      '<table><thead><tr><th>Élément</th><th class="r">Montant</th></tr></thead><tbody><tr><td>Salaire de base</td><td class="r">' + argent(c.fixe) + "</td></tr><tr><td>Heures prestées</td><td class=\"r\">" + argent(c.heures) + "</td></tr><tr><td>Commissions (" + (c.interv || 0) + " intervention(s))</td><td class=\"r\">" + argent(c.com) + "</td></tr><tr><td>Primes</td><td class=\"r\">+ " + argent(c.primes) + "</td></tr><tr><td>Avances déduites</td><td class=\"r\">− " + argent(c.avances) + "</td></tr><tr><td>Retenues</td><td class=\"r\">− " + argent(c.retenues) + '</td></tr></tbody></table><div class="totals"><div class="ttc"><span>Net à payer</span><span>' + argent(c.net) + "</span></div></div>" + bloc + "</div>";
+    return;
+  }
+  if (type === "recu") {
+    var py = S.liste("paiements").filter(function (x) { return x.id === p.get("pid"); })[0]; if (!py) return introuvable();
+    var fa = S.liste("factures").filter(function (x) { return x.id === py.factureId; })[0];
+    document.title = "Reçu " + (py.numero || "");
+    out.innerHTML = '<div class="page">' + entete("REÇU DE PAIEMENT", py.numero || "", "Date : " + jour(py.date)) +
+      '<div class="boxes"><div class="box"><h2>Reçu de</h2><strong>' + esc(py.client) + '</strong></div><div class="box"><h2>Pour</h2><strong>Facture ' + esc(py.facture || "") + '</strong><div class="small">' + esc(fa ? fa.objet : "") + "</div></div></div>" +
+      '<table><tbody><tr><td>Montant reçu</td><td class="r"><strong>' + argent(py.montant) + "</strong></td></tr><tr><td>Mode de paiement</td><td class=\"r\">" + esc(py.mode) + "</td></tr><tr><td>Référence de la transaction</td><td class=\"r\">" + esc(py.ref || "—") + "</td></tr>" + (fa ? "<tr><td>Total de la facture</td><td class=\"r\">" + argent(fa.ttc) + "</td></tr>" : "") + "<tr><td>Encaissé par</td><td class=\"r\">" + esc(py.par) + '</td></tr></tbody></table><p style="margin-top:22px"><span class="stamp">PAYÉ</span></p>' + bloc + "</div>";
+    return;
+  }
+  /* Rapport mensuel d'un contrat de maintenance */
+  if (type === "rapportmensuel") {
+    var ab = S.liste("abonnements").filter(function (x) { return x.id === p.get("ab"); })[0]; if (!ab) return introuvable();
+    var mois = p.get("mois") || new Date().toISOString().slice(0, 7), dansMois = function (d) { return String(d || "").slice(0, 7) === mois; };
+    var nomMois = new Date(mois + "-15").toLocaleDateString("fr-FR", { month: "long", year: "numeric" });
+    var tel = String(ab.telephone || "").replace(/[^\d]/g, ""), nomC = String(ab.clientNom || "").toLowerCase();
+    var lie = function (x) { return (tel && String(x.telephone || "").replace(/[^\d]/g, "") === tel) || [x.clientNom, x.nom, x.entreprise].some(function (n) { return String(n || "").toLowerCase() === nomC; }); };
+    var D = S.demandes().filter(function (d) { return (d.contratId === ab.id || lie(d)) && (dansMois(d.datePrevue) || dansMois(d.creeLe)); });
+    var T = S.liste("tickets").filter(function (t) { return lie(t) && dansMois(t.creeLe); });
+    var ids = D.map(function (d) { return d.id; }), RA = S.liste("rapports").filter(function (r) { return ids.indexOf(r.demandeId) > -1; });
+    var heures = RA.reduce(function (a, r) { return a + (Number(r.heures) || 0); }, 0);
+    var SUP = S.liste("supervision").filter(function (m) { return String(m.client || "").toLowerCase() === nomC; });
+    var dispo = SUP.length ? Math.round(SUP.reduce(function (a, m) { var h = (m.historique || []); return a + (h.length ? h.filter(function (x) { return x.ok; }).length / h.length * 100 : 100); }, 0) / SUP.length) : null;
+    var PARC = S.liste("parc").filter(function (x) { return String(x.client || "").toLowerCase() === nomC; }), lim = new Date(Date.now() + 60 * 864e5).toISOString().slice(0, 10);
+    var reco = [];
+    PARC.filter(function (x) { return (x.garantieFin && x.garantieFin <= lim) || (x.licenceFin && x.licenceFin <= lim); }).forEach(function (x) { reco.push("Renouveler la garantie ou la licence : " + x.type + " " + (x.marque || "") + " " + (x.modele || "") + "."); });
+    if (T.filter(function (t) { return t.priorite === "critique"; }).length) reco.push("Des pannes critiques ont eu lieu : prévoir un audit pour en supprimer la cause.");
+    if (ab.heuresIncluses && heures > ab.heuresIncluses) reco.push("Heures incluses dépassées (" + heures + " h / " + ab.heuresIncluses + " h) : adapter la formule du contrat.");
+    if (!reco.length) reco.push("Aucune action urgente : votre parc est en bon état. Pensez à vérifier vos sauvegardes chaque mois.");
+    document.title = "Rapport mensuel – " + ab.clientNom + " – " + nomMois;
+    out.innerHTML = '<div class="page">' + entete("RAPPORT MENSUEL", nomMois.charAt(0).toUpperCase() + nomMois.slice(1), "Contrat : " + ab.service) +
+      '<div class="boxes"><div class="box"><h2>Client</h2><strong>' + esc(ab.clientNom) + '</strong></div><div class="box"><h2>Période</h2><strong>' + esc(nomMois) + "</strong></div></div>" +
+      '<div class="rm-kpis"><div><b>' + D.length + "</b><span>intervention(s) et visite(s)</span></div><div><b>" + T.length + "</b><span>ticket(s) ouvert(s)</span></div><div><b>" + T.filter(function (t) { return ["resolu", "ferme"].indexOf(t.statut) > -1; }).length + "</b><span>ticket(s) résolu(s)</span></div><div><b>" + heures + (ab.heuresIncluses ? " / " + ab.heuresIncluses : "") + " h</b><span>temps passé</span></div>" + (dispo !== null ? "<div><b>" + dispo + " %</b><span>disponibilité des services</span></div>" : "") + "</div>" +
+      '<h3 style="font-size:14px">Interventions du mois</h3>' + (D.length ? "<table><thead><tr><th>Réf.</th><th>Objet</th><th>Date</th><th>État</th></tr></thead><tbody>" + D.map(function (d) { return "<tr><td>" + esc(d.id) + "</td><td>" + esc((d.services || []).join(", ")) + "</td><td>" + jour(d.datePrevue || d.creeLe) + "</td><td>" + esc(d.etape === "termine" || d.statut === "cloture" ? "Terminée" : "Planifiée") + "</td></tr>"; }).join("") + "</tbody></table>" : '<p class="small">Aucune intervention ce mois-ci.</p>') +
+      '<h3 style="font-size:14px">Tickets de support</h3>' + (T.length ? "<table><thead><tr><th>Ticket</th><th>Sujet</th><th>Priorité</th><th>État</th></tr></thead><tbody>" + T.map(function (t) { return "<tr><td>" + esc(t.id) + "</td><td>" + esc(t.sujet) + "</td><td>" + esc(t.priorite) + "</td><td>" + esc({ nouveau: "Reçu", assigne: "Assigné", encours: "En cours", resolu: "Résolu", ferme: "Fermé" }[t.statut] || t.statut) + "</td></tr>"; }).join("") + "</tbody></table>" : '<p class="small">Aucun ticket ce mois-ci.</p>') +
+      '<h3 style="font-size:14px">Nos recommandations</h3><ul style="font-size:13px">' + reco.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ul>" + bloc + "</div>";
+    return;
+  }
+  /* Étude de cas (plaquette PDF d'une réalisation) */
+  if (type === "etudecas") {
+    var re0 = S.liste("realisations").filter(function (x) { return x.id === p.get("id") && x.publie; })[0]; if (!re0) return introuvable();
+    document.title = "Étude de cas – " + re0.titre;
+    out.innerHTML = '<div class="page etude">' + entete("ÉTUDE DE CAS", re0.secteur, (re0.lieu || "") + " · " + new Date((re0.date || "2026-01-01") + "T12:00:00").toLocaleDateString("fr-FR", { month: "long", year: "numeric" })) +
+      '<h1 class="ec-titre">' + esc(re0.titre) + "</h1>" + (re0.afficherClient && re0.client ? '<p class="small">Client : <b>' + esc(re0.client) + "</b></p>" : "") +
+      (re0.avant || re0.apres ? '<div class="ec-photos">' + (re0.avant ? '<figure><img src="' + esc(re0.avant) + '" alt=""><figcaption>Avant</figcaption></figure>' : "") + (re0.apres ? '<figure><img src="' + esc(re0.apres) + '" alt=""><figcaption>Après</figcaption></figure>' : "") + "</div>" : "") +
+      (re0.contexte ? '<h3>Le contexte</h3><p>' + esc(re0.contexte) + "</p>" : "") + (re0.defis ? "<h3>Les défis</h3><p>" + esc(re0.defis) + "</p>" : "") + "<h3>Notre solution</h3><p style=\"white-space:pre-line\">" + esc(re0.solution || re0.description || "") + "</p>" +
+      (re0.chiffres ? '<div class="rm-kpis">' + re0.chiffres.split("\n").filter(Boolean).map(function (l) { var x = l.split("|"); return "<div><b>" + esc((x[0] || "").trim()) + "</b><span>" + esc((x[1] || "").trim()) + "</span></div>"; }).join("") + "</div>" : "") +
+      (re0.resultat ? '<p class="ec-res"><b>Résultat :</b> ' + esc(re0.resultat) + "</p>" : "") + (re0.temoignage ? '<blockquote class="ec-cit">« ' + esc(re0.temoignage) + " »<br><small>" + esc(re0.auteur || "") + "</small></blockquote>" : "") +
+      '<div class="ec-cta">Un projet similaire ? ' + esc(E.telephone) + " · " + esc(E.email) + "</div></div>";
+    return;
+  }
+  if (type === "rapport") {
+    var r = S.liste("rapports").filter(function (x) { return x.id === p.get("rid"); })[0]; if (!r) return introuvable();
+    document.title = "Rapport d’intervention " + r.id;
+    out.innerHTML = '<div class="page">' + entete("RAPPORT D’INTERVENTION", r.id, "Date : " + jour(r.date)) +
+      '<div class="boxes"><div class="box"><h2>Projet / intervention</h2><strong>' + esc(r.titre) + '</strong></div><div class="box"><h2>Technicien</h2><strong>' + esc(r.technicien) + '</strong><div class="small">' + (r.heures || 0) + " heure(s)</div></div></div>" +
+      '<h3 style="font-size:14px">Travaux réalisés</h3><p style="white-space:pre-line;font-size:13px">' + esc(r.travaux) + "</p>" + (r.materiel ? '<h3 style="font-size:14px">Matériel utilisé</h3><p style="font-size:13px">' + esc(r.materiel) + "</p>" : "") +
+      '<div class="signs"><div><div class="small">Bon pour accord, le client</div><img class="client-sig" src="' + r.signature + '" alt="Signature du client"><div class="small"><b>' + esc(r.signataire) + "</b> · " + jour(r.creeLe) + '</div></div><div class="sign"><div class="small">Pour ' + esc(R.raisonSociale) + '</div><img class="seal" src="' + esc(R.sceau) + '" alt="Sceau"><div class="who">' + esc(r.technicien) + "</div></div></div></div>";
+    return;
+  }
+  if (type === "facture" || type === "proforma") {
+    var F = S.liste("factures").filter(function (x) { return x.id === p.get("fid"); })[0]; if (!F) return introuvable();
+    var payeF = S.liste("paiements").filter(function (x) { return x.factureId === F.id; }).reduce(function (a, x) { return a + Number(x.montant); }, 0);
+    document.title = (F.type === "proforma" ? "Pro-forma " : "Facture ") + F.numero;
+    out.innerHTML = '<div class="page">' + entete(F.type === "proforma" ? "FACTURE PRO-FORMA" : "FACTURE", F.numero, "Date : " + jour(F.emiseLe) + (F.type === "proforma" ? "" : "<br>Échéance : " + jour(F.echeance)) + (F.demandeId ? "<br>Réf. : " + esc(F.demandeId) : "")) +
+      '<div class="boxes"><div class="box"><h2>Facturé à</h2><strong>' + esc(F.clientNom) + '</strong><div class="small">' + esc(F.contact && F.contact !== F.clientNom ? F.contact + " · " : "") + esc(F.telephone || "") + "<br>" + esc(F.adresse || "") + '</div></div><div class="box"><h2>Objet</h2><strong>' + esc(F.objet) + "</strong>" + (F.acompte ? '<div class="small">Facture d’acompte (' + F.acompte + " %)</div>" : "") + "</div></div>" + tableLignes(F.lignes) + totaux(F.ht, F.tauxTva) +
+      (F.type !== "proforma" && payeF > 0 ? '<div class="totals"><div><span>Déjà payé</span><span>' + argent(payeF) + "</span></div><div><b>Reste à payer</b><b>" + argent(Math.max(0, F.ttc - payeF)) + "</b></div></div>" : "") +
+      (F.note ? '<p class="small" style="margin-top:12px"><b>Note :</b> ' + esc(F.note) + "</p>" : "") +
+      (F.echeancier && F.echeancier.length ? '<p class="small" style="margin-top:12px"><b>Échéancier :</b> ' + F.echeancier.map(function (x, i) { return "échéance " + (i + 1) + " le " + jour(x.date) + " : " + argent(x.montant); }).join(" · ") + "</p>" : "") +
+      paiement(modesFacture(F)) + (F.statut === "payee" ? '<p style="margin-top:14px"><span class="stamp">PAYÉE</span></p>' : F.statut === "annulee" ? '<p style="margin-top:14px"><span class="stamp" style="color:#C62828;border-color:#C62828">ANNULÉE</span></p>' : "") +
+      (F.type === "proforma" ? '<p class="small">Facture pro-forma : ce document n’est pas une demande de paiement définitive.</p>' : "") + bloc + '<div class="foot">Merci pour votre confiance · ' + esc(R.raisonSociale) + "</div></div>";
+    return;
+  }
+  /* Devis depuis une demande */
+  var d = S.demandes().filter(function (x) { return x.id === p.get("id"); })[0];
+  if (!d) return introuvable();
+  var st = (d.lignes || []).reduce(function (a, l) { return a + l.qte * l.pu; }, 0);
+  var num = "DEV-" + new Date(d.creeLe).getFullYear() + "-" + d.id.replace("NG-", "");
+  document.title = "Devis " + num;
+  out.innerHTML = '<div class="page">' + entete("DEVIS", num, "Date : " + jour(d.evalueLe || d.creeLe) + " · valable " + esc(d.validite || "15 jours") + "<br>Ticket : " + esc(d.id)) +
+    '<div class="boxes"><div class="box"><h2>Client</h2><strong>' + esc(d.entreprise || d.nom) + '</strong><div class="small">' + esc(d.nom) + " · " + esc(d.telephone) + "<br>" + esc(d.adresse || "") + '</div></div><div class="box"><h2>Objet</h2><strong>' + esc((d.services || []).join(", ")) + '</strong><div class="small">' + esc(d.delai ? "Délai d’exécution : " + d.delai : "") + (d.acompte ? "<br>Acompte à la commande : " + d.acompte + " %" : "") + "</div></div></div>" + tableLignes(d.lignes || []) + totaux(st, R.tva) +
+    (d.note ? '<p class="small" style="margin-top:16px"><b>Note :</b> ' + esc(d.note) + "</p>" : "") + paiement(d.modePaiement || "") + (d.signatureClient ? '<div class="sig-client"><div class="small"><b>Bon pour accord</b> — signé électroniquement par <b>' + esc(d.signatureClient.nom) + "</b> le " + new Date(d.signatureClient.date).toLocaleString("fr-FR") + '</div><img src="' + d.signatureClient.image + '" alt="Signature du client"></div>' : '<p class="small">Bon pour accord (date, nom et signature du client) :</p>') + bloc + '<div class="foot">Merci pour votre confiance · ' + esc(R.raisonSociale) + "</div></div>";
+}
+rendreDocument();
+window.addEventListener("ng-cloud", rendreDocument);
+function occupe() { var f = document.getElementById("badge-form"); return f && !f.hidden; }
+window.addEventListener("ng-donnees", function () { if (!occupe()) rendreDocument(); });
+window.addEventListener("storage", function (e) { if (e.key && e.key.indexOf("ng_") === 0 && e.key.indexOf("ng_sync") !== 0 && !occupe()) rendreDocument(); });
+window.addEventListener("beforeprint", function () { if (!occupe()) rendreDocument(); });
+</script>
+</body>
+</html>

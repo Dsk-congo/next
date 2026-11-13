@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Formations informatiques à Kolwezi – NextGenIT Academy</title>
+<meta name="description" content="Formations en réseau, cybersécurité, Linux, vidéosurveillance, virtualisation et bureautique à Kolwezi : sessions disponibles, en cours et terminées.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="formations">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <div class="page-head" style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:24px">
+    <div>
+      <h1>NextGenIT Academy</h1>
+      <p class="lead">Cours en salle et en ligne, supports PDF et vidéos, évaluation en ligne, fiche de fréquentation et attestation vérifiable. Le tarif vous est communiqué après validation de votre inscription.</p>
+    </div>
+    <a class="btn btn-ghost" href="connexion.html">Espace étudiant</a>
+  </div>
+  <div class="tabs mt-2" role="tablist" aria-label="Statut des formations" id="tabs-formations"></div>
+  <div class="filters">
+    <label class="sr-only" for="f-recherche">Rechercher une formation</label>
+    <input id="f-recherche" type="search" placeholder="Rechercher : réseau, Linux, CCTV…">
+    <label class="sr-only" for="f-niveau">Niveau</label>
+    <select id="f-niveau"><option value="">Tous les niveaux</option><option>Débutant</option><option>Intermédiaire</option><option>Avancé</option><option>Tous niveaux</option></select>
+    <label class="sr-only" for="f-mode">Mode</label>
+    <select id="f-mode"><option value="">Tous les modes</option><option value="ligne">En ligne</option><option value="présentiel">Présentiel</option><option value="terrain">Pratique terrain</option></select>
+  </div>
+  <div class="grid grid-3" id="liste-formations" aria-live="polite"></div>
+</main>
+
+<dialog class="modal" id="fiche-formation" aria-labelledby="ff-titre">
+  <div class="modal-head"><h2 id="ff-titre"></h2><button class="icon-btn" type="button" data-fermer aria-label="Fermer" style="width:40px;height:40px;border-radius:10px;border:1px solid var(--line-2);background:transparent;color:var(--muted);font-size:1.3rem;cursor:pointer">×</button></div>
+  <div class="modal-body" id="ff-corps"></div>
+</dialog>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var U = window.NGUtil, S = window.NGStore;
+  var onglets = [["ouverte", "Disponibles"], ["encours", "En cours"], ["terminee", "Terminées"]];
+  var actif = "ouverte";
+  var tabs = document.getElementById("tabs-formations");
+  var dlg = document.getElementById("fiche-formation");
+  function liste() { return window.NGFormationsPubliques(); }
+  function rendre() {
+    var L = liste();
+    tabs.innerHTML = onglets.map(function (o) {
+      var n = L.filter(function (f) { return f.statut === o[0]; }).length;
+      return '<button class="tab" type="button" role="tab" aria-selected="' + (o[0] === actif) + '" data-s="' + o[0] + '">' + o[1] + " (" + n + ")</button>";
+    }).join("");
+    var q = document.getElementById("f-recherche").value.trim().toLowerCase();
+    var niv = document.getElementById("f-niveau").value, mode = document.getElementById("f-mode").value;
+    var l = L.filter(function (f) {
+      return f.statut === actif && (!niv || f.niveau === niv) && (!mode || f.mode.toLowerCase().indexOf(mode) > -1) && (!q || (f.titre + " " + f.texte).toLowerCase().indexOf(q) > -1);
+    });
+    document.getElementById("liste-formations").innerHTML = l.length ? l.map(window.NGCarteFormation).join("") : '<div class="card"><h2 style="font-size:1.2rem">Aucune formation trouvée</h2><p>Changez les filtres ou consultez un autre onglet.</p></div>';
+    window.NGReveler && window.NGReveler();
+  }
+  tabs.addEventListener("click", function (e) { var b = e.target.closest("[data-s]"); if (b) { actif = b.dataset.s; rendre(); } });
+  ["f-recherche", "f-niveau", "f-mode"].forEach(function (id) { document.getElementById(id).addEventListener("input", rendre); });
+
+  function fiche(id) {
+    var f = liste().filter(function (x) { return x.id === id; })[0];
+    if (!f) return;
+    document.getElementById("ff-titre").textContent = f.titre;
+    var ouvert = f.statut === "ouverte" && f.inscriptionsOuvertes !== false;
+    document.getElementById("ff-corps").innerHTML =
+      '<p class="muted">' + U.esc(f.texte) + '</p><div class="training meta" style="display:grid;gap:6px;color:var(--muted)"><span>' + U.icone("calendrier") + " " + U.esc(f.periode) + "</span><span>" + U.icone("horloge") + " " + U.esc(f.duree) + " · " + U.esc(f.niveau) + " · " + U.esc(f.mode) + "</span>" + (f.formateur ? "<span>" + U.icone("casque") + " Formateur : " + U.esc(f.formateur) + "</span>" : "") + "</div>" +
+      (f.programme && f.programme.length ? '<div><h3 style="font-size:1.05rem;margin-bottom:8px">Programme</h3><ol class="flow" style="margin:0">' + f.programme.map(function (m) { return "<li><div><strong>" + U.esc(m) + "</strong></div></li>"; }).join("") + "</ol></div>" : "") +
+      (ouvert ? '<form id="form-inscription" class="stack" novalidate><h3 style="font-size:1.05rem">Demander mon inscription</h3><div class="form-grid">' +
+        '<label class="field">Nom complet<input name="nom" required autocomplete="name"></label>' +
+        '<label class="field">Téléphone / WhatsApp<input name="telephone" type="tel" required autocomplete="tel" placeholder="+243 …"></label>' +
+        '<label class="field">Email<input name="email" type="email" autocomplete="email"></label>' +
+        '<label class="field">Je suis<select name="profil"><option>Étudiant</option><option>Professionnel</option><option>Entreprise (plusieurs personnes)</option></select></label>' +
+        '<label class="field full">Message (facultatif)<textarea name="message" style="min-height:80px" placeholder="Votre niveau actuel, vos attentes…"></textarea></label></div>' +
+        '<p class="notice">Après validation par notre équipe, vous recevez par WhatsApp ou par email vos identifiants pour l’espace étudiant et le tarif de la formation.</p>' +
+        '<p class="error-text" id="err-insc" hidden>Indiquez votre nom et votre téléphone.</p><button class="btn btn-primary" type="submit">Envoyer ma demande d’inscription</button></form>'
+        : '<p class="notice">' + (f.statut === "encours" ? "Cette session a commencé. Les inscrits la suivent depuis leur espace étudiant." : f.statut === "terminee" ? "Cette session est terminée. Une prochaine session sera annoncée ici." : "Les inscriptions sont fermées pour cette session.") + "</p>");
+    var form = document.getElementById("form-inscription");
+    if (form) form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var nom = form.nom.value.trim(), tel = form.telephone.value.trim();
+      document.getElementById("err-insc").hidden = !!(nom && tel);
+      if (!nom || !tel) return;
+      var i = S.ajouter("inscriptions", { formationId: f.id, formation: f.titre, nom: nom, telephone: tel, email: form.email.value.trim(), profil: form.profil.value, message: form.message.value.trim(), statut: "en_attente" }, "INS-");
+      document.getElementById("ff-corps").innerHTML = '<div class="success" style="margin:10px auto"><div class="big-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></div><h3 style="font-size:1.4rem">Demande envoyée</h3><p class="muted mt-1">Référence ' + U.esc(i.id) + ". Vous serez contacté par WhatsApp ou par email dès la validation de votre inscription à « " + U.esc(f.titre) + " ».</p></div>";
+    });
+    if (!dlg.open) dlg.showModal();
+  }
+  document.getElementById("liste-formations").addEventListener("click", function (e) {
+    var a = e.target.closest('a[href^="formations.html#"]');
+    if (a) { e.preventDefault(); history.replaceState(null, "", a.getAttribute("href").replace("formations.html", "")); fiche(a.getAttribute("href").split("#")[1]); }
+  });
+  dlg.addEventListener("click", function (e) { if (e.target.closest("[data-fermer]") || e.target === dlg) { dlg.close(); history.replaceState(null, "", location.pathname); } });
+  rendre();
+  if (location.hash.length > 1) { var cible = liste().filter(function (x) { return x.id === location.hash.slice(1); })[0]; if (cible) { actif = cible.statut; rendre(); fiche(cible.id); } }
+})();
+</script>
+</body>
+</html>

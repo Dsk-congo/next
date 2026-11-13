@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mon espace – NextGenIT</title>
+<meta name="description" content="Tableau de bord client NextGenIT : services actifs, factures, devis, suivi de projet et support.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="espace">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="etu-app cli-app">
+  <aside class="etu-side" aria-label="Menu de l’espace client">
+    <div class="etu-profil cli-profil" id="cli-profil"></div>
+    <nav class="etu-nav" id="tabs-espace">
+      <button type="button" class="etu-lien" data-t="bord" aria-selected="true"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z"/></svg><span>Tableau de bord</span><span class="nav-n" id="n-bord" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="devis" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2h9l5 5v15H6zM14 2v6h6M9 13h6M9 17h6"/></svg><span>Demandes et devis</span><span class="nav-n" id="n-devis" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="factures" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h20v12H2zM2 10h20M6 15h4"/></svg><span>Factures et paiements</span><span class="nav-n" id="n-factures" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="projets" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h5v18H3zM10 3h5v12h-5zM17 3h4v8h-4z"/></svg><span>Suivi de projet</span><span class="nav-n" id="n-projets" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="parc" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 4h20v12H2zM8 20h8M12 16v4"/></svg><span>Mon parc informatique</span><span class="nav-n" id="n-parc" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="support" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v4a2 2 0 000 4v4H4v-4a2 2 0 000-4zM12 7v12"/></svg><span>Support et tickets</span><span class="nav-n" id="n-support" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="rapports" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-6M22 20H2"/></svg><span>Rapports mensuels</span><span class="nav-n" id="n-rapports" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="parrainage" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21l-8-8a5 5 0 017-7l1 1 1-1a5 5 0 017 7z"/></svg><span>Parrainage</span><span class="nav-n" id="n-parrainage" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="compte" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg><span>Mon compte</span><span class="nav-n" id="n-compte" hidden></span></button>
+      <button type="button" class="etu-lien" data-t="aide" aria-selected="false"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a10 10 0 100-20 10 10 0 000 20zM9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg><span>Aide (FAQ)</span><span class="nav-n" id="n-aide" hidden></span></button>
+    </nav>
+    <a class="etu-lien cli-nouveau" href="rendez-vous.html"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h18v16H3zM16 3v4M8 3v4M3 10h18"/></svg><span>Prendre rendez-vous</span></a>
+    <a class="etu-lien cli-nouveau" href="devis.html"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span>Nouvelle demande</span></a>
+    <button type="button" class="etu-lien cli-nouveau" data-installer hidden><span>📲 Installer l’application</span></button>
+    <button type="button" class="etu-sortir" id="deconnexion"><svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg><span>Se déconnecter</span></button>
+  </aside>
+  <div class="etu-main">
+    <h1 id="bonjour" class="sr-only">Mon espace</h1>
+    <section id="t-bord"></section>
+    <section id="t-devis" hidden></section>
+    <section id="t-factures" hidden></section>
+    <section id="t-projets" hidden></section>
+    <section id="t-parc" hidden></section>
+    <section id="t-support" hidden></section>
+    <section id="t-rapports" hidden></section>
+    <section id="t-parrainage" hidden></section>
+    <section id="t-compte" hidden></section>
+    <section id="t-aide" hidden></section>
+  </div>
+</main>
+
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="photo.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, U = window.NGUtil, esc = U.esc;
+  var session = null;
+  try { session = JSON.parse(localStorage.getItem("ng_session")); } catch (e) {}
+  if (!session) { location.replace("connexion.html"); return; }
+  var tel = (localStorage.getItem("ng_client_tel") || (/^\+?\d[\d\s]+$/.test(session.identifiant || "") ? session.identifiant : "")).replace(/[^\d]/g, "");
+  var email = /@/.test(session.identifiant || "") ? session.identifiant.toLowerCase() : "";
+  var nom = (session.nom || "").toLowerCase();
+  document.getElementById("bonjour").textContent = "Bonjour " + session.nom;
+  document.getElementById("deconnexion").addEventListener("click", function () { localStorage.removeItem("ng_session"); location.href = "index.html"; });
+  function norm(t) { return String(t || "").replace(/[^\d]/g, ""); }
+  try { if (!sessionStorage.getItem("ng_vu_client") && S.liste("comptes_clients").some(function (c) { return c.id === session.id; })) { S.modifier("comptes_clients", session.id, { derniereConnexion: new Date().toISOString() }); sessionStorage.setItem("ng_vu_client", "1"); } } catch (e) {}
+  /* Fenêtre simple (dialog) */
+  function fenetre(titre, html, brancher) {
+    var d = document.createElement("dialog"); d.className = "modal cli-dlg";
+    d.innerHTML = '<div class="modal-head"><h2>' + titre + '</h2><button type="button" class="tiroir-fermer" data-x aria-label="Fermer">✕</button></div><div class="modal-body">' + html + "</div>";
+    document.body.appendChild(d); d.showModal();
+    var fermer = function () { d.close(); d.remove(); };
+    d.querySelector("[data-x]").addEventListener("click", fermer); d.addEventListener("cancel", function () { d.remove(); });
+    brancher(d, fermer);
+  }
+  /* Zone de signature au doigt ou à la souris */
+  function zoneSignature(cv) {
+    var ctx, trace = false, dessine = false;
+    var taille = function () { var r = cv.getBoundingClientRect(); cv.width = r.width * devicePixelRatio; cv.height = r.height * devicePixelRatio; ctx = cv.getContext("2d"); ctx.scale(devicePixelRatio, devicePixelRatio); ctx.lineWidth = 2.4; ctx.lineCap = "round"; ctx.strokeStyle = "#0B1033"; };
+    setTimeout(taille, 30);
+    var pt = function (e) { var r = cv.getBoundingClientRect(); return [e.clientX - r.left, e.clientY - r.top]; };
+    cv.addEventListener("pointerdown", function (e) { dessine = trace = true; cv.setPointerCapture(e.pointerId); var q = pt(e); ctx.beginPath(); ctx.moveTo(q[0], q[1]); });
+    cv.addEventListener("pointermove", function (e) { if (!dessine) return; var q = pt(e); ctx.lineTo(q[0], q[1]); ctx.stroke(); });
+    cv.addEventListener("pointerup", function () { dessine = false; });
+    return { vide: function () { return !trace; }, effacer: function () { ctx.clearRect(0, 0, cv.width, cv.height); trace = false; }, image: function () { return cv.toDataURL("image/png"); } };
+  }
+  function etoiles(nom) { return '<div class="etoiles" role="radiogroup" aria-label="Note">' + [5, 4, 3, 2, 1].map(function (n) { return '<input type="radio" id="' + nom + n + '" name="' + nom + '" value="' + n + '"><label for="' + nom + n + '" title="' + n + ' sur 5">★</label>'; }).join("") + "</div>"; }
+  /* Avis de satisfaction après un ticket ou une intervention */
+  function demanderAvis(col, obj, quoi) {
+    fenetre("Votre avis compte", "<p>Comment s’est passée " + esc(quoi) + " ?</p>" + etoiles("note") + '<label class="field">Un commentaire (facultatif)<textarea name="com" style="min-height:80px" placeholder="Rapidité, qualité, accueil du technicien…"></textarea></label><p class="error-text" hidden data-err>Choisissez une note.</p><button class="btn btn-primary" type="button" data-ok>Envoyer mon avis</button>', function (d, fermer) {
+      d.querySelector("[data-ok]").addEventListener("click", function () {
+        var n = d.querySelector("[name=note]:checked"); if (!n) { d.querySelector("[data-err]").hidden = false; return; }
+        var avis = { note: Number(n.value), commentaire: d.querySelector("[name=com]").value.trim(), date: new Date().toISOString(), par: session.nom };
+        if (col === "demandes") S.majDemande(obj.id, { avis: avis }); else S.modifier(col, obj.id, { avis: avis });
+        S.log("Avis client " + avis.note + "/5", (obj.id || "") + " · " + session.nom + (avis.commentaire ? " · « " + avis.commentaire.slice(0, 60) + " »" : ""));
+        fermer(); ouvrir(document.querySelector("#tabs-espace [aria-selected=true]").dataset.t);
+        alert("Merci pour votre avis !");
+      });
+    });
+  }
+  setTimeout(function () { var c0 = S.liste("comptes_clients").filter(function (c) { return c.id === session.id; })[0]; if (c0 && c0.langue && window.NGLangue && window.NGLangue.actuelle() !== c0.langue) window.NGLangue.choisir(c0.langue); }, 0);
+  function compte() { return S.liste("comptes_clients").filter(function (c) { return c.id === session.id; })[0] || { id: session.id, nom: session.nom, identifiant: session.identifiant }; }
+  function lie(x) { return (tel && norm(x.telephone) === tel) || (email && String(x.email || "").toLowerCase() === email) || (nom.length > 2 && [x.nom, x.entreprise, x.clientNom, x.contact].some(function (n) { return String(n || "").toLowerCase() === nom; })); }
+  function argent(n) { return "$\u00a0" + Number(n || 0).toLocaleString("fr-FR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }); }
+  function jour(d) { return d ? new Date(d.length === 10 ? d + "T12:00:00" : d).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }) : "—"; }
+  function totaux(d) { var t = S.reglages().tva, st = (d.lignes || []).reduce(function (a, l) { return a + l.qte * l.pu; }, 0); return { ht: st, ttc: st * (1 + t / 100), taux: t }; }
+  function paye(f) { return S.liste("paiements").filter(function (p) { return p.factureId === f.id; }).reduce(function (a, p) { return a + Number(p.montant); }, 0); }
+  function donnees() {
+    var D = S.demandes().filter(lie);
+    var ids = D.map(function (d) { return d.clientId; }).filter(Boolean);
+    var lie2 = function (x) { return lie(x) || (x.clientId && ids.indexOf(x.clientId) > -1) || (x.demandeId && D.some(function (d) { return d.id === x.demandeId; })); };
+    return { D: D, F: S.liste("factures").filter(lie2), AB: S.liste("abonnements").filter(lie2), PR: S.liste("projets").filter(lie2), T: S.liste("tickets").filter(lie2) };
+  }
+  function vide(titre, texte, lien, label) { return '<div class="card"><h2 style="font-size:1.25rem">' + titre + "</h2><p>" + texte + "</p>" + (lien ? '<a class="btn btn-primary" href="' + lien + '" style="align-self:flex-start">' + label + "</a>" : "") + "</div>"; }
+  var LIBD = { a_evaluer: ["En évaluation", "tag-accent"], devis_envoye: ["Devis reçu", "tag-warn"], accepte: ["Accepté", "tag-ok"], paye: ["Payé", "tag-ok"], cloture: ["Terminé", "tag-muted"], refuse: ["Refusé", "tag-muted"] };
+  var LIBF = { emise: ["À payer", "tag-warn"], partielle: ["Partiellement payée", "tag-accent"], payee: ["Payée", "tag-ok"], annulee: ["Annulée", "tag-muted"], proforma: ["Pro-forma", "tag-accent"] };
+  var SLA = { critique: 4, haute: 8, normale: 24, basse: 72 };
+  var LIBT = { nouveau: "Reçu", assigne: "Technicien assigné", encours: "En cours", resolu: "Résolu", ferme: "Fermé" };
+  function avProjet(p) { var j = p.jalons || []; return j.length ? Math.round(j.filter(function (x) { return x.fait; }).length / j.length * 100) : 0; }
+
+  function anneau(pc, centre, couleur) {
+    var r = 52, c = 2 * Math.PI * r, v = Math.max(0, Math.min(100, pc || 0));
+    return '<svg class="g-anneau" viewBox="0 0 130 130" role="img" aria-label="' + esc(centre + " " + Math.round(v) + " %") + '"><circle cx="65" cy="65" r="' + r + '" fill="none" stroke="var(--line)" stroke-width="13"/><circle cx="65" cy="65" r="' + r + '" fill="none" stroke="' + (couleur || "var(--accent)") + '" stroke-width="13" stroke-linecap="round" stroke-dasharray="' + (c * v / 100).toFixed(1) + " " + c.toFixed(1) + '" transform="rotate(-90 65 65)"/><text x="65" y="62" text-anchor="middle" class="g-val">' + Math.round(v) + ' %</text><text x="65" y="82" text-anchor="middle" class="g-lbl">' + esc(centre) + "</text></svg>";
+  }
+  function barres(items) {
+    var max = Math.max.apply(null, items.map(function (i) { return i.val; }).concat([1]));
+    return '<div class="g-barres">' + items.map(function (i) { return '<div class="g-col" title="' + esc(i.label) + '"><span class="g-v">' + (i.val ? argent(i.val).replace(",00", "") : "") + '</span><span class="g-b" style="height:' + Math.max(3, Math.round(i.val / max * 100)) + '%"></span><span class="g-l">' + esc(i.court) + "</span></div>"; }).join("") + "</div>";
+  }
+  function profil() {
+    var c = compte();
+    document.getElementById("cli-profil").innerHTML = '<button type="button" class="cli-photo" data-aller="compte" title="Changer ma photo">' + window.NGPhoto.avatar(c, 52) + '</button><div><strong>' + esc(c.nom || session.nom) + "</strong><small>" + esc(c.entreprise || "Client NextGenIT") + "</small><small>" + esc(c.telephone || c.identifiant || "") + "</small></div>";
+    document.querySelector("#cli-profil [data-aller]").addEventListener("click", function () { ouvrir("compte"); });
+    var X = donnees(), n = function (id, v) { var el = document.getElementById("n-" + id); if (el) { el.textContent = v || ""; el.hidden = !v; } };
+    n("devis", X.D.filter(function (d) { return d.statut === "devis_envoye"; }).length);
+    n("factures", X.F.filter(function (f) { return f.type !== "proforma" && ["emise", "partielle"].indexOf(f.statut) > -1; }).length);
+    n("support", X.T.filter(function (t) { return t.statut === "resolu"; }).length);
+    n("projets", X.PR.reduce(function (a, p) { return a + (p.jalons || []).filter(function (j) { return j.fait && !j.valideClient; }).length; }, 0));
+  }
+  function bord() {
+    var X = donnees(), c = compte();
+    var factures = X.F.filter(function (f) { return f.type !== "proforma" && f.statut !== "annulee"; });
+    var total = factures.reduce(function (a, f) { return a + f.ttc; }, 0), regle = factures.reduce(function (a, f) { return a + Math.min(f.ttc, paye(f)); }, 0);
+    var aPayer = factures.filter(function (f) { return ["emise", "partielle"].indexOf(f.statut) > -1; });
+    var du = total - regle, tOuv = X.T.filter(function (t) { return ["resolu", "ferme"].indexOf(t.statut) < 0; });
+    var projMoy = X.PR.length ? Math.round(X.PR.reduce(function (a, p) { return a + avProjet(p); }, 0) / X.PR.length) : 0;
+    var tRes = X.T.length ? Math.round(X.T.filter(function (t) { return ["resolu", "ferme"].indexOf(t.statut) > -1; }).length / X.T.length * 100) : 0;
+    var P = S.liste("paiements").filter(function (p) { return factures.some(function (f) { return f.id === p.factureId; }); });
+    var mois = []; for (var i = 5; i >= 0; i--) { var d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i); var k = d.toISOString().slice(0, 7); mois.push({ label: d.toLocaleDateString("fr-FR", { month: "long", year: "numeric" }), court: d.toLocaleDateString("fr-FR", { month: "short" }), val: P.filter(function (p) { return String(p.date).slice(0, 7) === k; }).reduce(function (a, p) { return a + Number(p.montant); }, 0) }); }
+    var afaire = [];
+    X.D.filter(function (d) { return d.statut === "devis_envoye"; }).forEach(function (d) { afaire.push(["📄", "Devis à valider : " + (d.services || []).join(", "), "devis"]); });
+    aPayer.forEach(function (f) { afaire.push(["💳", "Facture " + f.numero + " : reste " + argent(Math.max(0, f.ttc - paye(f))), "factures"]); });
+    X.T.filter(function (t) { return t.statut === "resolu"; }).forEach(function (t) { afaire.push(["✔", "Confirmez la résolution du ticket " + t.id, "support"]); });
+    X.T.filter(function (t) { return ["resolu", "ferme"].indexOf(t.statut) > -1 && !t.avis; }).slice(0, 2).forEach(function (t) { afaire.push(["★", "Notez l’intervention du ticket " + t.id, "support"]); });
+    X.D.filter(function (d) { return (d.statut === "cloture" || d.etape === "termine") && !d.avis; }).slice(0, 2).forEach(function (d) { afaire.push(["★", "Notez l’intervention " + d.id, "avis:" + d.id]); });
+    X.PR.forEach(function (p) { (p.jalons || []).filter(function (j) { return j.fait && !j.valideClient; }).forEach(function (j) { afaire.push(["🏁", "Validez l’étape « " + j.nom + " » (" + p.nom + ")", "projets"]); }); });
+    var depuis = c.creeLe ? new Date(c.creeLe).toLocaleDateString("fr-FR", { month: "long", year: "numeric" }) : "";
+    var activite = [];
+    X.D.forEach(function (d) { activite.push({ d: d.creeLe, ico: "📄", t: "Demande " + d.id + " : " + (d.services || []).join(", "), lien: "devis" }); });
+    P.forEach(function (p) { activite.push({ d: p.date, ico: "💳", t: "Paiement de " + argent(p.montant) + " (" + p.mode + ")", lien: "factures" }); });
+    X.T.forEach(function (t) { (t.historique || [{ date: t.creeLe, texte: "Ticket créé" }]).filter(function (h) { return !h.interne; }).forEach(function (h) { activite.push({ d: h.date, ico: "🎫", t: t.id + " · " + (h.texte || ""), lien: "support" }); }); });
+    X.PR.forEach(function (p) { (p.jalons || []).filter(function (j) { return j.fait && j.date; }).forEach(function (j) { activite.push({ d: j.date, ico: "🏁", t: p.nom + " : « " + j.nom + " » terminé", lien: "projets" }); }); });
+    activite.sort(function (a, b) { return String(b.d) < String(a.d) ? -1 : 1; });
+    var tuile = function (cle, ico, lib, val, sous, coul) { return '<button type="button" class="cli-kpi" data-aller="' + cle + '" style="--k:' + coul + '"><span class="cli-kpi-ico">' + ico + "</span><span class=\"cli-kpi-txt\"><small>" + lib + "</small><strong>" + val + "</strong><em>" + sous + "</em></span></button>"; };
+    document.getElementById("t-bord").innerHTML =
+      '<section class="cli-hero"><div class="cli-hero-fond" aria-hidden="true"></div><div class="cli-hero-id">' + window.NGPhoto.avatar(c, 92) + '<div><p class="cli-date">' + new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" }) + "</p><h1>Bonjour " + esc(String(c.nom || session.nom).split(" ")[0]) + ' 👋</h1><p class="cli-sous">' + esc(c.entreprise || "Espace client NextGenIT") + (depuis ? " · client depuis " + depuis : "") + '</p><div class="cli-puces"><span>' + (aPayer.length ? "💳 " + aPayer.length + " facture(s) à régler" : "✔ Factures à jour") + "</span><span>🎫 " + tOuv.length + " ticket(s) ouvert(s)</span><span>📁 " + X.PR.length + " projet(s)</span></div></div></div></section>" +
+      '<div class="cli-rapides">' +
+        '<a class="cli-rapide" href="devis.html"><span><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></span><strong>Demander un devis</strong><small>Réseau, CCTV, web, cloud…</small></a>' +
+        '<button type="button" class="cli-rapide" data-aller="support"><span><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0zM12 9v4M12 17h.01"/></svg></span><strong>Signaler une panne</strong><small>Réponse garantie</small></button>' +
+        '<button type="button" class="cli-rapide" data-aller="factures"><span><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h20v12H2zM2 10h20M6 15h4"/></svg></span><strong>Payer une facture</strong><small>Mobile Money, carte, virement</small></button>' +
+        '<a class="cli-rapide" href="https://wa.me/' + esc(window.NG_CONTENU.entreprise.whatsapp) + '" target="_blank" rel="noopener"><span><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.4 8.4 0 01-12.4 7.4L3 21l2.1-5.6A8.4 8.4 0 1121 11.5z"/></svg></span><strong>Parler à un conseiller</strong><small>Sur WhatsApp</small></a>' +
+      "</div>" +
+      '<div class="cli-kpis">' +
+        tuile("factures", "💳", "Reste à payer", argent(du), aPayer.length + " facture(s)", "#c1121f") +
+        tuile("factures", "✅", "Déjà réglé", argent(regle), "sur " + argent(total) + " facturés", "#0f8a5f") +
+        tuile("projets", "📁", "Projets", X.PR.length, projMoy + " % d’avancement", "#0b4aa2") +
+        tuile("support", "🎫", "Tickets ouverts", tOuv.length, X.T.length + " au total", "#f59e0b") +
+        tuile("devis", "📄", "Demandes", X.D.length, X.D.filter(function (d) { return d.statut === "devis_envoye"; }).length + " devis à valider", "#6366f1") +
+      "</div>" +
+      (function () { var act = X.D.filter(function (d) { return d.techId && d.statut !== "cloture" && d.etape !== "termine"; }); return act.length ? '<section class="card cli-activite"><h2 class="etu-h">🛠 Intervention en cours</h2>' + act.map(suiviIntervention).join("") + "</section>" : ""; })() +
+      (activite.length ? '<section class="card cli-activite"><h2 class="etu-h">Activité récente</h2><ol class="cli-timeline">' + activite.slice(0, 6).map(function (a) { return '<li><span class="cli-tl-ico">' + a.ico + '</span><div><button type="button" class="lien-btn" data-aller="' + a.lien + '">' + esc(a.t) + "</button><small>" + (a.d ? new Date(a.d).toLocaleDateString("fr-FR", { day: "numeric", month: "long", hour: "2-digit", minute: "2-digit" }) : "") + "</small></div></li>"; }).join("") + "</ol></section>" : "") +
+      '<div class="etu-grille">' +
+        '<div class="card"><h2 class="etu-h">Vue d’ensemble</h2><div class="g-anneaux">' + anneau(total ? regle / total * 100 : 0, "factures réglées", "var(--ok)") + anneau(projMoy, "projets", "var(--accent)") + anneau(tRes, "tickets résolus", "#f59e0b") + "</div></div>" +
+        '<div class="card"><h2 class="etu-h">Mes paiements (6 mois)</h2>' + barres(mois) + '<p class="muted" style="font-size:.85rem">Total réglé : <strong>' + argent(regle) + "</strong> sur " + argent(total) + " facturés</p></div>" +
+        '<div class="card"><h2 class="etu-h">À faire</h2><ul class="a-faire">' + (afaire.slice(0, 6).map(function (a) { return "<li><span>" + a[0] + '</span><button type="button" class="lien-btn" data-aller="' + a[2] + '">' + esc(a[1]) + "</button><small></small></li>"; }).join("") || "<li><span>✔</span><span>Tout est à jour, merci !</span><small></small></li>") + "</ul></div>" +
+        (X.PR.length ? '<div class="card"><h2 class="etu-h">Mes projets</h2>' + X.PR.slice(0, 4).map(function (p) { var av = avProjet(p); return '<div class="mod-ligne"><div><span>' + esc(p.nom) + "</span><b>" + av + ' %</b></div><div class="progress"><span style="width:' + av + '%"></span></div><small class="muted">Prochaine étape : ' + esc(((p.jalons || []).filter(function (j) { return !j.fait; })[0] || { nom: "terminé" }).nom) + "</small></div>"; }).join("") + "</div>" : "") +
+        '<div class="card"><h2 class="etu-h">Mes services</h2>' + (X.AB.map(function (a) { return '<div class="row-item" style="padding:10px 12px"><span><strong>' + esc(a.service) + '</strong><br><small class="muted">' + esc(a.periodicite) + " · échéance " + jour(a.prochaine) + '</small></span><span class="tag ' + (a.actif ? "tag-ok" : "tag-muted") + '">' + (a.actif ? "Actif" : "Suspendu") + "</span></div>"; }).join("") || '<p class="muted">Aucun abonnement pour le moment. Maintenance, hébergement, domaine .cd : demandez un devis.</p>') + "</div>" +
+        '<div class="card"><h2 class="etu-h">Derniers tickets</h2>' + (X.T.slice(0, 4).map(function (t) { return '<div class="row-item" style="padding:10px 12px"><span><strong>' + esc(t.sujet) + '</strong><br><small class="muted">' + esc(t.id) + " · " + jour(t.creeLe) + '</small></span><span class="tag ' + (["resolu", "ferme"].indexOf(t.statut) > -1 ? "tag-ok" : "tag-accent") + '">' + esc(LIBT[t.statut] || t.statut) + "</span></div>"; }).join("") || '<p class="muted">Aucun ticket.</p>') + "</div>" +
+      "</div>";
+    document.querySelectorAll("#t-bord [data-aller]").forEach(function (b) { b.addEventListener("click", function () { var a = b.dataset.aller; if (a.indexOf("avis:") === 0) { demanderAvis("demandes", S.demandes().filter(function (x) { return x.id === a.slice(5); })[0], "l’intervention " + a.slice(5)); return; } ouvrir(a); }); });
+  }
+  /* Mon compte : photo, coordonnées, mot de passe */
+  function sha(t) { return crypto.subtle.digest("SHA-256", new TextEncoder().encode(t)).then(function (b) { return Array.prototype.map.call(new Uint8Array(b), function (x) { return ("0" + x.toString(16)).slice(-2); }).join(""); }); }
+  function moncompte() {
+    var c = compte(), reel = S.liste("comptes_clients").some(function (x) { return x.id === c.id; });
+    document.getElementById("t-compte").innerHTML = '<div class="etu-titre"><h1>Mon compte</h1></div><div class="etu-grille">' +
+      '<div class="card cli-photo-carte"><div class="cli-grande">' + window.NGPhoto.avatar(c, 132) + '</div><div class="hero-actions" style="justify-content:center"><label class="btn btn-primary btn-sm" style="cursor:pointer">📷 ' + (c.photo ? "Changer la photo" : "Ajouter une photo") + '<input type="file" accept="image/*" id="cli-photo-in" class="sr-only"></label>' + (c.photo ? '<button class="btn btn-ghost btn-sm" type="button" id="cli-photo-adj">✂ Ajuster</button><button class="btn btn-ghost btn-sm" type="button" id="cli-photo-sup">Retirer</button>' : "") + '</div><p class="muted" style="text-align:center;font-size:.85rem">Votre photo s’affiche dans votre espace et aide notre équipe à vous reconnaître.</p></div>' +
+      '<form class="card" id="cli-infos" novalidate><h2 class="etu-h">Mes coordonnées</h2><label class="field">Nom complet<input name="nom" value="' + esc(c.nom || "") + '" required></label><label class="field">Entreprise<input name="entreprise" value="' + esc(c.entreprise || "") + '" placeholder="facultatif"></label><label class="field">Téléphone / WhatsApp<input name="tel" type="tel" value="' + esc(c.telephone || "") + '"></label><label class="field">Adresse<input name="adresse" value="' + esc(c.adresse || "") + '" placeholder="ex. Avenue …, Kolwezi"></label><button class="btn btn-ghost btn-sm" type="button" id="cli-notif" style="justify-self:start">🔔 Recevoir les notifications sur cet appareil</button><label class="field">Langue de mon espace et de mes documents<select name="langue" class="choix-langue" data-no-i18n><option value="fr">Français</option><option value="en">English</option><option value="sw">Kiswahili</option></select></label><p class="muted" style="font-size:.85rem">Identifiant de connexion : <strong>' + esc(c.identifiant || "") + '</strong></p><button class="btn btn-primary" type="submit" style="justify-self:start">Enregistrer</button><p id="cli-ok" class="notice" hidden>✔ Enregistré</p></form>' +
+      '<form class="card" id="cli-mdp" novalidate><h2 class="etu-h">Mot de passe</h2><label class="field">Mot de passe actuel<input name="actuel" type="password" autocomplete="current-password"></label><label class="field">Nouveau mot de passe<input name="mdp" type="password" autocomplete="new-password" placeholder="8 caractères minimum avec un chiffre"></label><label class="field">Confirmer<input name="mdp2" type="password" autocomplete="new-password"></label><p class="error-text" id="cli-err" hidden></p><button class="btn btn-ghost" type="submit" style="justify-self:start">Changer le mot de passe</button></form></div>';
+    var enreg = function (m) { if (!reel) return false; S.modifier("comptes_clients", c.id, m); return true; };
+    var inp = document.getElementById("cli-photo-in");
+    inp.addEventListener("change", function () { var fi = inp.files[0]; if (!fi) return; window.NGPhoto.recadrer(fi).then(function (u) { if (u && enreg({ photo: u })) { S.log("Photo de profil client", c.nom); profil(); moncompte(); } }); });
+    var adj = document.getElementById("cli-photo-adj"); if (adj) adj.addEventListener("click", function () { window.NGPhoto.recadrer(c.photo).then(function (u) { if (u && enreg({ photo: u })) { profil(); moncompte(); } }); });
+    var sup = document.getElementById("cli-photo-sup"); if (sup) sup.addEventListener("click", function () { if (enreg({ photo: "" })) { profil(); moncompte(); } });
+    var bn = document.getElementById("cli-notif"); if (bn) { if (window.Notification && Notification.permission === "granted") bn.textContent = "🔔 Notifications activées"; bn.addEventListener("click", function () { if (window.NGApp) window.NGApp.activerNotifications().then(function (ok) { bn.textContent = ok ? "🔔 Notifications activées" : "Notifications refusées par le navigateur"; if (ok) window.NGApp.notifier("NextGenIT", "Les notifications sont activées : vous serez prévenu de l’avancement de vos demandes.", "mon-espace.html"); }); }); }
+    document.querySelector("#cli-infos [name=langue]").value = c.langue || (window.NGLangue ? window.NGLangue.actuelle() : "fr");
+    document.getElementById("cli-infos").addEventListener("submit", function (ev) { ev.preventDefault(); var f = ev.target; if (!f.nom.value.trim()) return; if (enreg({ nom: f.nom.value.trim(), entreprise: f.entreprise.value.trim(), telephone: f.tel.value.trim(), adresse: f.adresse.value.trim(), langue: f.langue.value })) { if (window.NGLangue) window.NGLangue.choisir(f.langue.value); session.nom = f.nom.value.trim(); localStorage.setItem("ng_session", JSON.stringify(session)); S.log("Coordonnées client modifiées", f.nom.value.trim()); document.getElementById("cli-ok").hidden = false; profil(); } });
+    document.getElementById("cli-mdp").addEventListener("submit", function (ev) {
+      ev.preventDefault(); var f = ev.target, err = document.getElementById("cli-err");
+      if (f.mdp.value.length < 8 || !/\d/.test(f.mdp.value) || f.mdp.value !== f.mdp2.value) { err.textContent = "8 caractères minimum avec un chiffre, identiques dans les deux champs."; err.hidden = false; return; }
+      sha(String(c.identifiant).toLowerCase() + ":" + f.actuel.value).then(function (h) {
+        if (h !== c.hash) { err.textContent = "Mot de passe actuel incorrect."; err.hidden = false; return; }
+        sha(String(c.identifiant).toLowerCase() + ":" + f.mdp.value).then(function (h2) { enreg({ hash: h2 }); err.hidden = true; f.reset(); f.insertAdjacentHTML("beforeend", '<p class="notice">✔ Mot de passe changé.</p>'); });
+      });
+    });
+  }
+  /* Suivi en direct de l'intervention : le client voit ce que le technicien met à jour dans son application */
+  var ETAPES_I = [["", "Planifiée"], ["assigne", "Technicien assigné"], ["en_route", "En route"], ["sur_site", "Sur site"], ["termine", "Terminée"]];
+  function suiviIntervention(d) {
+    if (!d.techId && !d.datePrevue) return "";
+    var tech = S.liste("personnel").filter(function (p) { return p.id === d.techId; })[0];
+    var ix = Math.max(0, ETAPES_I.map(function (e) { return e[0]; }).indexOf(d.etape || (d.techId ? "assigne" : "")));
+    if (d.statut === "cloture") ix = 4;
+    var h = (d.historiqueTech || []).slice(-1)[0];
+    return '<div class="suivi-int"><div class="suivi-int-tete">' + (tech ? window.NGPhoto.avatar(tech, 54) + "<span><strong>" + esc(tech.nom) + "</strong><small>" + esc(tech.poste || "Technicien") + " · badge " + esc(tech.badge || "") + ' · <a href="verification.html?code=' + encodeURIComponent(tech.badge || "") + '" target="_blank" rel="noopener">vérifier</a></small></span>' : "<span><strong>Technicien en cours d’attribution</strong></span>") + '<span class="tag ' + (ix >= 4 ? "tag-ok" : ix >= 2 ? "tag-warn" : "tag-accent") + '">' + ETAPES_I[ix][1] + "</span></div>" +
+      '<ol class="tk-etapes">' + ETAPES_I.map(function (e, k) { return '<li class="' + (k < ix ? "fait" : k === ix ? "actuel" : "") + '"><span>' + (k < ix ? "✓" : k + 1) + "</span>" + e[1] + "</li>"; }).join("") + "</ol>" +
+      '<small class="muted">' + (d.datePrevue ? "Prévue le " + jour(d.datePrevue) + (d.heurePrevue ? " à " + esc(d.heurePrevue) : "") : "") + (h ? " · dernière mise à jour " + new Date(h.date).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }) : "") + "</small></div>";
+  }
+  function devis() {
+    var X = donnees();
+    var box = document.getElementById("t-devis");
+    var CMD = S.liste("commandes").filter(lie);
+    var LC = { nouvelle: "Reçue · devis en préparation", devis: "Devis préparé", payee: "Payée", livree: "Livrée", annulee: "Annulée" };
+    var cmdHtml = CMD.length ? '<div class="card mb-2"><h2 style="font-size:1.2rem">Mes commandes de matériel</h2>' + CMD.map(function (c) { return '<div class="row-item"><span><strong>' + esc(c.id) + "</strong><br><small class=\"muted\">" + esc(c.lignes.map(function (x) { return x.qte + " × " + x.nom; }).join(", ")) + '</small></span><span class="tag ' + (c.statut === "livree" ? "tag-ok" : "tag-accent") + '">' + (LC[c.statut] || c.statut) + "</span></div>"; }).join("") + "</div>" : "";
+    if (!X.D.length) { box.innerHTML = cmdHtml + vide("Aucune demande", "Décrivez votre besoin et recevez un devis détaillé.", "devis.html", "Demander un devis"); return; }
+    box.innerHTML = cmdHtml + '<div class="stack" style="gap:16px">' + X.D.map(function (d) {
+      var l = LIBD[d.statut] || LIBD.a_evaluer, t = totaux(d), suivi = suiviIntervention(d);
+      var corps = d.statut === "a_evaluer" ? "<p>Un spécialiste évalue votre demande. Le devis arrivera par " + esc((d.canaux || ["WhatsApp"]).join(", ")) + ".</p>" :
+        '<div class="stack" style="gap:6px">' + (d.lignes || []).map(function (x) { return '<div class="row-item" style="padding:10px 14px"><span>' + x.qte + " × " + esc(x.designation) + "</span><strong>" + argent(x.qte * x.pu) + "</strong></div>"; }).join("") + '</div><div class="row-item" style="background:var(--accent-soft);color:var(--accent-soft-text)"><span>Total</span><strong>' + argent(t.ttc) + "</strong></div>" + (d.note ? '<p class="notice">' + esc(d.note) + "</p>" : "") +
+        '<div class="hero-actions">' + (d.statut === "devis_envoye" ? '<button class="btn btn-primary" type="button" data-accepter="' + d.id + '">Accepter le devis</button><button class="btn btn-ghost" type="button" data-refuser="' + d.id + '">Refuser</button>' : "") + '<a class="btn btn-ghost" href="document.html?type=devis&id=' + d.id + '" target="_blank" rel="noopener">Devis PDF</a></div>';
+      return '<article class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span class="muted" style="font-size:.85rem">' + d.id + " · " + jour(d.creeLe) + '</span><span class="tag ' + l[1] + '">' + l[0] + '</span></div><h2 style="font-size:1.25rem">' + esc((d.services || []).join(", ")) + "</h2>" + suivi + corps + "</article>";
+    }).join("") + "</div>";
+    box.querySelectorAll("[data-accepter]").forEach(function (b) { b.addEventListener("click", function () {
+      var d = X.D.filter(function (x) { return x.id === b.dataset.accepter; })[0], t = totaux(d);
+      fenetre("Signer le devis " + d.id, '<p>Montant total : <strong>' + argent(t.ttc) + "</strong></p>" + '<label class="field">Nom et fonction du signataire<input name="nom" value="' + esc(compte().nom || session.nom) + '"></label><div><span class="panel-label">Signature</span><canvas class="sig-pad" style="width:100%;height:170px;border-radius:12px;background:#fff;border:1px dashed var(--line-2);touch-action:none"></canvas><button type="button" class="lien-btn" data-eff>Effacer</button></div><label style="display:flex;gap:8px;align-items:flex-start"><input type="checkbox" name="accord"> <span>« Bon pour accord » : j’accepte ce devis et ses conditions.</span></label><p class="error-text" hidden data-err></p><button class="btn btn-primary" type="button" data-ok>✍ Signer et accepter</button>', function (dl, fermer) {
+        var z = zoneSignature(dl.querySelector("canvas"));
+        dl.querySelector("[data-eff]").addEventListener("click", function () { z.effacer(); });
+        dl.querySelector("[data-ok]").addEventListener("click", function () {
+          var err = dl.querySelector("[data-err]"), nom = dl.querySelector("[name=nom]").value.trim();
+          if (!nom || z.vide() || !dl.querySelector("[name=accord]").checked) { err.textContent = "Indiquez le nom, signez dans le cadre et cochez « Bon pour accord »."; err.hidden = false; return; }
+          S.majDemande(d.id, { statut: "accepte", accepteLe: new Date().toISOString(), signatureClient: { image: z.image(), nom: nom, date: new Date().toISOString(), montant: t.ttc } });
+          S.log("Devis signé électroniquement", d.id + " · " + nom, t.ttc);
+          fermer(); devis(); profil();
+        });
+      });
+    }); });
+    box.querySelectorAll("[data-refuser]").forEach(function (b) { b.addEventListener("click", function () { if (confirm("Refuser ce devis ?")) { S.majDemande(b.dataset.refuser, { statut: "refuse" }); S.log("Devis refusé par le client", b.dataset.refuser); devis(); } }); });
+  }
+  function factures() {
+    var X = donnees(), R = S.reglages(), box = document.getElementById("t-factures");
+    var F = X.F.filter(function (f) { return f.statut !== "annulee"; });
+    if (!F.length) { box.innerHTML = vide("Aucune facture", "Vos factures apparaissent ici dès qu’un devis est accepté.", "", ""); return; }
+    var P = S.liste("paiements").filter(function (p) { return F.some(function (f) { return f.id === p.factureId; }); });
+    setTimeout(function () { brancherDeclarer(box, F); }, 0);
+    box.innerHTML = '<div class="layout-2"><div class="stack" style="gap:14px">' + F.map(function (f) {
+      var l = LIBF[f.statut] || LIBF.emise, reste = Math.max(0, f.ttc - paye(f)), retard = reste > 0 && f.type !== "proforma" && f.echeance < new Date().toISOString().slice(0, 10);
+      return '<article class="card"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><strong>' + esc(f.numero) + '</strong><span class="tag ' + (retard ? "tag-warn" : l[1]) + '">' + (retard ? "En retard" : l[0]) + "</span></div><p>" + esc(f.objet) + " · émise le " + jour(f.emiseLe) + (f.type !== "proforma" ? " · échéance " + jour(f.echeance) : "") + '</p><div class="row-item"><span>Total ' + argent(f.ttc) + "</span><strong>" + (f.type === "proforma" ? "Pro-forma" : "Reste " + argent(reste)) + '</strong></div><a class="btn btn-ghost btn-sm" href="document.html?type=' + (f.type === "proforma" ? "proforma" : "facture") + "&fid=" + f.id + '" target="_blank" rel="noopener" style="align-self:flex-start">Facture PDF</a>' + (reste > 0 && f.type !== "proforma" ? (S.liste("paiements_declares").some(function (x) { return x.factureId === f.id && x.statut === "a_verifier"; }) ? '<p class="notice" style="margin:0">⏳ Paiement déclaré, en cours de vérification par NextGenIT</p>' : '<div class="hero-actions">' + (R.lienCarte ? '<a class="btn btn-primary btn-sm" href="' + esc(R.lienCarte) + '" target="_blank" rel="noopener">💳 Payer par carte</a>' : "") + '<button class="btn btn-ghost btn-sm" type="button" data-declarer="' + f.id + '">✅ J’ai payé</button></div>') : "") + "</article>";
+    }).join("") + '</div><aside class="stack" style="gap:16px"><div class="card"><h2 style="font-size:1.15rem">Comment payer</h2><div class="stack" style="gap:8px"><div class="row-item block"><small class="muted">Mobile Money</small><span>' + esc(R.mobileMoney) + '</span></div><div class="row-item block"><small class="muted">Virement</small><span>' + esc(R.banque) + "</span></div>" + (R.lienCarte ? '<a class="btn btn-primary" href="' + esc(R.lienCarte) + '" target="_blank" rel="noopener">Payer par carte Visa / Mastercard</a>' : '<div class="row-item block"><small class="muted">Carte Visa / Mastercard</small><span>Lien de paiement envoyé sur demande</span></div>') + '<div class="row-item block"><small class="muted">Espèces</small><span>Au bureau, reçu remis immédiatement</span></div></div><p class="muted" style="font-size:.88rem">Indiquez le numéro de facture comme référence. Votre reçu apparaît ici après validation.</p></div>' +
+      '<div class="card"><h2 style="font-size:1.15rem">Mes reçus</h2>' + (P.map(function (p) { return '<div class="row-item"><span>' + jour(p.date) + " · " + esc(p.mode) + "</span><span><strong>" + argent(p.montant) + '</strong> <a href="document.html?type=recu&pid=' + p.id + '" target="_blank" rel="noopener">Reçu</a></span></div>'; }).join("") || '<p class="muted">Aucun paiement enregistré.</p>') + "</div></aside></div>";
+  }
+  function brancherDeclarer(box, F) {
+    box.querySelectorAll("[data-declarer]").forEach(function (b) { b.addEventListener("click", function () {
+      var f = F.filter(function (x) { return x.id === b.dataset.declarer; })[0], reste = Math.max(0, f.ttc - paye(f));
+      fenetre("Déclarer un paiement · " + f.numero, '<p>Vous avez déjà payé ? Indiquez la référence : NextGenIT vérifie et votre reçu apparaît ici.</p><div class="form-grid"><label class="field">Montant payé ($)<input name="m" type="number" min="0.01" step="0.01" value="' + reste.toFixed(2) + '"></label><label class="field">Moyen de paiement<select name="mode"><option>M-Pesa</option><option>Orange Money</option><option>Airtel Money</option><option>Carte Visa / Mastercard</option><option>Virement EquityBCDC</option><option>Virement autre banque</option><option>Espèces (caisse)</option></select></label><label class="field">Référence de la transaction<input name="ref" placeholder="ex. code M-Pesa reçu par SMS"></label><label class="field">Date<input name="date" type="date" value="' + new Date().toISOString().slice(0, 10) + '"></label></div><p class="error-text" hidden data-err>Indiquez le montant et la référence.</p><button class="btn btn-primary" type="button" data-ok>Envoyer</button>', function (d, fermer) {
+        d.querySelector("[data-ok]").addEventListener("click", function () {
+          var m = Number(d.querySelector("[name=m]").value), ref = d.querySelector("[name=ref]").value.trim();
+          if (!(m > 0) || !ref) { d.querySelector("[data-err]").hidden = false; return; }
+          S.ajouter("paiements_declares", { factureId: f.id, facture: f.numero, client: f.clientNom, telephone: f.telephone || compte().telephone || "", montant: m, mode: d.querySelector("[name=mode]").value, ref: ref, date: d.querySelector("[name=date]").value, statut: "a_verifier", par: session.nom }, "DP-");
+          S.log("Paiement déclaré par le client", f.numero + " · " + ref, m);
+          fermer(); factures(); profil();
+        });
+      });
+    }); });
+  }
+  function projets() {
+    var X = donnees(), box = document.getElementById("t-projets");
+    if (!X.PR.length) { box.innerHTML = vide("Aucun projet en cours", "Le suivi de votre site web ou de votre installation réseau apparaîtra ici, étape par étape.", "", ""); return; }
+    box.innerHTML = '<div class="stack" style="gap:18px">' + X.PR.map(function (p) {
+      var av = avProjet(p);
+      return '<article class="card" data-p="' + p.id + '"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><span class="tag tag-accent">' + esc(p.type) + '</span><span class="muted" style="font-size:.9rem">' + jour(p.debut) + " → " + jour(p.fin) + '</span></div><h2 style="font-size:1.35rem">' + esc(p.nom) + '</h2><div style="display:flex;justify-content:space-between;font-size:.9rem"><span class="muted">Avancement</span><strong>' + av + ' %</strong></div><div class="progress"><span style="width:' + av + '%"></span></div><ol class="timeline">' +
+        (p.jalons || []).map(function (j) { return '<li class="' + (j.fait ? "fait" : "") + '"><span class="pt" aria-hidden="true">' + (j.fait ? "✓" : "") + "</span><div><strong>" + esc(j.nom) + "</strong><small>" + (j.fait ? "Terminé le " + jour(j.date) : "À venir") + "</small></div>" + (j.fait ? (j.valideClient ? '<span class="tag tag-ok">Validé par vous</span>' : '<button class="btn btn-primary btn-sm" type="button" data-valider="' + j.id + '">Valider cette étape</button>') : "") + "</li>"; }).join("") + "</ol></article>";
+    }).join("") + "</div>";
+    box.querySelectorAll("[data-valider]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var pid = b.closest("[data-p]").dataset.p, p = S.liste("projets").filter(function (x) { return x.id === pid; })[0];
+        p.jalons.forEach(function (j) { if (j.id === b.dataset.valider) { j.valideClient = true; j.valideLe = new Date().toISOString(); } });
+        S.modifier("projets", pid, { jalons: p.jalons });
+        S.log("Étape validée par le client", p.nom + " · " + p.jalons.filter(function (j) { return j.id === b.dataset.valider; })[0].nom);
+        projets();
+      });
+    });
+  }
+  function support() {
+    var X = donnees(), box = document.getElementById("t-support");
+    box.innerHTML = '<div class="layout-2"><div class="stack" style="gap:14px">' + (X.T.map(function (t) {
+      var r = new Date(t.creeLe).getTime() + (SLA[t.priorite] || 24) * 3600e3 - Date.now(), ouvert = ["resolu", "ferme"].indexOf(t.statut) < 0;
+      var ordre = ["nouveau", "assigne", "encours", "resolu", "ferme"], ix = ordre.indexOf(t.statut);
+      var h = (t.historique || []).filter(function (x) { return !x.interne; });
+      return '<article class="card" data-tk="' + esc(t.id) + '"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><strong>' + esc(t.id) + '</strong><span class="tag ' + (ouvert ? "tag-accent" : "tag-ok") + '">' + (LIBT[t.statut] || t.statut) + '</span></div>' +
+        '<ol class="tk-etapes">' + ordre.map(function (st, k) { return '<li class="' + (k < ix ? "fait" : k === ix ? "actuel" : "") + '"><span>' + (k < ix ? "✓" : k + 1) + "</span>" + LIBT[st] + "</li>"; }).join("") + "</ol>" +
+        "<p><strong>" + esc(t.sujet) + '</strong><br><span style="white-space:pre-line">' + esc(t.description || "") + '</span></p><small class="muted">Ouvert le ' + jour(t.creeLe) + " · priorité " + esc(t.priorite) + (ouvert ? " · réponse garantie " + (r > 0 ? "dans " + Math.ceil(r / 3600e3) + " h" : "en cours de traitement") : "") + "</small>" +
+        (h.length ? '<ul class="tk-histo">' + h.slice().reverse().map(function (x) { return "<li><b>" + jour(x.date) + "</b> · " + esc(x.par || "") + (x.texte ? "<br>" + esc(x.texte) : "") + "</li>"; }).join("") + "</ul>" : "") +
+        (["resolu", "ferme"].indexOf(t.statut) > -1 ? (t.avis ? '<p class="avis-donne">Votre avis : ' + "★★★★★".slice(0, t.avis.note) + '<span class="muted">' + "★★★★★".slice(t.avis.note) + "</span>" + (t.avis.commentaire ? " · « " + esc(t.avis.commentaire) + " »" : "") + "</p>" : '<button class="btn btn-gold btn-sm" type="button" data-avis-tk="' + esc(t.id) + '" style="justify-self:start">★ Noter cette intervention</button>') : "") + (t.statut !== "ferme" ? '<form class="tk-rep" data-rep><textarea name="m" placeholder="Ajouter une précision ou répondre au technicien…" aria-label="Message"></textarea><div class="hero-actions"><button class="btn btn-ghost btn-sm" type="submit">Envoyer</button>' + (t.statut === "resolu" ? '<button class="btn btn-primary btn-sm" type="button" data-fermer>✔ Problème réglé, fermer le ticket</button>' : "") + "</div></form>" : "") + "</article>";
+    }).join("") || '<div class="card"><h2 style="font-size:1.2rem">Aucun ticket</h2><p>Tout fonctionne ? Parfait. En cas de panne, ouvrez un ticket ici.</p></div>') + '</div>' +
+      '<form class="card" id="form-ticket" novalidate><h2 style="font-size:1.2rem">Signaler une panne</h2><label class="field">Sujet<input name="sujet" required placeholder="Ex. Plus d’Internet au bureau"></label><label class="field">Description<textarea name="desc" placeholder="Depuis quand, quels postes, message d’erreur…"></textarea></label><label class="field">Urgence<select name="prio"><option value="normale">Normale – réponse sous 24 h</option><option value="haute">Haute – sous 8 h</option><option value="critique">Critique, activité arrêtée – sous 4 h</option><option value="basse">Basse – sous 72 h</option></select></label><label class="field">Téléphone pour vous joindre<input name="tel" type="tel" value="' + esc(tel ? "+" + tel : "") + '" required></label><p class="error-text" id="err-ticket" hidden>Indiquez le sujet et votre téléphone.</p><button class="btn btn-primary" type="submit">Envoyer le ticket</button></form></div>';
+    box.querySelectorAll("[data-avis-tk]").forEach(function (b) { b.addEventListener("click", function () { demanderAvis("tickets", S.liste("tickets").filter(function (x) { return x.id === b.dataset.avisTk; })[0], "l’intervention sur votre ticket"); }); });
+    box.querySelectorAll("[data-rep]").forEach(function (fr) {
+      var id = fr.closest("[data-tk]").dataset.tk;
+      function noter(texte, statut) {
+        var t = S.liste("tickets").filter(function (x) { return x.id === id; })[0]; if (!t) return;
+        var h = (t.historique || [{ date: t.creeLe, statut: "nouveau", par: t.clientNom, texte: "Ticket créé" }]).concat([{ date: new Date().toISOString(), par: session.nom || t.clientNom, texte: texte, statut: statut || "" }]);
+        var m = { historique: h, vuParAdmin: false }; if (statut) m.statut = statut;
+        S.modifier("tickets", id, m); S.log(statut ? "Ticket fermé par le client" : "Message du client sur un ticket", id + " · " + texte.slice(0, 60)); support();
+      }
+      fr.addEventListener("submit", function (ev) { ev.preventDefault(); if (fr.m.value.trim()) noter(fr.m.value.trim()); });
+      var bf = fr.querySelector("[data-fermer]"); if (bf) bf.addEventListener("click", function () { noter("Le client confirme que le problème est réglé.", "ferme"); });
+    });
+    var f = document.getElementById("form-ticket");
+    f.addEventListener("submit", function (ev) {
+      ev.preventDefault();
+      var bad = !f.sujet.value.trim() || !f.tel.value.trim();
+      document.getElementById("err-ticket").hidden = !bad; if (bad) return;
+      var D = X.D[0];
+      var t = S.ajouter("tickets", { clientNom: D ? (D.entreprise || D.nom) : session.nom, clientId: D ? D.clientId || "" : "", telephone: f.tel.value.trim(), email: email, sujet: f.sujet.value.trim(), description: f.desc.value.trim(), priorite: f.prio.value, source: "Espace client", statut: "nouveau", vuParAdmin: false, historique: [{ date: new Date().toISOString(), statut: "nouveau", par: session.nom || "Client", texte: "Ticket créé depuis l’espace client" }] }, "TK-" + String(Date.now()).slice(-4) + "-");
+      try { localStorage.setItem("ng_client_tel", f.tel.value.trim()); } catch (er) {}
+      tel = norm(f.tel.value);
+      S.log("Ticket ouvert depuis l’espace client", t.id + " · " + t.sujet);
+      support(); bord();
+    });
+  }
+  (function () { var d0 = donnees().D[0]; if (d0 && (!session.nom || session.nom.length < 3 || /@/.test(session.identifiant || ""))) document.getElementById("bonjour").textContent = "Bonjour " + d0.nom.split(" ")[0]; })();
+  function aide() {
+    var Q = (window.NG_CONTENU.faqClient || []);
+    document.getElementById("t-aide").innerHTML = '<div class="layout-2"><div class="faq">' + Q.map(function (x) { return "<details><summary>" + esc(x.q) + "</summary><p>" + esc(x.r) + "</p></details>"; }).join("") + '</div><aside class="card"><h2 style="font-size:1.15rem">Une autre question ?</h2><p>Notre équipe vous répond sur WhatsApp, par téléphone ou par email.</p><a class="btn btn-whatsapp" href="https://wa.me/' + esc(window.NG_CONTENU.entreprise.whatsapp) + '" target="_blank" rel="noopener">Écrire sur WhatsApp</a><button class="btn btn-ghost" type="button" data-aller="support">Ouvrir un ticket</button></aside></div>';
+    document.querySelectorAll("#t-aide [data-aller]").forEach(function (b) { b.addEventListener("click", function () { ouvrir(b.dataset.aller); }); });
+  }
+  function monParc() {
+    var c = compte(), noms = [c.entreprise, c.nom, session.nom].filter(Boolean).map(function (x) { return String(x).toLowerCase(); });
+    var L = S.liste("parc").filter(function (x) { return noms.indexOf(String(x.client || "").toLowerCase()) > -1; }), auj = new Date().toISOString().slice(0, 10), lim = new Date(Date.now() + 30 * 864e5).toISOString().slice(0, 10);
+    var jr = function (d) { return d ? new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" }) : "—"; };
+    document.getElementById("t-parc").innerHTML = '<div class="etu-titre"><h1>Mon parc informatique</h1><p class="muted">Le matériel et les licences suivis par NextGenIT, avec leurs dates de garantie.</p></div>' +
+      (L.length ? '<div class="etu-cartes">' + L.map(function (x) { var al = (x.garantieFin && x.garantieFin <= lim) || (x.licenceFin && x.licenceFin <= lim); return '<article class="card etu-carte"' + (al ? ' style="border-color:var(--warn)"' : "") + '><span class="tag ' + (al ? "tag-warn" : "tag-accent") + '">' + esc(x.type) + "</span><h3>" + esc((x.marque || "") + " " + (x.modele || "")) + '</h3><p class="muted">' + esc(x.lieu || "") + (x.serie ? " · N° " + esc(x.serie) : "") + "</p><p>Garantie : <b>" + jr(x.garantieFin) + "</b>" + (x.licenceFin ? "<br>Licence : <b>" + jr(x.licenceFin) + "</b>" : "") + "</p>" + (al ? '<a class="btn btn-gold btn-sm" href="devis.html">Demander le renouvellement</a>' : "") + "</article>"; }).join("") + "</div>" : '<div class="card"><p>Votre inventaire apparaîtra ici dès que NextGenIT aura enregistré votre matériel.</p></div>');
+    var n = L.filter(function (x) { return (x.garantieFin && x.garantieFin <= lim) || (x.licenceFin && x.licenceFin <= lim); }).length, el = document.getElementById("n-parc"); if (el) { el.textContent = n || ""; el.hidden = !n; }
+  }
+  function rapports() {
+    var X = donnees(), C = X.AB.filter(function (a) { return a.maintenance || /maintenance|supervision/i.test(a.service); }), mois = [];
+    for (var i = 0; i < 6; i++) { var d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - i); mois.push(d.toISOString().slice(0, 7)); }
+    document.getElementById("t-rapports").innerHTML = '<div class="etu-titre"><h1>Rapports mensuels</h1><p class="muted">Chaque mois, le bilan de votre contrat : interventions, visites, heures, tickets et recommandations.</p></div>' +
+      (C.length ? C.map(function (a) { return '<div class="card" style="margin-top:14px"><h2 class="etu-h">' + esc(a.service) + '</h2><div class="hero-actions">' + mois.map(function (m) { return '<a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="document.html?type=rapportmensuel&ab=' + a.id + "&mois=" + m + '">📊 ' + new Date(m + "-15").toLocaleDateString("fr-FR", { month: "long", year: "numeric" }) + "</a>"; }).join("") + "</div></div>"; }).join("") : '<div class="card"><p>Les rapports mensuels sont inclus dans les contrats de maintenance. <a href="devis.html">Demandez un contrat</a> pour en profiter.</p></div>');
+  }
+  function parrainage() {
+    var c = compte(), L = S.liste("parrainages").filter(function (p) { return p.parrainId === c.id; });
+    var LIB = { nouveau: "Reçue", contacte: "Contactée", client: "Devenue cliente 🎉", sans_suite: "Sans suite" };
+    document.getElementById("t-parrainage").innerHTML = '<div class="etu-titre"><h1>Parrainage</h1><p class="muted">Recommandez une entreprise à NextGenIT : si elle devient cliente, vous recevez un avantage sur votre prochain contrat, fixé avec vous en privé.</p></div><div class="etu-grille"><form class="card" id="form-parrain" novalidate><h2 class="etu-h">Recommander une entreprise</h2><label class="field">Entreprise<input name="ent" required></label><label class="field">Personne à contacter<input name="contact"></label><label class="field">Téléphone<input name="tel" type="tel"></label><label class="field">Son besoin (facultatif)<textarea name="besoin" style="min-height:70px"></textarea></label><label class="check"><input type="checkbox" name="accord"> Cette entreprise est d’accord pour être contactée.</label><p class="error-text" hidden></p><button class="btn btn-primary" type="submit">Envoyer la recommandation</button></form><div class="card"><h2 class="etu-h">Mes recommandations</h2>' + (L.map(function (p) { return '<div class="row-item" style="padding:10px 12px"><span><strong>' + esc(p.entreprise) + '</strong><br><small class="muted">' + new Date(p.creeLe).toLocaleDateString("fr-FR") + (p.avantage ? " · 🎁 " + esc(p.avantage) : "") + '</small></span><span class="tag tag-accent">' + (LIB[p.statut] || p.statut) + "</span></div>"; }).join("") || '<p class="muted">Aucune recommandation pour le moment.</p>') + "</div></div>";
+    var f = document.getElementById("form-parrain");
+    f.addEventListener("submit", function (e) {
+      e.preventDefault(); var err = f.querySelector(".error-text");
+      if (!f.ent.value.trim() || !f.tel.value.trim()) { err.textContent = "Indiquez l’entreprise et un téléphone."; err.hidden = false; return; }
+      if (!f.accord.checked) { err.textContent = "Cochez la case : l’entreprise doit être d’accord."; err.hidden = false; return; }
+      S.ajouter("parrainages", { parrainId: c.id, parrainNom: c.nom || session.nom, entreprise: f.ent.value.trim(), contact: f.contact.value.trim(), telephone: f.tel.value.trim(), besoin: f.besoin.value.trim(), statut: "nouveau" }, "PAR-");
+      S.log("Parrainage reçu", (c.nom || session.nom) + " → " + f.ent.value.trim()); parrainage();
+    });
+  }
+  /* Notifications : changements de tickets, devis, factures et rendez-vous */
+  function instantane() { var X = donnees(), o = {}; X.T.forEach(function (t) { o["t" + t.id] = t.statut; }); X.D.forEach(function (d) { o["d" + d.id] = d.statut; o["e" + d.id] = d.etape || ""; }); X.F.forEach(function (f) { o["f" + f.id] = f.statut; }); return o; }
+  var avant = instantane();
+  window.addEventListener("ng-donnees", function () {
+    var apres = instantane(), LIB = { en_route: "le technicien est en route", sur_site: "le technicien est arrivé sur place", termine: "intervention terminée", assigne: "un technicien est assigné", encours: "intervention en cours", resolu: "problème résolu", ferme: "ticket fermé", devis_envoye: "votre devis est prêt", accepte: "devis accepté", payee: "facture réglée, merci !", partielle: "paiement partiel reçu" };
+    Object.keys(apres).forEach(function (k) { if (avant[k] && avant[k] !== apres[k] && window.NGApp) window.NGApp.notifier("NextGenIT", k.slice(1) + " : " + (LIB[apres[k]] || apres[k]), "mon-espace.html"); });
+    avant = apres;
+  });
+  var rendus = { rapports: rapports, parrainage: parrainage, parc: monParc, compte: moncompte, aide: aide, bord: bord, devis: devis, factures: factures, projets: projets, support: support };
+  var tabs = document.querySelectorAll("#tabs-espace [data-t]");
+  function ouvrir(nomTab) { tabs.forEach(function (o) { o.setAttribute("aria-selected", String(o.dataset.t === nomTab)); document.getElementById("t-" + o.dataset.t).hidden = o.dataset.t !== nomTab; }); rendus[nomTab](); profil(); window.scrollTo(0, 0); }
+  tabs.forEach(function (t) { t.addEventListener("click", function () { ouvrir(t.dataset.t); }); });
+  ouvrir(/^#(devis|factures|projets|support|aide|compte|parc|rapports|parrainage)$/.test(location.hash) ? location.hash.slice(1) : "bord");
+})();
+</script>
+</body>
+</html>

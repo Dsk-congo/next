@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Centre d’aide – NextGenIT</title>
+<meta name="description" content="Centre d’aide NextGenIT : guides pour résoudre les pannes courantes, questions fréquentes, suivi de votre ticket et état des services.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="support">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <section class="aide-hero">
+    <h1>Comment pouvons-nous vous aider ?</h1>
+    <p>Cherchez une solution, suivez votre ticket ou contactez un technicien.</p>
+    <input type="search" id="aide-rech" placeholder="ex. caméra hors ligne, Wi-Fi lent, mot de passe…" aria-label="Rechercher dans le centre d’aide">
+  </section>
+  <div class="aide-raccourcis">
+    <a class="card" href="#suivi"><span class="ci-ico">🎫</span><strong>Suivre mon ticket</strong><small class="muted">Numéro + téléphone</small></a>
+    <a class="card" href="connexion.html"><span class="ci-ico">👤</span><strong>Mon espace client</strong><small class="muted">Devis, factures, tickets</small></a>
+    <a class="card" href="devis.html"><span class="ci-ico">📄</span><strong>Demander un devis</strong><small class="muted">Réponse sous 24 h</small></a>
+    <a class="card" href="contact.html"><span class="ci-ico">💬</span><strong>Parler à quelqu’un</strong><small class="muted">Téléphone, WhatsApp, email</small></a>
+  </div>
+  <div class="chips" id="aide-cats" role="group" aria-label="Catégories" style="margin:22px 0 12px"></div>
+  <div class="faq" id="aide-liste"></div>
+  <section class="aide-bas">
+    <form class="card" id="suivi" novalidate>
+      <h2 class="etu-h">Suivre un ticket</h2>
+      <p class="muted">Le numéro figure dans le message reçu à l’ouverture du ticket (ex. TK-1234-…).</p>
+      <div class="form-grid"><label class="field">Numéro du ticket<input name="num" required autocomplete="off"></label><label class="field">Votre téléphone<input name="tel" type="tel" required></label></div>
+      <button class="btn btn-primary" type="submit">Voir l’état</button>
+      <div id="suivi-res" aria-live="polite"></div>
+    </form>
+    <div class="card" id="etat-services"><h2 class="etu-h">État des services</h2><div id="etat-liste"></div></div>
+  </section>
+</main>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, esc = window.NGUtil.esc, C = window.NG_CONTENU, cat = "", rech = "";
+  function articles() {
+    var A = S.liste("connaissances").filter(function (a) { return a.publie; }).map(function (a) { return { id: a.id, q: a.titre, r: a.contenu, cat: a.categorie }; });
+    (C.faq || []).forEach(function (x) { A.push({ q: x.q, r: x.r, cat: "Questions générales" }); });
+    (C.faqClient || []).forEach(function (x) { A.push({ q: x.q, r: x.r, cat: "Espace client" }); });
+    return A;
+  }
+  function rendre() {
+    var T = articles(), cats = {};
+    T.forEach(function (a) { cats[a.cat] = (cats[a.cat] || 0) + 1; });
+    document.getElementById("aide-cats").innerHTML = '<button type="button" class="filtre-pub' + (!cat ? " on" : "") + '" data-c="">Tout <b>' + T.length + "</b></button>" + Object.keys(cats).map(function (k) { return '<button type="button" class="filtre-pub' + (cat === k ? " on" : "") + '" data-c="' + esc(k) + '">' + esc(k) + " <b>" + cats[k] + "</b></button>"; }).join("");
+    var mots = rech.toLowerCase().split(/\s+/).filter(function (m) { return m.length > 2; });
+    var L = T.filter(function (a) { var t = (a.q + " " + a.r).toLowerCase(); return (!cat || a.cat === cat) && mots.every(function (m) { return t.indexOf(m) > -1; }); });
+    document.getElementById("aide-liste").innerHTML = L.map(function (a) { return '<details data-id="' + esc(a.id || "") + '"><summary>' + esc(a.q) + ' <small class="muted">· ' + esc(a.cat) + "</small></summary><div style=\"white-space:pre-line\">" + esc(a.r) + "</div>" + (a.id ? '<p class="aide-utile">Cet article vous a aidé ? <button type="button" class="btn btn-ghost btn-sm" data-utile="' + a.id + '">👍 Oui</button> <a class="btn btn-ghost btn-sm" href="contact.html">Non, contacter un technicien</a></p>' : "") + "</details>"; }).join("") || '<div class="card" style="text-align:center"><p>Aucun résultat. <a href="contact.html">Contactez un technicien</a> : il vous répond rapidement.</p></div>';
+    document.querySelectorAll("[data-c]").forEach(function (b) { b.addEventListener("click", function () { cat = b.dataset.c; rendre(); }); });
+    document.querySelectorAll("#aide-liste details[data-id]").forEach(function (d) { d.addEventListener("toggle", function () { if (d.open && d.dataset.id && !d._vu) { d._vu = 1; var a = S.liste("connaissances").filter(function (x) { return x.id === d.dataset.id; })[0]; if (a) S.modifier("connaissances", a.id, { vues: (a.vues || 0) + 1 }); } }); });
+    document.querySelectorAll("[data-utile]").forEach(function (b) { b.addEventListener("click", function () { var a = S.liste("connaissances").filter(function (x) { return x.id === b.dataset.utile; })[0]; if (a) S.modifier("connaissances", a.id, { utile: (a.utile || 0) + 1 }); b.replaceWith(document.createTextNode("✔ Merci !")); }); });
+  }
+  document.getElementById("aide-rech").addEventListener("input", function (e) { rech = e.target.value.trim(); rendre(); });
+  rendre();
+  /* Suivi de ticket */
+  var LIB = { nouveau: "Reçu", assigne: "Technicien assigné", encours: "En cours", resolu: "Résolu", ferme: "Fermé" };
+  var f = document.getElementById("suivi");
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var num = f.num.value.trim().toUpperCase(), tel = f.tel.value.replace(/[^\d]/g, "").slice(-9), out = document.getElementById("suivi-res");
+    var t = S.liste("tickets").filter(function (x) { return x.id.toUpperCase() === num && String(x.telephone || "").replace(/[^\d]/g, "").slice(-9) === tel; })[0];
+    if (!t) { out.innerHTML = '<p class="notice" style="background:var(--warn-soft);color:var(--warn)">Aucun ticket ne correspond à ce numéro et ce téléphone.</p>'; return; }
+    var ordre = ["nouveau", "assigne", "encours", "resolu", "ferme"], ix = ordre.indexOf(t.statut);
+    out.innerHTML = '<div class="notice"><strong>' + esc(t.id) + " · " + esc(t.sujet) + "</strong><br>État : <strong>" + LIB[t.statut] + "</strong></div>" + '<ol class="tk-etapes">' + ordre.map(function (st, k) { return '<li class="' + (k < ix ? "fait" : k === ix ? "actuel" : "") + '"><span>' + (k < ix ? "✓" : k + 1) + "</span>" + LIB[st] + "</li>"; }).join("") + "</ol>" + ((t.historique || []).filter(function (h) { return !h.interne; }).slice(-4).reverse().map(function (h) { return "<p class=\"muted\" style=\"margin:4px 0\">" + new Date(h.date).toLocaleString("fr-FR") + " · " + esc(h.texte || "") + "</p>"; }).join(""));
+  });
+  /* État des services surveillés (si l'administration les rend publics) */
+  var M = S.liste("supervision").filter(function (m) { return m.public; });
+  document.getElementById("etat-liste").innerHTML = M.length ? M.map(function (m) { return '<div class="row-item"><span>' + esc(m.nom) + '</span><span class="tag ' + (m.statut === "panne" ? "tag-warn" : "tag-ok") + '">' + (m.statut === "panne" ? "● Incident en cours" : "● Opérationnel") + "</span></div>"; }).join("") : '<div class="row-item"><span>Services NextGenIT</span><span class="tag tag-ok">● Opérationnels</span></div><p class="muted" style="font-size:.85rem">Support joignable 24 h/24 pour les urgences.</p>';
+})();
+</script>
+</body>
+</html>

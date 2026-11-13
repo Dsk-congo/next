@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nos réalisations – NextGenIT</title>
+<meta name="description" content="Les réalisations de NextGenIT à Kolwezi : réseaux, vidéosurveillance, cybersécurité et sites web, avec photos avant/après et témoignages clients.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="realisations">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <div class="page-head actu-tete"><h1>Nos réalisations</h1><p class="lead">Des chantiers réels à Kolwezi et dans le Lualaba : le besoin, ce que nous avons fait, et le résultat pour le client.</p></div>
+  <div class="actu-outils"><div class="chips" id="re-secteurs" role="group" aria-label="Secteurs"></div></div>
+  <div id="re-detail"></div>
+  <div class="actu-grille" id="re-liste"></div>
+  <div class="cta-band actu-cta"><div><h2>Votre projet est le prochain ?</h2><p>Décrivez votre besoin : un spécialiste vous envoie un devis détaillé.</p></div><a class="btn btn-primary" href="devis.html">Demander un devis</a></div>
+</main>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, esc = window.NGUtil.esc, secteur = "";
+  function L() { return S.liste("realisations").filter(function (r) { return r.publie; }).sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }); }
+  function date(r) { return r.date ? new Date(r.date + "T12:00:00").toLocaleDateString("fr-FR", { month: "long", year: "numeric" }) : ""; }
+  function rendre() {
+    var T = L(), sec = {};
+    T.forEach(function (r) { sec[r.secteur] = (sec[r.secteur] || 0) + 1; });
+    document.getElementById("re-secteurs").innerHTML = '<button type="button" class="filtre-pub' + (!secteur ? " on" : "") + '" data-s="">Tous <b>' + T.length + "</b></button>" + Object.keys(sec).map(function (k) { return '<button type="button" class="filtre-pub' + (secteur === k ? " on" : "") + '" data-s="' + esc(k) + '">' + esc(k) + " <b>" + sec[k] + "</b></button>"; }).join("");
+    var V = T.filter(function (r) { return !secteur || r.secteur === secteur; });
+    document.getElementById("re-liste").innerHTML = V.map(function (r) { return '<a class="card actu-carte" href="#' + r.id + '">' + (r.apres || r.avant ? '<span class="actu-img" style="background-image:url(' + "'" + esc(r.apres || r.avant) + "'" + ')"></span>' : '<span class="actu-img actu-img-vide">🏗</span>') + '<span class="actu-txt"><span class="actu-meta"><span class="tag tag-accent">' + esc(r.secteur) + "</span><small>" + esc(r.lieu || "") + " · " + date(r) + "</small></span><strong>" + esc(r.titre) + '</strong><span class="muted">' + esc((r.resultat || r.description || "").slice(0, 140)) + '</span><span class="actu-lire">Voir le chantier →</span></span></a>'; }).join("") || '<div class="card" style="grid-column:1/-1;text-align:center"><p>Nos premières réalisations seront bientôt publiées ici.</p></div>';
+    document.querySelectorAll("[data-s]").forEach(function (b) { b.addEventListener("click", function () { secteur = b.dataset.s; rendre(); }); });
+    detail();
+  }
+  function detail() {
+    var id = location.hash.slice(1), r = L().filter(function (x) { return x.id === id; })[0], z = document.getElementById("re-detail");
+    if (!r) { z.innerHTML = ""; return; }
+    z.innerHTML = '<article class="card re-fiche"><div class="actu-meta"><span class="tag tag-accent">' + esc(r.secteur) + "</span><small>" + esc(r.lieu || "") + " · " + date(r) + (r.afficherClient && r.client ? " · " + esc(r.client) : "") + '</small><a href="#" class="re-fermer" aria-label="Fermer">✕</a></div><h2>' + esc(r.titre) + "</h2>" +
+      (r.avant || r.apres ? '<div class="re-photos">' + (r.avant ? '<figure><img src="' + esc(r.avant) + '" alt="Avant"><figcaption>Avant</figcaption></figure>' : "") + (r.apres ? '<figure><img src="' + esc(r.apres) + '" alt="Après"><figcaption>Après</figcaption></figure>' : "") + "</div>" : "") +
+      (r.description ? '<div class="actu-art-corps">' + esc(r.description).split(/\n{2,}/).map(function (p) { return "<p>" + p.replace(/\n/g, "<br>") + "</p>"; }).join("") + "</div>" : "") + (r.resultat ? '<p class="notice"><strong>Résultat :</strong> ' + esc(r.resultat) + "</p>" : "") +
+      (r.chiffres ? '<div class="re-chiffres">' + r.chiffres.split("\n").filter(Boolean).map(function (l) { var x = l.split("|"); return "<div><b>" + esc((x[0] || "").trim()) + "</b><span>" + esc((x[1] || "").trim()) + "</span></div>"; }).join("") + "</div>" : "") +
+      '<p><a class="btn btn-gold" href="document.html?type=etudecas&id=' + r.id + '" target="_blank" rel="noopener">📄 Télécharger l’étude de cas (PDF)</a></p>' +
+      (r.temoignage ? '<figure class="re-temoin"><blockquote>« ' + esc(r.temoignage) + " »</blockquote><figcaption>" + esc(r.auteur || "") + "</figcaption></figure>" : "") + "</article>";
+    z.querySelector(".re-fermer").addEventListener("click", function (e) { e.preventDefault(); history.replaceState(null, "", location.pathname); detail(); });
+    z.scrollIntoView({ block: "start" });
+  }
+  window.addEventListener("hashchange", detail);
+  window.addEventListener("ng-donnees", rendre);
+  rendre();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NextGenIT – Services informatiques à Kolwezi | Réseau, CCTV, cybersécurité, virtualisation</title>
+<meta name="description" content="NextGenIT installe, sécurise et entretient l’informatique des entreprises à Kolwezi et en RDC : réseau, vidéosurveillance, pare-feu, virtualisation, sites web, support et formations.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="accueil">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu">
+  <section class="hero">
+    <div class="container">
+      <div class="hero-in">
+        <div>
+          <span class="status-pill" data-txt="badge"></span>
+          <h1 data-txt="titre"></h1>
+          <p class="lead" data-txt="texte"></p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="devis.html">Demander un devis</a>
+            <a class="btn btn-ghost" href="connexion.html">Suivre ma demande</a>
+          </div>
+          <div class="hero-points" data-txt="points"></div>
+        </div>
+      </div>
+
+      <div class="hero-in">
+        <div class="track" aria-label="Exemple de suivi d’intervention en temps réel">
+          <div class="track-top">
+            <div><small>Exemple de suivi en temps réel</small><strong>Ticket NG-1042</strong></div>
+            <span class="tag tag-warn">Sur site</span>
+          </div>
+          <div class="tech">
+            <span class="avatar">PM</span>
+            <div><strong>Patrick M.</strong><small>Spécialiste vidéosurveillance · 8 caméras IP</small></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:.9rem;margin-bottom:8px"><span class="muted">Avancement</span><strong style="color:var(--accent)">65 %</strong></div>
+          <div class="progress"><span style="width:65%"></span></div>
+          <ol class="steps">
+            <li class="done"><span class="n">✓</span><span>Demande reçue</span><time>08:12</time></li>
+            <li class="done"><span class="n">✓</span><span>Devis accepté</span><time>08:40</time></li>
+            <li class="done"><span class="n">✓</span><span>Technicien en route</span><time>08:55</time></li>
+            <li class="now"><span class="n">4</span><span>Sur site, travaux en cours</span><time>09:05</time></li>
+            <li class="todo"><span class="n">5</span><span>Validation et clôture</span><time>—</time></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <div class="ticker" aria-label="Nos services et nos équipements">
+      <div class="ticker-row"><div class="ticker-track" data-liste="ticker-services"></div></div>
+      <div class="ticker-row reverse"><div class="ticker-track" data-liste="ticker-equipements"></div></div>
+    </div>
+  </section>
+
+  <section class="sectors-band" aria-label="Secteurs accompagnés">
+    <div class="container"><ul data-liste="secteurs"></ul></div>
+  </section>
+
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section-head">
+        <h2>Nos domaines d’expertise</h2>
+        <p>Choisissez un domaine pour voir le détail des prestations. Chaque demande est confiée au spécialiste disponible.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Catégories de services" data-liste="categories"></div>
+      <div class="grid" data-liste="services"></div>
+    </div>
+  </section>
+
+  <section class="section" id="pourquoi">
+    <div class="container">
+      <div class="section-head"><h2>Pourquoi choisir NextGenIT</h2><p>Une équipe locale, des méthodes professionnelles et un suivi transparent.</p></div>
+      <div class="chiffres" data-liste="chiffres"></div>
+      <div class="grid" data-liste="atouts" style="margin-top:26px"></div>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="solutions">
+    <div class="container">
+      <div class="section-head"><h2>Une solution adaptée à votre secteur</h2><p>Chaque métier a ses contraintes : nous partons des vôtres.</p></div>
+      <div class="grid grid-3" data-liste="solutions"></div>
+    </div>
+  </section>
+
+  <section class="section" id="equipements">
+    <div class="container">
+      <div class="section-head">
+        <h2>Du matériel professionnel récent, installé chez vous</h2>
+        <p>Vente, installation, configuration et garantie. Adapté aux coupures de courant et aux sites industriels.</p>
+      </div>
+    </div>
+    <div class="marquee"><div class="marquee-track" data-liste="equipements"></div></div>
+  </section>
+
+  <section class="section" id="fonctionnement">
+    <div class="container">
+      <div class="section-head">
+        <h2>De la demande à la fin des travaux</h2>
+        <p>Vous savez toujours où en est votre intervention.</p>
+      </div>
+      <ol class="process" data-liste="etapes"></ol>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="contrats">
+    <div class="container">
+      <div class="section-head">
+        <h2>Contrats de maintenance</h2>
+        <p>Votre service informatique pour un abonnement mensuel. Le tarif dépend de votre parc : demandez votre devis.</p>
+      </div>
+      <div class="grid grid-3" data-liste="offres"></div>
+    </div>
+  </section>
+
+  <section class="section" id="recruter">
+    <div class="container">
+      <div class="section-head"><h2>Engager un informaticien</h2><p>Un technicien qualifié quand vous en avez besoin, sans recruter. Tarif sur devis selon la durée et le profil.</p></div>
+      <div class="grid grid-3">
+        <article class="card reveal"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a10 10 0 100-20 10 10 0 000 20zM12 6v6l4 2"/></svg></span><h3>À l’heure ou à la journée</h3><p>Pour une installation, un dépannage urgent ou un renfort ponctuel.</p><div class="foot"><span>Intervention rapide à Kolwezi</span><a href="devis.html?service=Informaticien%20%C3%A0%20l%E2%80%99heure">Demander</a></div></article>
+        <article class="card reveal"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 20v-2a4 4 0 00-8 0v2M12 11a4 4 0 100-8 4 4 0 000 8z"/></svg></span><h3>Informaticien détaché</h3><p>Un technicien présent chez vous plusieurs jours par semaine ou à temps plein.</p><div class="foot"><span>Au mois</span><a href="devis.html?service=Informaticien%20d%C3%A9tach%C3%A9">Demander</a></div></article>
+        <article class="card reveal"><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z"/></svg></span><h3>Responsable informatique externalisé</h3><p>Pilotage de votre informatique, budget, sécurité et fournisseurs, sans embauche.</p><div class="foot"><span>Contrat annuel</span><a href="devis.html?service=DSI%20externalis%C3%A9">Demander</a></div></article>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="section" id="espace-client" style="border-bottom:1px solid var(--line)">
+    <div class="container feature-split">
+      <div class="reveal">
+        <h2 style="font-size:clamp(1.9rem,4vw,2.9rem)">Votre espace client, ouvert 24 h/24</h2>
+        <p class="lead mt-2">Connectez-vous pour tout suivre au même endroit, depuis votre téléphone ou votre ordinateur.</p>
+        <ul class="feature-list">
+          <li><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3h7v9H3zM14 3h7v5h-7zM14 12h7v9h-7zM3 16h7v5H3z"/></svg></span><div><strong>Tableau de bord</strong><span>Services actifs, abonnements, factures et tickets de support en cours.</span></div></li>
+          <li><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8M20 12v7H4V5h11"/></svg></span><div><strong>Suivi de projet en temps réel</strong><span>Jalons de votre site web ou de votre installation réseau, que vous validez en ligne.</span></div></li>
+          <li><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v4a2 2 0 000 4v4H4v-4a2 2 0 000-4z"/></svg></span><div><strong>Support et factures</strong><span>Signalez une panne, recevez un délai d’intervention garanti, payez par Mobile Money ou carte.</span></div></li>
+        </ul>
+        <div class="hero-actions"><a class="btn btn-primary" href="connexion.html">Accéder à mon espace</a><a class="btn btn-ghost" href="devis.html">Devenir client</a></div>
+      </div>
+      <div class="mock reveal" aria-hidden="true">
+        <div class="mock-head"><strong>Mon espace · Exemple</strong><span class="tag tag-ok">2 services actifs</span></div>
+        <div class="mock-row"><span><strong>Site web vitrine</strong><small>Jalon 3 sur 5 · Développement</small></span><span class="tag tag-accent">60 %</span></div>
+        <div class="progress"><span style="width:60%"></span></div>
+        <div class="mock-row"><span><strong>Contrat de maintenance Pro</strong><small>Prochaine échéance le 1er du mois</small></span><span class="tag tag-ok">Actif</span></div>
+        <div class="mock-row"><span><strong>Ticket TK-1002</strong><small>Coupure Internet · technicien en route</small></span><span class="tag tag-warn">2 h restantes</span></div>
+        <div class="mock-row"><span><strong>Facture FAC-2026-0012</strong><small>Payée par M-Pesa</small></span><span class="tag tag-ok">Payée</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="formations">
+    <div class="container">
+      <div class="section-head">
+        <h2>NextGenIT Academy</h2>
+        <p>Formations pratiques, évaluation en ligne et attestation vérifiable.</p>
+      </div>
+            <div class="feature-split inverse" style="margin-bottom:48px">
+        <div class="reveal">
+          <h3 style="font-size:clamp(1.5rem,3vw,2.1rem)">Une plateforme d’apprentissage complète</h3>
+          <ul class="feature-list">
+            <li><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><div><strong>Vidéos et supports PDF</strong><span>Chaque module contient ses tutoriels et ses documents, disponibles à tout moment.</span></div></li>
+            <li><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11l3 3 8-8M20 12v7H4V5h11"/></svg></span><div><strong>Quiz et examens en ligne</strong><span>Corrigés automatiquement, avec votre progression module par module.</span></div></li>
+            <li><span class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15a6 6 0 100-12 6 6 0 000 12zM8.2 13.9L7 23l5-3 5 3-1.2-9.1"/></svg></span><div><strong>Attestation vérifiable</strong><span>Délivrée en fin de formation, avec fiche de fréquentation, notes et présences.</span></div></li>
+          </ul>
+          <a class="btn btn-ghost" href="connexion.html?etudiant">Espace étudiant</a>
+        </div>
+        <div class="mock reveal" aria-hidden="true">
+          <div class="mock-head"><strong>Réseaux informatiques (CCNA)</strong><span class="tag tag-accent">75 %</span></div>
+          <div class="progress"><span style="width:75%"></span></div>
+          <div class="mock-row"><span><strong>Module 3 · Switching et VLAN</strong><small>Vidéo · 18 min</small></span><span class="tag tag-ok">Terminé</span></div>
+          <div class="mock-row"><span><strong>Module 4 · Routage</strong><small>Support PDF + quiz</small></span><span class="tag tag-warn">En cours</span></div>
+          <div class="mock-row"><span><strong>Quiz : adressage IP</strong><small>Note obtenue</small></span><strong>86 / 100</strong></div>
+        </div>
+      </div>
+      <div class="grid grid-3" data-liste="formations-apercu"></div>
+      <p class="mt-3"><a class="btn btn-ghost" href="formations.html">Voir toutes les formations</a></p>
+    </div>
+  </section>
+
+
+  <section class="section" id="realisations" hidden>
+    <div class="container">
+      <div class="section-head"><h2>Nos réalisations</h2><p>Quelques chantiers récents, avec le résultat obtenu pour nos clients.</p></div>
+      <div class="actu-grille" data-liste="realisations"></div>
+      <p style="text-align:center;margin-top:18px"><a class="btn btn-ghost" href="realisations.html">Toutes nos réalisations →</a></p>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="avis">
+    <div class="container">
+      <div class="section-head"><h2>Ils nous confient leur informatique</h2><p>Chaque avis est recueilli à la clôture d’un ticket.</p></div>
+      <div class="grid grid-3" data-liste="avis"></div>
+    </div>
+  </section>
+
+  <section class="section" id="actualites">
+    <div class="container">
+      <div class="section-head"><h2>Actualités et conseils</h2><p>Nouveautés, sessions de formation et alertes de sécurité.</p></div>
+      <div class="grid grid-3" data-liste="actualites"></div>
+      <p style="text-align:center;margin-top:22px"><a class="btn btn-ghost" href="actualites.html">Toutes les actualités →</a></p>
+    </div>
+  </section>
+
+  <section class="section section-alt" id="faq">
+    <div class="container">
+      <div class="section-head"><h2>Questions fréquentes</h2><p>Une autre question ? L’assistant en bas à droite répond tout de suite.</p></div>
+      <div class="faq" data-liste="faq"></div>
+    </div>
+  </section>
+
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="cta-band">
+        <div>
+          <h2>Un projet ou une panne ? Décrivez-nous votre besoin.</h2>
+          <p>Un spécialiste l’évalue et vous envoie le devis détaillé.</p>
+        </div>
+        <a class="btn btn-primary" href="devis.html">Demander un devis</a>
+      </div>
+      <ul class="list-reset stack mt-3" data-txt="contact"></ul>
+    </div>
+  </section>
+</main>
+
+<footer id="site-footer"></footer>
+
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+</body>
+</html>

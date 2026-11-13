@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalogue de matériel – NextGenIT</title>
+<meta name="description" content="Catalogue du matériel installé par NextGenIT à Kolwezi : réseau, Wi-Fi, vidéosurveillance, serveurs. Demandez un prix : il vous est envoyé en privé.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="catalogue">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <div class="page-head actu-tete"><h1>Catalogue de matériel</h1><p class="lead">Du matériel professionnel, installé et garanti par nos techniciens. Sélectionnez les articles qui vous intéressent : nous vous envoyons <strong>un prix personnalisé, en privé</strong>.</p></div>
+  <div class="actu-outils"><input type="search" id="ca-rech" placeholder="Rechercher : caméra, switch, routeur…" aria-label="Rechercher un article"><div class="chips" id="ca-cats" role="group" aria-label="Catégories"></div></div>
+  <div class="cat-mise">
+    <div class="actu-grille" id="ca-liste" style="margin:0"></div>
+    <aside class="card cat-panier" id="ca-panier" aria-live="polite"></aside>
+  </div>
+</main>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, esc = window.NGUtil.esc, cat = "", rech = "", panier = {};
+  try { panier = JSON.parse(sessionStorage.getItem("ng_panier_prix") || "{}"); } catch (e) {}
+  function art() { return S.liste("articles").filter(function (a) { return a.boutique; }); }
+  function sauver() { try { sessionStorage.setItem("ng_panier_prix", JSON.stringify(panier)); } catch (e) {} }
+  function rendre() {
+    var T = art(), cats = {};
+    T.forEach(function (a) { cats[a.categorie] = (cats[a.categorie] || 0) + 1; });
+    document.getElementById("ca-cats").innerHTML = '<button type="button" class="filtre-pub' + (!cat ? " on" : "") + '" data-c="">Tout <b>' + T.length + "</b></button>" + Object.keys(cats).map(function (k) { return '<button type="button" class="filtre-pub' + (cat === k ? " on" : "") + '" data-c="' + esc(k) + '">' + esc(k) + " <b>" + cats[k] + "</b></button>"; }).join("");
+    var L = T.filter(function (a) { return (!cat || a.categorie === cat) && (!rech || (a.nom + " " + (a.description || "") + " " + (a.reference || "")).toLowerCase().indexOf(rech) > -1); });
+    document.getElementById("ca-liste").innerHTML = L.map(function (a) { var q = panier[a.id] || 0; return '<article class="card actu-carte cat-art" data-a="' + a.id + '">' + (a.photo ? '<span class="actu-img" style="background-image:url(' + "'" + esc(a.photo) + "'" + ');background-size:contain;background-color:#fff"></span>' : '<span class="actu-img actu-img-vide">📦</span>') + '<span class="actu-txt"><span class="actu-meta"><span class="tag tag-accent">' + esc(a.categorie) + '</span><small class="' + (a.quantite > 0 ? "dispo" : "") + '">' + (a.quantite > 0 ? "● En stock à Kolwezi" : "Sur commande") + "</small></span><strong>" + esc(a.nom) + '</strong><span class="muted">' + esc(a.description || "") + '</span><span class="cat-prix">Prix sur demande</span>' + (q ? '<span class="cat-q"><button type="button" data-m="-1" aria-label="Retirer">−</button><b>' + q + '</b><button type="button" data-m="1" aria-label="Ajouter">+</button></span>' : '<button type="button" class="btn btn-ghost btn-sm" data-m="1">＋ Ajouter à ma demande de prix</button>') + "</span></article>"; }).join("") || '<div class="card" style="grid-column:1/-1;text-align:center"><p>Le catalogue sera bientôt en ligne. En attendant, <a href="devis.html">décrivez votre besoin</a>.</p></div>';
+    var ids = Object.keys(panier).filter(function (id) { return panier[id] > 0; }), A0 = art();
+    document.getElementById("ca-panier").innerHTML = '<h2 class="etu-h">🧾 Ma demande de prix</h2>' + (ids.length ? '<ul class="cat-lignes">' + ids.map(function (id) { var a = A0.filter(function (x) { return x.id === id; })[0]; return a ? "<li><span>" + esc(a.nom) + "</span><b>× " + panier[id] + "</b></li>" : ""; }).join("") + '</ul><form id="ca-form" class="stack" style="gap:8px" novalidate><input name="nom" placeholder="Nom complet" required aria-label="Nom complet"><input name="entreprise" placeholder="Entreprise (facultatif)" aria-label="Entreprise"><input name="tel" type="tel" placeholder="Téléphone / WhatsApp" required aria-label="Téléphone"><input name="email" type="email" placeholder="Email (facultatif)" aria-label="Email"><label class="check"><input type="checkbox" name="pose" checked> Avec installation</label><p class="error-text" hidden></p><button class="btn btn-primary" type="submit">Recevoir mon prix en privé</button></form>' : '<p class="muted">Ajoutez des articles : vous recevrez un devis personnalisé par WhatsApp ou par email. Aucun prix n’est affiché publiquement.</p>');
+    document.querySelectorAll("[data-c]").forEach(function (b) { b.addEventListener("click", function () { cat = b.dataset.c; rendre(); }); });
+    document.querySelectorAll("[data-m]").forEach(function (b) { b.addEventListener("click", function () { var id = b.closest("[data-a]").dataset.a; panier[id] = Math.max(0, (panier[id] || 0) + Number(b.dataset.m)); sauver(); rendre(); }); });
+    var f = document.getElementById("ca-form");
+    if (f) f.addEventListener("submit", function (e) {
+      e.preventDefault(); var err = f.querySelector(".error-text");
+      if (!f.nom.value.trim() || !f.tel.value.trim()) { err.textContent = "Indiquez votre nom et votre téléphone."; err.hidden = false; return; }
+      var lignes = ids.map(function (id) { var a = A0.filter(function (x) { return x.id === id; })[0]; return { articleId: id, designation: a.nom, qte: panier[id], pu: 0 }; });
+      var d = S.ajouterDemande({ type: "materiel", services: ["Équipements"], description: "Demande de prix depuis le catalogue :\n" + lignes.map(function (l) { return "• " + l.qte + " × " + l.designation; }).join("\n") + (f.pose.checked ? "\nAvec installation." : "\nSans installation."), nom: f.nom.value.trim(), entreprise: f.entreprise.value.trim(), telephone: f.tel.value.trim(), email: f.email.value.trim(), adresse: "", canaux: [f.email.value.trim() ? "Email" : "WhatsApp"] });
+      S.majDemande(d.id, { lignes: lignes });
+      S.log("Demande de prix (catalogue)", d.id + " · " + f.nom.value.trim());
+      panier = {}; sauver();
+      document.getElementById("ca-panier").innerHTML = '<div class="notice"><strong>✔ Demande envoyée (réf. ' + esc(d.id) + ")</strong><br>Votre prix personnalisé vous sera envoyé en privé, par WhatsApp ou par email.</div>";
+      rendre = function () {};
+    });
+  }
+  document.getElementById("ca-rech").addEventListener("input", function (e) { rech = e.target.value.trim().toLowerCase(); rendre(); });
+  window.addEventListener("ng-donnees", function () { rendre(); });
+  rendre();
+})();
+</script>
+</body>
+</html>

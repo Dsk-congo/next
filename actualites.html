@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="fr" data-theme="pro" data-skin="pro">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Actualités et conseils – NextGenIT</title>
+<meta name="description" content="Toutes les actualités de NextGenIT : nouveautés, formations, alertes de sécurité, réalisations et conseils informatiques à Kolwezi.">
+<meta name="theme-color" content="#050E1C">
+<link rel="icon" href="assets/img/favicon.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Nunito:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="style.css?v=48">
+<link rel="stylesheet" href="pro.css?v=48">
+<link rel="stylesheet" href="marque.css?v=48">
+<link rel="stylesheet" href="design.css?v=48">
+<script src="firebase-config.js?v=48"></script>
+<script src="theme.js?v=48"></script>
+<script src="app.js?v=48" defer></script>
+<script type="module" src="cloud.js?v=48"></script>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/img/embleme.png">
+<script>if ("serviceWorker" in navigator) navigator.serviceWorker.getRegistrations().then(function (r) { r.forEach(function (x) { x.unregister(); }); }).catch(function () {}); if (window.caches) caches.keys().then(function (k) { k.forEach(function (x) { caches.delete(x); }); }).catch(function () {});</script>
+</head>
+<body data-page="actualites">
+<a class="skip" href="#contenu">Aller au contenu</a>
+<header id="site-header"></header>
+
+<main id="contenu" class="container" style="padding-bottom:90px">
+  <div id="vue-liste">
+    <div class="page-head actu-tete">
+      <h1>Actualités et conseils</h1>
+      <p class="lead">Nouveautés, sessions de formation, alertes de sécurité, réalisations et conseils de nos spécialistes.</p>
+    </div>
+    <div class="actu-outils">
+      <input type="search" id="actu-rech" placeholder="Rechercher une actualité…" aria-label="Rechercher une actualité">
+      <div class="chips" id="actu-cats" role="group" aria-label="Catégories"></div>
+    </div>
+    <div id="actu-liste"></div>
+    <p style="text-align:center"><button class="btn btn-ghost" type="button" id="actu-plus" hidden>Voir plus d’actualités</button></p>
+  </div>
+  <article id="vue-article" class="actu-article" hidden></article>
+</main>
+<footer id="site-footer"></footer>
+<script src="contenu.js?v=48"></script>
+<script src="store.js?v=48"></script>
+<script src="fichiers.js?v=48"></script>
+<script src="langue.js?v=48"></script>
+<script src="site.js?v=48"></script>
+<script src="effets.js?v=48" defer></script>
+<script>
+(function () {
+  var S = window.NGStore, U = window.NGUtil, esc = U.esc;
+  var PAR_PAGE = 9, page = 1, cat = "", rech = "";
+  function toutes() { return S.liste("actualites").filter(function (a) { return a.publie; }).sort(function (x, y) { return (y.epingle ? 1 : 0) - (x.epingle ? 1 : 0) || String(y.date).localeCompare(String(x.date)); }); }
+  function date(a) { return new Date(a.date + "T12:00:00").toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" }); }
+  function tag(a) { return '<span class="tag ' + (/alerte/i.test(a.categorie) ? "tag-warn" : "tag-accent") + '">' + esc(a.categorie) + "</span>"; }
+  function minutes(a) { var n = String((a.texte || "") + " " + (a.contenu || "")).split(/\s+/).length; return Math.max(1, Math.round(n / 200)); }
+  function carte(a, grande) {
+    return '<a class="card actu-carte' + (grande ? " grande" : "") + '" href="actualites.html?id=' + a.id + '">' + (a.image ? '<span class="actu-img" style="background-image:url(' + "'" + esc(a.image) + "'" + ')"></span>' : '<span class="actu-img actu-img-vide" aria-hidden="true">' + (/alerte/i.test(a.categorie) ? "⚠" : /formation/i.test(a.categorie) ? "🎓" : /réalisation/i.test(a.categorie) ? "🏗" : "📰") + "</span>") +
+      '<span class="actu-txt"><span class="actu-meta">' + tag(a) + (a.epingle ? '<span class="tag tag-ok">📌 À la une</span>' : "") + "<small>" + date(a) + " · " + minutes(a) + " min de lecture</small></span><strong>" + esc(a.titre) + "</strong><span class=\"muted\">" + esc(a.texte) + '</span><span class="actu-lire">Lire l’article →</span></span></a>';
+  }
+  function liste() {
+    var T = toutes(), cats = {};
+    T.forEach(function (a) { cats[a.categorie] = (cats[a.categorie] || 0) + 1; });
+    document.getElementById("actu-cats").innerHTML = '<button type="button" class="filtre-pub' + (!cat ? " on" : "") + '" data-c="">Toutes <b>' + T.length + "</b></button>" + Object.keys(cats).map(function (c) { return '<button type="button" class="filtre-pub' + (cat === c ? " on" : "") + '" data-c="' + esc(c) + '">' + esc(c) + " <b>" + cats[c] + "</b></button>"; }).join("");
+    var L = T.filter(function (a) { return (!cat || a.categorie === cat) && (!rech || (a.titre + " " + a.texte + " " + (a.contenu || "")).toLowerCase().indexOf(rech.toLowerCase()) > -1); });
+    var une = !cat && !rech && L.length ? L[0] : null, autres = une ? L.slice(1) : L;
+    document.getElementById("actu-liste").innerHTML = (L.length ? (une ? carte(une, true) : "") + '<div class="actu-grille">' + autres.slice(0, page * PAR_PAGE).map(function (a) { return carte(a); }).join("") + "</div>" : '<div class="card" style="text-align:center"><p>Aucune actualité ne correspond à votre recherche.</p></div>');
+    document.getElementById("actu-plus").hidden = autres.length <= page * PAR_PAGE;
+    document.querySelectorAll("[data-c]").forEach(function (b) { b.addEventListener("click", function () { cat = b.dataset.c; page = 1; liste(); }); });
+  }
+  function article(id) {
+    var a = toutes().filter(function (x) { return x.id === id; })[0], box = document.getElementById("vue-article");
+    document.getElementById("vue-liste").hidden = true; box.hidden = false;
+    if (!a) { box.innerHTML = '<div class="card" style="text-align:center"><h1>Actualité introuvable</h1><p>Elle a peut-être été retirée.</p><a class="btn btn-primary" href="actualites.html">Toutes les actualités</a></div>'; return; }
+    document.title = a.titre + " – NextGenIT";
+    var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute("content", a.texte);
+    try { var cle = "ng_lu_" + a.id; if (!sessionStorage.getItem(cle)) { sessionStorage.setItem(cle, "1"); S.modifier("actualites", a.id, { vues: (a.vues || 0) + 1 }); } } catch (e) {}
+    var url = location.href.split("#")[0], txt = encodeURIComponent(a.titre + " – NextGenIT"), u = encodeURIComponent(url);
+    var corps = (a.contenu || a.texte || "").split(/\n{2,}/).map(function (p) { return "<p>" + esc(p).replace(/\n/g, "<br>") + "</p>"; }).join("");
+    var aussi = toutes().filter(function (x) { return x.id !== a.id; }).sort(function (x, y) { return (y.categorie === a.categorie ? 1 : 0) - (x.categorie === a.categorie ? 1 : 0); }).slice(0, 3);
+    box.innerHTML = '<a class="actu-retour" href="actualites.html">← Toutes les actualités</a>' +
+      '<header class="actu-art-tete"><div class="actu-meta">' + tag(a) + "<small>" + date(a) + " · " + minutes(a) + ' min de lecture</small></div><h1>' + esc(a.titre) + '</h1><p class="lead">' + esc(a.texte) + "</p></header>" +
+      (a.image ? '<img class="actu-art-img" src="' + esc(a.image) + '" alt="">' : "") +
+      '<div class="actu-art-corps">' + (a.contenu ? corps : "") + "</div>" +
+      '<div class="actu-partage"><span>Partager :</span><a class="btn btn-whatsapp btn-sm" target="_blank" rel="noopener" href="https://wa.me/?text=' + txt + "%20" + u + '">WhatsApp</a><a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="https://www.facebook.com/sharer/sharer.php?u=' + u + '">Facebook</a><a class="btn btn-ghost btn-sm" target="_blank" rel="noopener" href="https://www.linkedin.com/sharing/share-offsite/?url=' + u + '">LinkedIn</a><button class="btn btn-ghost btn-sm" type="button" id="copier">🔗 Copier le lien</button></div>' +
+      '<div class="cta-band actu-cta"><div><h2>Un projet ou une question ?</h2><p>Nos spécialistes vous répondent rapidement.</p></div><a class="btn btn-primary" href="devis.html">Demander un devis</a></div>' +
+      (aussi.length ? '<h2 class="actu-aussi">À lire aussi</h2><div class="actu-grille">' + aussi.map(function (x) { return carte(x); }).join("") + "</div>" : "");
+    document.getElementById("copier").addEventListener("click", function () { var b = this; (navigator.clipboard ? navigator.clipboard.writeText(url) : Promise.reject()).then(function () { b.textContent = "✔ Lien copié"; }).catch(function () { prompt("Copiez le lien :", url); }); });
+    window.scrollTo(0, 0);
+  }
+  var r = document.getElementById("actu-rech");
+  r.addEventListener("input", function () { rech = r.value.trim(); page = 1; liste(); });
+  document.getElementById("actu-plus").addEventListener("click", function () { page++; liste(); });
+  var id = new URLSearchParams(location.search).get("id");
+  if (id) article(id); else liste();
+  window.addEventListener("ng-donnees", function () { if (!id) liste(); });
+})();
+</script>
+</body>
+</html>

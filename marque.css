@@ -1,0 +1,99 @@
+/* =========================================================
+   NextGenIT – identité visuelle du nouveau logo
+   Bleu nuit, « N » bleu → cyan, hexagone et « IT » cuivre
+   ========================================================= */
+[data-theme^="pro-"] { --grad-cuivre: linear-gradient(135deg, var(--gold), color-mix(in srgb, var(--gold) 65%, #000)); }
+[data-theme="pro-nuit"] { --grad-cuivre: linear-gradient(135deg, #efb470, #d97c3e 55%, #b5552a); }
+
+/* ---------- Marque ---------- */
+.brand { gap: 12px; }
+.brand-logo { width: 46px !important; height: 46px !important; border-radius: 0 !important; background: none !important; box-shadow: none !important; padding: 0 !important; filter: drop-shadow(0 6px 14px rgba(var(--navy-rgb, 8, 22, 49), .18)); }
+.brand-txt { display: grid; line-height: 1.05; }
+.brand-txt > span { font: 800 1.42rem var(--font-display); letter-spacing: -.01em; color: var(--navy, var(--text)); }
+.brand-txt small { font-size: .62rem; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+.brand b, .brand-txt b { background: var(--grad-cuivre, var(--grad)) !important; -webkit-background-clip: text !important; background-clip: text !important; color: transparent !important; }
+[data-theme="pro-nuit"] .brand-txt > span { color: var(--text); }
+.brand-pied img { width: min(300px, 100%); height: auto; display: block; border-radius: 12px; }
+
+/* ---------- Bandeau du haut ---------- */
+[data-skin="pro"] .pro-top { background: linear-gradient(90deg, var(--navy) 0%, var(--navy-2) 50%, var(--navy) 100%) !important; border-bottom: 2px solid transparent; border-image: var(--grad-cuivre) 1; }
+
+/* ---------- Menu avec sous-menus ---------- */
+.nav { align-items: center; }
+.nav-deroul { position: relative; }
+.nav-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 12px; border: 0; border-radius: 999px; background: transparent; color: inherit; font: inherit; font-weight: 600; cursor: pointer; white-space: nowrap; }
+[data-skin="pro"] .nav-btn { color: #2b3a55; }
+.nav-btn span { font-size: .7rem; transition: transform .2s; }
+.nav-btn:hover, .nav-btn[aria-expanded="true"] { background: var(--accent-soft); color: var(--accent); }
+.nav-btn[aria-expanded="true"] span { transform: rotate(180deg); }
+.nav-btn.actif { background: var(--brand-grad); color: #fff !important; }
+.sous-menu { position: absolute; top: calc(100% + 10px); left: 50%; transform: translate(-50%, 6px); min-width: 290px; padding: 10px; border-radius: 20px; background: var(--surface); border: 1px solid var(--line); box-shadow: 0 30px 70px rgba(var(--navy-rgb, 8, 22, 49), .2); display: grid; gap: 2px; opacity: 0; visibility: hidden; transition: opacity .18s, transform .18s, visibility .18s; z-index: 80; }
+.sous-menu::before { content: ""; position: absolute; top: -6px; left: 50%; width: 12px; height: 12px; background: var(--surface); border-left: 1px solid var(--line); border-top: 1px solid var(--line); transform: translateX(-50%) rotate(45deg); }
+.sous-menu.large { grid-template-columns: 1fr 1fr; min-width: 560px; }
+.nav-btn[aria-expanded="true"] + .sous-menu, .nav-deroul:hover .sous-menu, .nav-deroul:focus-within .sous-menu { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+.sous-menu a { display: grid; gap: 2px; padding: 10px 12px 10px 14px !important; border-radius: 12px; color: var(--text) !important; background: none !important; position: relative; }
+.sous-menu a::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 3px; background: var(--grad-cuivre); opacity: 0; transition: opacity .15s; }
+.sous-menu a:hover { background: var(--surface-2) !important; text-decoration: none; }
+.sous-menu a:hover::before { opacity: 1; }
+.sous-menu strong { font-size: .95rem; }
+.sous-menu small { color: var(--muted); font-size: .8rem; font-weight: 500; }
+.mobile-nav .tiroir-sous { padding-left: 18px !important; font-size: .98rem !important; }
+.mobile-nav .tiroir-sous::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--grad-cuivre); transform: rotate(45deg); flex-shrink: 0; }
+
+/* ---------- Boutons ---------- */
+[data-skin="pro"] .btn-primary { background: var(--brand-grad) !important; border: 0; color: #fff !important; box-shadow: 0 14px 30px rgba(var(--blue-rgb), .3); }
+[data-skin="pro"] .btn-primary:hover { filter: brightness(1.06); }
+.btn-gold:hover { filter: brightness(1.05); }
+
+/* ---------- Héros : motif d’hexagones et lueur cuivre ---------- */
+[data-skin="pro"] .hero { position: relative; isolation: isolate; }
+[data-skin="pro"] .hero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(520px 340px at 88% 8%, rgba(var(--gold-rgb), .26), transparent 65%),
+    radial-gradient(560px 380px at 6% 100%, rgba(34, 211, 238, .18), transparent 65%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 1 55 16.5v31L28 63 1 47.5v-31z M28 63v34' fill='none' stroke='%23ffffff' stroke-opacity='.05' stroke-width='1.2'/%3E%3C/svg%3E"); }
+[data-skin="pro"] .hero h1 { text-shadow: 0 4px 30px rgba(0, 0, 0, .25); }
+
+/* ---------- Titres de section : losange cuivre et soulignement ---------- */
+[data-skin="pro"] .section-head h2 { position: relative; display: inline-block; padding-left: 0; }
+[data-skin="pro"] .section-head h2::after { content: ""; display: block; width: 74px; height: 4px; margin-top: 12px; border-radius: 4px; background: linear-gradient(90deg, #2563eb, #22d3ee 45%, #e8995a 55%, #b5552a); }
+[data-skin="pro"] .section-head h2::before { content: ""; position: absolute; left: -26px; top: .45em; width: 12px; height: 12px; border-radius: 3px; transform: rotate(45deg); background: var(--grad-cuivre); }
+@media (max-width: 760px) { [data-skin="pro"] .section-head h2::before { display: none; } }
+
+/* ---------- Cartes ---------- */
+[data-skin="pro"] .card { transition: box-shadow .25s, border-color .25s, transform .25s; }
+[data-skin="pro"] .domaine::after, [data-skin="pro"] .training::after { content: ""; position: absolute; left: 22px; right: 22px; top: 0; height: 3px; border-radius: 0 0 4px 4px; background: var(--grad-cuivre); opacity: 0; transition: opacity .25s; }
+[data-skin="pro"] .domaine, [data-skin="pro"] .training { position: relative; }
+[data-skin="pro"] .domaine:hover::after, [data-skin="pro"] .training:hover::after { opacity: 1; }
+[data-skin="pro"] .card:hover { border-color: rgba(var(--blue-rgb), .25); }
+[data-skin="pro"] .icon-box, [data-skin="pro"] .ico-svc { background: linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(34, 211, 238, .14)) !important; color: #1d64e0 !important; }
+
+/* ---------- Pied de page ---------- */
+[data-skin="pro"] .site-footer { background: #081631 !important; position: relative; overflow: hidden; }
+[data-skin="pro"] .site-footer::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(600px 300px at 100% 0%, rgba(var(--gold-rgb), .14), transparent 65%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 1 55 16.5v31L28 63 1 47.5v-31z M28 63v34' fill='none' stroke='%23ffffff' stroke-opacity='.04' stroke-width='1.2'/%3E%3C/svg%3E"); }
+[data-skin="pro"] .site-footer > * { position: relative; }
+[data-skin="pro"] .site-footer h3 { color: #fff; }
+[data-skin="pro"] .site-footer h3::after { content: ""; display: block; width: 28px; height: 3px; margin-top: 8px; border-radius: 3px; background: var(--grad-cuivre); }
+[data-skin="pro"] .site-footer a { color: var(--cuivre-clair, var(--gold)) !important; }
+[data-skin="pro"] .site-footer .footer-bottom a { color: var(--cuivre-clair, var(--gold)) !important; }
+
+/* ---------- Divers ---------- */
+[data-skin="pro"] ::selection { background: rgba(var(--gold-rgb), .35); }
+[data-skin="pro"] .tag-accent { background: rgba(37, 99, 235, .1); color: #1d64e0; }
+[data-skin="pro"] .langues button[aria-pressed="true"] { background: var(--brand-grad); }
+[data-skin="pro"] .newsletter { border-color: rgba(var(--gold-rgb), .3); }
+
+/* ---------- En-tête : la marque ne se fait jamais écraser ---------- */
+.site-header .bar { gap: 12px; }
+.site-header .brand { flex-shrink: 0; }
+.site-header .nav { flex: 1 1 auto; justify-content: center; min-width: 0; gap: 2px; }
+.site-header .nav > a, .site-header .nav-btn { padding: 10px 11px; font-size: .95rem; }
+.site-header .header-actions { flex-shrink: 0; }
+@media (max-width: 1620px) { .site-header .brand-txt small { display: none; } }
+/* Héros : bouton principal cuivre comme le « IT » du logo */
+[data-skin="pro"] .hero .btn-primary { background: var(--grad-cuivre) !important; box-shadow: 0 16px 34px rgba(var(--gold-rgb), .4) !important; }
+[data-skin="pro"] .hero .badge-dispo, [data-skin="pro"] .hero .pill { border-color: rgba(var(--gold-rgb), .4) !important; }
+/* L’en-tête prend plus de largeur que le contenu pour que le menu tienne sans chevauchement */
+.site-header .container.bar { max-width: 1460px; width: 100%; }
+.site-header .nav { justify-content: flex-start; padding-left: clamp(8px, 2vw, 28px); }
+.faq summary small { margin-left: 8px; }
